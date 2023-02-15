@@ -1,0 +1,17 @@
+# Folders
+.vscode/
+
+# Compiled files
+*.a
+*.o
+*.gcno
+*.gcda
+
+# Binaries
+build/
+mysh
+mysh_debug
+
+# Temp files
+.cache/
+compile_commands.json
