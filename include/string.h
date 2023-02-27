@@ -43,4 +43,14 @@
      */
     char **str_split_once(const char *str, char delimiter);
 
+    /**
+     * @brief Compare two strings and returns an integer indicating their
+     * order (-1 if str1 < str2, 0 if str1 == str2, 1 if str1 > str2).
+     *
+     * @param str1 First string to compare.
+     * @param str2 Second string to compare.
+     * @return int The result of the comparison.
+     */
+    int str_compare(const char *str1, const char *str2);
+
 #endif /* !STRING_H_ */

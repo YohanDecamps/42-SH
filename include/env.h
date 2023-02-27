@@ -67,6 +67,16 @@
     void sh_env_set(sh_env_t *env, const char *key, const char *value);
 
     /**
+     * @brief Adds a variable to the environment. This does not check if the
+     * variable already exists, use `sh_env_set` instead.
+     *
+     * @param env The shell environment.
+     * @param key The key of the environment variable.
+     * @param value The value of the environment variable.
+     */
+    void sh_env_add(sh_env_t *env, const char *key, const char *value);
+
+    /**
      * @brief Unset an environment variable. This will not shrink the
      * environment variables array.
      *
