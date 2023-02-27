@@ -21,4 +21,11 @@
      */
     void *mem_realloc(void *ptr, size_t old_size, size_t new_size);
 
+    /**
+     * @brief Free a null-terminated array of strings.
+     *
+     * @param array The array to free.
+     */
+    void mem_free_array(char **array);
+
 #endif /* !MEM_H_ */

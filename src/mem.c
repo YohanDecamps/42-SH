@@ -25,3 +25,10 @@ void *mem_realloc(void *ptr, size_t size, size_t new_size)
     free(ptr);
     return (new_ptr);
 }
+
+void mem_free_array(char **array)
+{
+    for (size_t i = 0; array[i] != NULL; i++)
+        free(array[i]);
+    free(array);
+}

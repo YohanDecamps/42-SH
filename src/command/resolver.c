@@ -9,6 +9,7 @@
 #include <unistd.h>
 
 #include "command.h"
+#include "mem.h"
 #include "string.h"
 
 static char *normalize_path(char *path)
@@ -17,7 +18,7 @@ static char *normalize_path(char *path)
 
     size_t len = str_len(path);
     if (path[len - 1] == '/') {
-        return path;
+        return str_copy(path, 0);
     } else {
         return str_concat(path, "/");
     }
@@ -37,19 +38,37 @@ static char *resolve_directory(char *path, char *directory)
     char *resolve_path = str_concat(normalized_dir, path);
     free(normalized_dir);
 
-    if (access(resolve_path, X_OK) == 0) {
-        free(path);
+    if (access(resolve_path, X_OK) == 0)
         return resolve_path;
-    }
 
     free(resolve_path);
+    return NULL;
+}
+
+static char *resolve_from_env(char *path, sh_env_t *env)
+{
+
+    char *path_dirs = sh_env_get(env, "PATH");
+    if (path_dirs == NULL) return str_copy(path, 0);
+    char **parsed_path = str_split(path_dirs, ':');
+    if (parsed_path == NULL) return str_copy(path, 0);
+
+    for (size_t i = 0; parsed_path[i] != NULL; i++) {
+        char *resolved = resolve_directory(path, parsed_path[i]);
+        if (resolved != NULL) {
+            mem_free_array(parsed_path);
+            return resolved;
+        }
+    }
+    mem_free_array(parsed_path);
     return NULL;
 }
 
 char *resolve_path(char *path, sh_env_t *env)
 {
     if (path == NULL) return NULL;
-    if (*path == '/' || *path == '.') return path;
+    if (*path == '/' || *path == '.' || *path == '\0')
+        return str_copy(path, 0);
 
     if (*path == '~') {
         char *home = sh_env_get(env, "HOME");
@@ -57,12 +76,10 @@ char *resolve_path(char *path, sh_env_t *env)
         return expand_home(path, home);
     }
 
-    char **path_dirs = env->path;
-    if (path_dirs == NULL) return path;
-
-    for (size_t i = 0; path_dirs[i] != NULL; i++) {
-        char *resolved = resolve_directory(path, path_dirs[i]);
-        if (resolved != NULL) return resolved;
+    char *resolved = resolve_from_env(path, env);
+    if (resolved != NULL) {
+        return resolved;
+    } else {
+        return str_copy(path, 0);
     }
-    return path;
 }

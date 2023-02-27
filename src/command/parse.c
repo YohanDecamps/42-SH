@@ -9,6 +9,7 @@
 #include <stdlib.h>
 
 #include "command.h"
+#include "mem.h"
 #include "string.h"
 
 sh_command_t *sh_parse_command(char *command, sh_env_t *env)
@@ -30,9 +31,6 @@ void sh_command_free(sh_command_t *command)
 {
     if (command == NULL) return;
     free(command->path);
-    for (size_t i = 0; command->args[i] != NULL; i++) {
-        free(command->args[i]);
-    }
-    free(command->parts);
+    mem_free_array(command->parts);
     free(command);
 }

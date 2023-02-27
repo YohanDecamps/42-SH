@@ -20,6 +20,7 @@ static size_t envp_size(char **envp)
 
 static sh_env_kv_t *envp_parse(char **envp, size_t size)
 {
+    if (size == 0) return NULL;
     sh_env_kv_t *env = malloc(sizeof(sh_env_kv_t) * size);
     if (env == NULL) return NULL;
 
@@ -46,14 +47,7 @@ sh_env_t *sh_env_init(char **envp)
     env->env = kv;
     env->env_size = size;
     env->env_capacity = size;
-    env->path = NULL;
 
-    char *path = sh_env_get(env, "PATH");
-    if (path != NULL) {
-        char **parsed_path = str_split(path, ':');
-        if (parsed_path == NULL) return NULL;
-        env->path = parsed_path;
-    }
     return env;
 }
 
@@ -64,9 +58,5 @@ void sh_env_free(sh_env_t *env)
         free(env->env[i].value);
     }
     free(env->env);
-    for (size_t i = 0; env->path[i] != NULL; i++) {
-        free(env->path[i]);
-    }
-    free(env->path);
     free(env);
 }
