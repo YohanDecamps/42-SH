@@ -41,6 +41,15 @@
     char *str_copy(const char *str, size_t len);
 
     /**
+     * @brief Concatenate two strings.
+     *
+     * @param str1 First string.
+     * @param str2 Second string.
+     * @return char* The concatenated string (NULL if the allocation failed).
+     */
+    char *str_concat(const char *str1, const char *str2);
+
+    /**
      * @brief Compare two strings and returns an integer indicating their
      * order (-1 if str1 < str2, 0 if str1 == str2, 1 if str1 > str2).
      *

@@ -8,6 +8,8 @@
 #ifndef COMMAND_H_
     #define COMMAND_H_
 
+    #include "env.h"
+
     /**
      * @brief Parsed command structure
      */
@@ -31,5 +33,16 @@
      * @param command Parsed command to free
      */
     void sh_command_free(sh_command_t *command);
+
+
+    /**
+     * @brief Resolve a path, using the PATH environment variable and expand
+     * it with the $HOME environment variable.
+     *
+     * @param path Path to resolve
+     * @param env Shell environment
+     * @return char* Resolved path.
+     */
+    char *resolve_path(char *path, sh_env_t *env);
 
 #endif /* !COMMAND_H_ */

@@ -30,6 +30,7 @@
         sh_env_kv_t *env;
         size_t env_size;
         size_t env_capacity;
+        char **path;
     } sh_env_t;
 
     /**

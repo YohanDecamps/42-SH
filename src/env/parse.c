@@ -38,18 +38,22 @@ sh_env_t *sh_env_init(char **envp)
 {
     sh_env_t *env = malloc(sizeof(sh_env_t));
     if (env == NULL) return NULL;
-
     size_t size = envp_size(envp);
     sh_env_kv_t *kv = envp_parse(envp, size);
 
-    *env = (sh_env_t) {
-        .exit = false,
-        .exit_status = 0,
-        .env = kv,
-        .env_size = size,
-        .env_capacity = size
-    };
+    env->exit = false;
+    env->exit_status = 0;
+    env->env = kv;
+    env->env_size = size;
+    env->env_capacity = size;
+    env->path = NULL;
 
+    char *path = sh_env_get(env, "PATH");
+    if (path != NULL) {
+        char **parsed_path = str_split(path, ':');
+        if (parsed_path == NULL) return NULL;
+        env->path = parsed_path;
+    }
     return env;
 }
 
