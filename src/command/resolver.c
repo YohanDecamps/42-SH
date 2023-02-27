@@ -11,6 +11,18 @@
 #include "command.h"
 #include "string.h"
 
+static char *normalize_path(char *path)
+{
+    if (path == NULL) return NULL;
+
+    size_t len = str_len(path);
+    if (path[len - 1] == '/') {
+        return path;
+    } else {
+        return str_concat(path, "/");
+    }
+}
+
 static char *expand_home(char *path, char *home)
 {
     if (*path != '~') return path;
@@ -21,7 +33,7 @@ static char *expand_home(char *path, char *home)
 
 static char *resolve_directory(char *path, char *directory)
 {
-    char *resolve_path = str_concat(directory, path);
+    char *resolve_path = str_concat(normalize_path(directory), path);
 
     if (access(resolve_path, X_OK) == 0) {
         free(path);

@@ -25,7 +25,7 @@
      * @param command Command to parse
      * @return sh_command_t* Parsed command (NULL if error)
      */
-    sh_command_t *sh_parse_command(char *command);
+    sh_command_t *sh_parse_command(char *command, sh_env_t *env);
 
     /**
      * @brief Free a parsed command

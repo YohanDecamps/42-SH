@@ -64,5 +64,9 @@ void sh_env_free(sh_env_t *env)
         free(env->env[i].value);
     }
     free(env->env);
+    for (size_t i = 0; env->path[i] != NULL; i++) {
+        free(env->path[i]);
+    }
+    free(env->path);
     free(env);
 }

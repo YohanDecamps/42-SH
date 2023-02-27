@@ -14,7 +14,7 @@
 char *sh_env_get(sh_env_t *env, const char *key)
 {
     for (size_t i = 0; i < env->env_size; i++) {
-        if (str_compare(env->env[i].key, key)) {
+        if (str_compare(env->env[i].key, key) == 0) {
             return env->env[i].value;
         }
     }

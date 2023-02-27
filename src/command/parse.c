@@ -11,7 +11,7 @@
 #include "command.h"
 #include "string.h"
 
-sh_command_t *sh_parse_command(char *command)
+sh_command_t *sh_parse_command(char *command, sh_env_t *env)
 {
     char *trimmed = str_trim(command);
     char **parts = str_split(trimmed, ' ');
@@ -21,7 +21,8 @@ sh_command_t *sh_parse_command(char *command)
     sh_command_t *cmd = malloc(sizeof(sh_command_t));
     if (cmd == NULL) return NULL;
 
-    *cmd = (sh_command_t) {parts[0], &parts[1], parts};
+    char *path = resolve_path(parts[0], env);
+    *cmd = (sh_command_t) {path, &parts[1], parts};
     return cmd;
 }
 
