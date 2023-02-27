@@ -6,6 +6,8 @@
 ##
 
 SRC				:=	src/main.c \
+                    src/string.c \
+                    src/env/parse.c \
 
 RELEASE_OUT		:= 	mysh
 DEBUG_OUT		:= 	mysh_debug
