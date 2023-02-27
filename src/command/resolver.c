@@ -33,7 +33,9 @@ static char *expand_home(char *path, char *home)
 
 static char *resolve_directory(char *path, char *directory)
 {
-    char *resolve_path = str_concat(normalize_path(directory), path);
+    char *normalized_dir = normalize_path(directory);
+    char *resolve_path = str_concat(normalized_dir, path);
+    free(normalized_dir);
 
     if (access(resolve_path, X_OK) == 0) {
         free(path);
