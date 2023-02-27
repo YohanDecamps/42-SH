@@ -6,10 +6,12 @@
 ##
 
 SRC				:=	src/main.c \
-                    src/string.c \
                     src/mem.c \
+                    src/string/string.c \
+                    src/string/parse.c \
                     src/env/parse.c \
                     src/env/update.c \
+                    src/command/parse.c \
 
 RELEASE_OUT		:= 	mysh
 DEBUG_OUT		:= 	mysh_debug

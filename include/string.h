@@ -11,6 +11,14 @@
     #include <stddef.h>
 
     /**
+     * @brief Get the length of a string.
+     *
+     * @param str The string.
+     * @return size_t The length of the string.
+     */
+    size_t str_len(const char *str);
+
+    /**
      * @brief Get the length of a string until a specified character.
      *
      * @param str The string.
@@ -33,6 +41,27 @@
     char *str_copy(const char *str, size_t len);
 
     /**
+     * @brief Compare two strings and returns an integer indicating their
+     * order (-1 if str1 < str2, 0 if str1 == str2, 1 if str1 > str2).
+     *
+     * @param str1 First string to compare.
+     * @param str2 Second string to compare.
+     * @return int The result of the comparison.
+     */
+    int str_compare(const char *str1, const char *str2);
+
+    /**
+     * @brief Split a string on the specified delimiter and returns an array
+     * of the parts.
+     *
+     * @param str The string to split.
+     * @param delimiter The delimiter.
+     * @return char** An array of the parts, ended by NULL (NULL if the
+     * allocation failed).
+     */
+    char **str_split(const char *str, char delimiter);
+
+    /**
      * @brief Split a string once on the specified delimiter and returns an
      * array of the two parts.
      *
@@ -44,13 +73,11 @@
     char **str_split_once(const char *str, char delimiter);
 
     /**
-     * @brief Compare two strings and returns an integer indicating their
-     * order (-1 if str1 < str2, 0 if str1 == str2, 1 if str1 > str2).
+     * @brief Remove starting and ending spaces/newlines from a string.
      *
-     * @param str1 First string to compare.
-     * @param str2 Second string to compare.
-     * @return int The result of the comparison.
+     * @param str The string to trim.
+     * @return char* The trimmed string (NULL if the allocation failed).
      */
-    int str_compare(const char *str1, const char *str2);
+    char *str_trim(char *str);
 
 #endif /* !STRING_H_ */
