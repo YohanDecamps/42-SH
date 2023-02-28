@@ -20,22 +20,21 @@ static char *normalize_path(char *path)
     if (path[len - 1] == '/') {
         return str_copy(path, 0);
     } else {
-        return str_concat(path, "/");
+        return str_concat(path, "/", NULL);
     }
 }
 
 static char *expand_home(char *path, char *home)
 {
     if (*path != '~') return path;
-    char *expanded = str_concat(home, path + 1);
-    free(path);
+    char *expanded = str_concat(home, path + 1, NULL);
     return expanded;
 }
 
 static char *resolve_directory(char *path, char *directory)
 {
     char *normalized_dir = normalize_path(directory);
-    char *resolve_path = str_concat(normalized_dir, path);
+    char *resolve_path = str_concat(normalized_dir, path, NULL);
     free(normalized_dir);
 
     if (access(resolve_path, X_OK) == 0)
