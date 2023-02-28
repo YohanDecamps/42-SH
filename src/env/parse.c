@@ -8,7 +8,7 @@
 #include <stdlib.h>
 
 #include "env.h"
-#include "string.h"
+#include "str.h"
 
 static size_t envp_size(char **envp)
 {
@@ -59,4 +59,18 @@ void sh_env_free(sh_env_t *env)
     }
     free(env->env);
     free(env);
+}
+
+char **sh_env_to_array(sh_env_t *env)
+{
+    char **envp = malloc(sizeof(char *) * (env->env_size + 1));
+    if (envp == NULL) return NULL;
+
+    for (size_t i = 0; i < env->env_size; i++) {
+        envp[i] = str_concat(env->env[i].key, env->env[i].value, "=");
+        if (envp[i] == NULL) return NULL;
+    }
+    envp[env->env_size] = NULL;
+
+    return envp;
 }

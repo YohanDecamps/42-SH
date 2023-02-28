@@ -10,7 +10,7 @@
 
 #include "command.h"
 #include "mem.h"
-#include "string.h"
+#include "str.h"
 
 static char *normalize_path(char *path)
 {

@@ -10,27 +10,27 @@
 
 #include "command.h"
 #include "mem.h"
-#include "string.h"
+#include "str.h"
 
-sh_command_t *sh_parse_command(char *command, sh_env_t *env)
+sh_command_t *parse_command(char *command, sh_env_t *env)
 {
     char *trimmed = str_trim(command);
-    char **parts = str_split(trimmed, ' ');
+    char **args = str_split(trimmed, ' ');
     free(trimmed);
-    if (parts == NULL) return NULL;
+    if (args == NULL) return NULL;
 
     sh_command_t *cmd = malloc(sizeof(sh_command_t));
     if (cmd == NULL) return NULL;
 
-    char *path = resolve_path(parts[0], env);
-    *cmd = (sh_command_t) {path, &parts[1], parts};
+    char *path = resolve_path(args[0], env);
+    *cmd = (sh_command_t) {path, args};
     return cmd;
 }
 
-void sh_command_free(sh_command_t *command)
+void command_free(sh_command_t *command)
 {
     if (command == NULL) return;
     free(command->path);
-    mem_free_array(command->parts);
+    mem_free_array(command->args);
     free(command);
 }

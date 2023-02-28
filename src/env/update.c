@@ -8,7 +8,7 @@
 #include <stdlib.h>
 
 #include "env.h"
-#include "string.h"
+#include "str.h"
 #include "mem.h"
 
 char *sh_env_get(sh_env_t *env, const char *key)

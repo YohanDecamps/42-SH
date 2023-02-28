@@ -48,6 +48,14 @@
     void sh_env_free(sh_env_t *env);
 
     /**
+     * @brief Convert environement to an array of strings (envp).
+     *
+     * @param env The shell environment.
+     * @return char** The array of strings.
+     */
+    char **sh_env_to_array(sh_env_t *env);
+
+    /**
      * @brief Get the value of an environment variable.
      *
      * @param env The shell environment.
