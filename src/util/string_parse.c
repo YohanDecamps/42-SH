@@ -9,7 +9,7 @@
 #include <stddef.h>
 #include <stdlib.h>
 
-#include "str.h"
+#include "util.h"
 
 char **str_split(const char *str, char delimiter)
 {

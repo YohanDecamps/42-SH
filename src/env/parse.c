@@ -9,7 +9,7 @@
 
 #include "macros.h"
 #include "env.h"
-#include "str.h"
+#include "util.h"
 
 static size_t envp_size(char **envp)
 {

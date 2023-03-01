@@ -7,15 +7,16 @@
 
 SRC				:=	src/main.c \
                     src/prompt.c \
-                    src/mem.c \
-                    src/string/string.c \
-                    src/string/parse.c \
                     src/env/parse.c \
                     src/env/update.c \
                     src/command/parse.c \
                     src/command/resolver.c \
                     src/command/execute.c \
                     src/builtin/exec.c \
+                    src/util/mem.c \
+                    src/util/string.c \
+                    src/util/string_parse.c \
+                    src/util/path.c \
 
 RELEASE_OUT		:= 	mysh
 DEBUG_OUT		:= 	mysh_debug

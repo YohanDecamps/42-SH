@@ -10,8 +10,7 @@
 
 #include "builtin.h"
 #include "command.h"
-#include "mem.h"
-#include "str.h"
+#include "util.h"
 
 sh_command_t *parse_command(char *command, sh_env_t *env)
 {

@@ -13,7 +13,7 @@
 #include "builtin.h"
 #include "command.h"
 #include "macros.h"
-#include "mem.h"
+#include "util.h"
 
 static void child_exec(sh_command_t *command, sh_env_t *env)
 {

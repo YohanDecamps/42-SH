@@ -9,7 +9,7 @@
 
 #include "builtin.h"
 #include "macros.h"
-#include "str.h"
+#include "util.h"
 
 const size_t BUILTIN_COUNT = 5;
 const char *BUILTIN_LIST[5] = {"cd", "setenv", "unsetenv", "env", "exit"};

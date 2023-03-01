@@ -10,31 +10,11 @@
 
 #include "builtin.h"
 #include "command.h"
-#include "mem.h"
-#include "str.h"
-
-static char *normalize_path(char *path)
-{
-    if (path == NULL) return NULL;
-
-    size_t len = str_len(path);
-    if (path[len - 1] == '/') {
-        return str_copy(path, 0);
-    } else {
-        return str_concat(path, "/", NULL);
-    }
-}
-
-static char *expand_home(char *path, char *home)
-{
-    if (*path != '~') return path;
-    char *expanded = str_concat(home, path + 1, NULL);
-    return expanded;
-}
+#include "util.h"
 
 static char *resolve_directory(char *path, char *directory)
 {
-    char *normalized_dir = normalize_path(directory);
+    char *normalized_dir = normalize_directory(directory);
     char *resolve_path = str_concat(normalized_dir, path, NULL);
     free(normalized_dir);
 

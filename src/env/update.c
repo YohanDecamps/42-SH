@@ -8,8 +8,8 @@
 #include <stdlib.h>
 
 #include "env.h"
-#include "str.h"
-#include "mem.h"
+#include "util.h"
+#include "util.h"
 
 char *sh_env_get(sh_env_t *env, const char *key)
 {
