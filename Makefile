@@ -13,6 +13,7 @@ SRC				:=	src/main.c \
                     src/command/resolver.c \
                     src/command/execute.c \
                     src/builtin/exec.c \
+                    src/builtin/cd.c \
                     src/util/mem.c \
                     src/util/string.c \
                     src/util/string_parse.c \
