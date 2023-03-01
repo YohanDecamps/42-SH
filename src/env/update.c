@@ -51,7 +51,7 @@ void sh_env_add(sh_env_t *env, const char *key, const char *value)
 void sh_env_unset(sh_env_t *env, const char *key)
 {
     for (size_t i = 0; i < env->env_size; i++) {
-        if (str_compare(env->env[i].key, key)) {
+        if (str_compare(env->env[i].key, key) == 0) {
             free(env->env[i].key);
             free(env->env[i].value);
             env->env[i] = (sh_env_kv_t) {NULL, NULL};

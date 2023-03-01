@@ -65,4 +65,13 @@
      */
     int builtin_setenv(sh_command_t *command, sh_env_t *env);
 
+    /**
+     * @brief Execute unsetenv builtin command.
+     *
+     * @param command Parsed shell command.
+     * @param env Shell environment.
+     * @return int Exit status.
+     */
+    int builtin_unsetenv(sh_command_t *command, sh_env_t *env);
+
 #endif /* !BUILTIN_H_ */

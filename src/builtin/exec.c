@@ -33,6 +33,8 @@ void builtin_exec(sh_command_t *command, sh_env_t *env)
         status = builtin_env(command, env);
     if (str_compare(command->path, "setenv") == 0)
         status = builtin_setenv(command, env);
+    if (str_compare(command->path, "unsetenv") == 0)
+        status = builtin_unsetenv(command, env);
     if (str_compare(command->path, "exit") == 0)
         status = builtin_exit(command, env);
 

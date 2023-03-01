@@ -42,3 +42,17 @@ int builtin_setenv(sh_command_t *command, sh_env_t *env)
     sh_env_set(env, key, value);
     return 0;
 }
+
+int builtin_unsetenv(sh_command_t *command, sh_env_t *env)
+{
+    size_t args_len = mem_array_len(command->args) - 1;
+    if (args_len == 0) {
+        write(STDERR, "unsetenv: Too few arguments.\n", 29);
+        return 1;
+    }
+
+    for (size_t i = 1; i < args_len + 1; i++) {
+        sh_env_unset(env, command->args[i]);
+    }
+    return 0;
+}
