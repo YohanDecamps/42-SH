@@ -8,8 +8,10 @@
 
 #include <stddef.h>
 #include <stdlib.h>
+#include <stdint.h>
 
 #include "util.h"
+#include "macros.h"
 
 char **str_split(const char *str, char delimiter)
 {
@@ -65,4 +67,23 @@ char *str_trim(char *str)
 
     size_t new_length = end_index - start_index + 1;
     return str_copy(str + start_index, new_length);
+}
+
+int str_parse_number(const char *str, size_t *number)
+{
+    size_t n = 0;
+
+    for (size_t i = 0; str[i] != '\0'; i++) {
+        if (str[i] < '0' || str[i] > '9') return (ERROR_RETURN);
+        size_t parsed = str[i] - '0';
+
+        if (n > SIZE_MAX / 10 ||
+            (n == SIZE_MAX / 10 && parsed > SIZE_MAX % 10))
+            return (ERROR_RETURN);
+
+        n = n * 10 + parsed;
+    }
+
+    *number = n;
+    return (SUCCESS_RETURN);
 }

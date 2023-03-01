@@ -29,6 +29,8 @@ void builtin_exec(sh_command_t *command, sh_env_t *env)
 
     if (str_compare(command->path, "cd") == 0)
         status = builtin_cd(command, env);
+    if (str_compare(command->path, "exit") == 0)
+        status = builtin_exit(command, env);
 
     env->exit_status = status;
 }
