@@ -33,15 +33,12 @@ void wait_process(pid_t pid)
         }
 
         if (WIFEXITED(wstatus)) {
-            printf("Status: %d\n", WEXITSTATUS(wstatus));
+            write(STDOUT, "exited\n", 7);
             return;
-        } else if (WIFSIGNALED(wstatus)) {
-            printf("Status: %s\n", strsignal(WTERMSIG(wstatus)));
+        }
+        if (WIFSIGNALED(wstatus)) {
+            write(STDOUT, "killed\n", 7);
             return;
-        } else if (WIFSTOPPED(wstatus)) {
-            printf("Stopped by signal %d\n", WSTOPSIG(wstatus));
-        } else if (WIFCONTINUED(wstatus)) {
-            printf("Continued\n");
         }
     }
 }
