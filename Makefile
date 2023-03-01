@@ -6,6 +6,7 @@
 ##
 
 SRC				:=	src/main.c \
+                    src/prompt.c \
                     src/mem.c \
                     src/string/string.c \
                     src/string/parse.c \

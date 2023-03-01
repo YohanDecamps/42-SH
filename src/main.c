@@ -6,9 +6,9 @@
 */
 
 #include <unistd.h>
-#include <stdio.h>
 
 #include "macros.h"
+#include "prompt.h"
 #include "env.h"
 
 int main(int argc, char **argv, char **envp)
@@ -17,20 +17,14 @@ int main(int argc, char **argv, char **envp)
     (void) argv;
 
     sh_env_t *env = sh_env_init(envp);
-    char *input = NULL;
-    size_t size = 0;
+    int exit_status = SUCCESS_EXIT;
 
-    while (1) {
-        write(1, "$> ", 3);
-        if (getline(&input, &size, stdin) == -1) {
-            write(1, "exit\n", 5);
-            sh_env_free(env);
-            return SUCCESS_EXIT;
-        } else {
-            write(1, input, 5);
-        }
+    if (isatty(STDIN)) {
+        exit_status = interactive_prompt(env);
+    } else {
+        exit_status = non_interactive_command(env);
     }
 
     sh_env_free(env);
-    return SUCCESS_EXIT;
+    return exit_status;
 }

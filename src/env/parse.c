@@ -7,6 +7,7 @@
 
 #include <stdlib.h>
 
+#include "macros.h"
 #include "env.h"
 #include "str.h"
 
@@ -43,7 +44,7 @@ sh_env_t *sh_env_init(char **envp)
     sh_env_kv_t *kv = envp_parse(envp, size);
 
     env->exit = false;
-    env->exit_status = 0;
+    env->exit_status = SUCCESS_EXIT;
     env->env = kv;
     env->env_size = size;
     env->env_capacity = size;
