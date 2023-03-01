@@ -94,7 +94,7 @@
 
     /* MEMORY */
 
-        /**
+    /**
      * @brief Reallocate a memory block and copy the old content.
      *
      * @param ptr The memory block to reallocate.
@@ -104,6 +104,14 @@
      * failed).
      */
     void *mem_realloc(void *ptr, size_t old_size, size_t new_size);
+
+    /**
+     * @brief Get the length of a null-terminated array of strings.
+     *
+     * @param array The array.
+     * @return size_t The length of the array.
+     */
+    size_t mem_array_len(char **array);
 
     /**
      * @brief Free a null-terminated array of strings.

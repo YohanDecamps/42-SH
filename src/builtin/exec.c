@@ -25,10 +25,10 @@ bool is_builtin(char *path)
 
 void builtin_exec(sh_command_t *command, sh_env_t *env)
 {
-    int exit = 0;
+    int status = 0;
 
     if (str_compare(command->path, "cd") == 0)
-        exit = builtin_cd(command, env);
+        status = builtin_cd(command, env);
 
-    env->exit_status = exit;
+    env->exit_status = status;
 }
