@@ -47,7 +47,7 @@ static void wait_process(pid_t pid, sh_env_t *env)
         if (WIFSIGNALED(wstatus)) {
             int signal = WTERMSIG(wstatus);
             char *signal_name = strsignal(signal);
-            write(STDERR, signal_name, strlen(signal_name));
+            write(STDERR, signal_name, str_len(signal_name));
             write(STDERR, "\n", 1);
             env->exit_status = 128 + signal;
             return;
