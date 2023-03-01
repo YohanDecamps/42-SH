@@ -45,6 +45,9 @@ void wait_process(pid_t pid)
 
 void command_exec(sh_command_t *command, sh_env_t *env)
 {
+    if (command == NULL) return;
+    if (command->path == NULL || *command->path == '\0') return;
+
     pid_t child_pid = fork();
 
     if (child_pid == 0) {
