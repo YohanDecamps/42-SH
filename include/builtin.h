@@ -14,6 +14,14 @@
     #include "env.h"
 
     /**
+     * @brief Builtin command structure.
+     */
+    typedef struct {
+        char *name;
+        int (*exec)(sh_command_t *, sh_env_t *);
+    } sh_builtin_t;
+
+    /**
      * @brief Check if a command is a builtin.
      *
      * @param path Command path.
