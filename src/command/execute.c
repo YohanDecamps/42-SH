@@ -22,10 +22,9 @@ static void child_exec(sh_command_t *command, sh_env_t *env)
         perror(command->path);
 }
 
-void wait_process(pid_t pid)
+static void wait_process(pid_t pid, sh_env_t *env)
 {
     int wstatus;
-
     while (1) {
         if (waitpid(pid, &wstatus, 0) == -1) {
             perror("waitpid");
@@ -33,11 +32,15 @@ void wait_process(pid_t pid)
         }
 
         if (WIFEXITED(wstatus)) {
-            write(STDOUT, "exited\n", 7);
+            env->exit_status = WEXITSTATUS(wstatus);
             return;
         }
         if (WIFSIGNALED(wstatus)) {
-            write(STDOUT, "killed\n", 7);
+            int signal = WTERMSIG(wstatus);
+            char *signal_name = strsignal(signal);
+            write(STDERR, signal_name, strlen(signal_name));
+            write(STDERR, "\n", 1);
+            env->exit_status = 128 + signal;
             return;
         }
     }
@@ -53,7 +56,7 @@ void command_exec(sh_command_t *command, sh_env_t *env)
     if (child_pid == 0) {
         child_exec(command, env);
     } else if (child_pid > 0) {
-        wait_process(child_pid);
+        wait_process(child_pid, env);
     } else {
         perror("fork");
     }
