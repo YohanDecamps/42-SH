@@ -24,7 +24,7 @@ char *sh_env_get(sh_env_t *env, const char *key)
 void sh_env_set(sh_env_t *env, const char *key, const char *value)
 {
     for (size_t i = 0; i < env->env_size; i++) {
-        if (str_compare(env->env[i].key, key)) {
+        if (str_compare(env->env[i].key, key) == 0) {
             free(env->env[i].value);
             env->env[i].value = str_copy(value, 0);
             return;
@@ -38,8 +38,8 @@ void sh_env_add(sh_env_t *env, const char *key, const char *value)
 {
     if (env->env_size == env->env_capacity) {
         env->env_capacity += 5;
-        size_t old_size = env->env_size * sizeof(sh_env_kv_t *);
-        size_t new_size = env->env_capacity * sizeof(sh_env_kv_t *);
+        size_t old_size = env->env_size * sizeof(sh_env_kv_t);
+        size_t new_size = env->env_capacity * sizeof(sh_env_kv_t);
         env->env = mem_realloc(env->env, old_size, new_size);
     }
 

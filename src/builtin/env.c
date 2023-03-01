@@ -25,3 +25,20 @@ int builtin_env(sh_command_t *command, sh_env_t *env)
 
     return 0;
 }
+
+int builtin_setenv(sh_command_t *command, sh_env_t *env)
+{
+    size_t args_len = mem_array_len(command->args) - 1;
+    if (args_len < 1)
+        return builtin_env(command, env);
+    if (args_len > 2) {
+        write(STDERR, "setenv: Too many arguments.\n", 28);
+        return 1;
+    }
+
+    char *key = command->args[1];
+    char *value = args_len == 2 ? command->args[2] : "";
+
+    sh_env_set(env, key, value);
+    return 0;
+}
