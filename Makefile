@@ -13,6 +13,7 @@ SRC				:=	src/main.c \
                     src/command/resolver.c \
                     src/command/execute.c \
                     src/builtin/exec.c \
+                    src/builtin/env.c \
                     src/builtin/cd.c \
                     src/builtin/exit.c \
                     src/util/mem.c \

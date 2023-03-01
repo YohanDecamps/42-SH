@@ -47,4 +47,22 @@
      */
     int builtin_exit(sh_command_t *command, sh_env_t *env);
 
+    /**
+     * @brief Execute env builtin command.
+     *
+     * @param command Parsed shell command.
+     * @param env Shell environment.
+     * @return int Exit status.
+     */
+    int builtin_env(sh_command_t *command, sh_env_t *env);
+
+    /**
+     * @brief Execute setenv builtin command.
+     *
+     * @param command Parsed shell command.
+     * @param env Shell environment.
+     * @return int Exit status.
+     */
+    int builtin_setenv(sh_command_t *command, sh_env_t *env);
+
 #endif /* !BUILTIN_H_ */
