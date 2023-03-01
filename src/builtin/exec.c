@@ -16,7 +16,7 @@ const char *BUILTIN_LIST[5] = {"cd", "setenv", "unsetenv", "env", "exit"};
 
 bool is_builtin(char *path)
 {
-    for (int i = 0; i < BUILTIN_COUNT; i++) {
+    for (size_t i = 0; i < BUILTIN_COUNT; i++) {
         if (str_compare(path, BUILTIN_LIST[i]) == 0)
             return true;
     }
