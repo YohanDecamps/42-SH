@@ -45,6 +45,7 @@ sh_env_t *sh_env_init(char **envp)
 
     env->exit = false;
     env->exit_status = SUCCESS_EXIT;
+    env->exit_silent = false;
     env->env = kv;
     env->env_size = size;
     env->env_capacity = size;

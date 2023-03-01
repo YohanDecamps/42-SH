@@ -12,6 +12,7 @@
 
 #include "command.h"
 #include "macros.h"
+#include "mem.h"
 
 static void child_exec(sh_command_t *command, sh_env_t *env)
 {
@@ -20,6 +21,13 @@ static void child_exec(sh_command_t *command, sh_env_t *env)
 
     if (execve(command->path, command->args, envp) == -1)
         perror(command->path);
+
+    mem_free_array(envp);
+    env->exit_status = 1;
+    env->exit_silent = true;
+    env->exit = true;
+
+    return;
 }
 
 static void wait_process(pid_t pid, sh_env_t *env)

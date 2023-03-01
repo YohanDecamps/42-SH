@@ -29,11 +29,11 @@ int interactive_prompt(sh_env_t *env)
         }
     }
 
-    if (input != NULL) {
+    if (input != NULL)
         free(input);
-    }
 
-    write(STDOUT, "exit\n", 5);
+    if (env->exit_silent == false)
+        write(STDOUT, "exit\n", 5);
     return env->exit_status;
 }
 

@@ -27,6 +27,7 @@
     typedef struct {
         bool exit;
         int exit_status;
+        bool exit_silent;
         sh_env_kv_t *env;
         size_t env_size;
         size_t env_capacity;
