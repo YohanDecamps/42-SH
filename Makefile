@@ -15,6 +15,7 @@ SRC				:=	src/main.c \
                     src/command/parse.c \
                     src/command/resolver.c \
                     src/command/execute.c \
+                    src/builtin/exec.c \
 
 RELEASE_OUT		:= 	mysh
 DEBUG_OUT		:= 	mysh_debug

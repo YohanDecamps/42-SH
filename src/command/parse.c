@@ -8,6 +8,7 @@
 #include <stddef.h>
 #include <stdlib.h>
 
+#include "builtin.h"
 #include "command.h"
 #include "mem.h"
 #include "str.h"
@@ -22,8 +23,13 @@ sh_command_t *parse_command(char *command, sh_env_t *env)
     sh_command_t *cmd = malloc(sizeof(sh_command_t));
     if (cmd == NULL) return NULL;
 
-    char *path = resolve_path(args[0], env);
-    *cmd = (sh_command_t) {path, args};
+    if (is_builtin(args[0])) {
+        char *path = str_copy(args[0], 0);
+        *cmd = (sh_command_t) {path, args, true};
+    } else {
+        char *path = resolve_path(args[0], env);
+        *cmd = (sh_command_t) {path, args, false};
+    }
     return cmd;
 }
 

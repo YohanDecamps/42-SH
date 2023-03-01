@@ -10,6 +10,7 @@
 #include <sys/wait.h>
 #include <string.h>
 
+#include "builtin.h"
 #include "command.h"
 #include "macros.h"
 #include "mem.h"
@@ -58,6 +59,9 @@ void command_exec(sh_command_t *command, sh_env_t *env)
 {
     if (command == NULL) return;
     if (command->path == NULL || *command->path == '\0') return;
+
+    if (command->builtin)
+        return builtin_exec(command, env);
 
     pid_t child_pid = fork();
 

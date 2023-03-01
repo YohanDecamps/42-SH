@@ -8,6 +8,7 @@
 #include <stdlib.h>
 #include <unistd.h>
 
+#include "builtin.h"
 #include "command.h"
 #include "mem.h"
 #include "str.h"

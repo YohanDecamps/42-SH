@@ -16,6 +16,7 @@
     typedef struct {
         char *path;
         char **args;
+        bool builtin;
     } sh_command_t;
 
     /**
