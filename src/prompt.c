@@ -40,12 +40,15 @@ int non_interactive_command(sh_env_t *env)
     char *input = NULL;
     size_t input_size = 0;
 
-    if (getline(&input, &input_size, stdin) == -1) {
-        return SUCCESS_EXIT;
+    while (env->exit == false) {
+        if (getline(&input, &input_size, stdin) == -1) {
+            env->exit = true;
+        } else {
+            run_command(input, env);
+        }
     }
 
-    run_command(input, env);
-
-    free(input);
+    if (input != NULL)
+        free(input);
     return env->exit_status;
 }
