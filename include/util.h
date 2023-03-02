@@ -74,6 +74,16 @@
     char **str_split(const char *str, char delimiter);
 
     /**
+     * @brief Split on whitespaces and tabs and returns an array of the parts.
+     *
+     * @param str The string to split.
+     * @param delimiter The delimiter.
+     * @return char** An array of the parts, ended by NULL (NULL if the
+     * allocation failed).
+     */
+    char **str_split_whitespace(const char *str);
+
+    /**
      * @brief Split a string once on the specified delimiter and returns an
      * array of the two parts.
      *
@@ -85,7 +95,7 @@
     char **str_split_once(const char *str, char delimiter);
 
     /**
-     * @brief Remove starting and ending spaces/newlines from a string.
+     * @brief Remove starting and ending spaces/newlines/tabs from a string.
      *
      * @param str The string to trim.
      * @return char* The trimmed string (NULL if the allocation failed).

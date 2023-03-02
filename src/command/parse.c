@@ -14,7 +14,7 @@
 #include "command.h"
 #include "util.h"
 
-static int expand_arg_home(char **arg, sh_env_t *env)
+static int expand_single_home(char **arg, sh_env_t *env)
 {
     if (**arg != '~') return SUCCESS_RETURN;
 
@@ -33,7 +33,7 @@ static int expand_arg_home(char **arg, sh_env_t *env)
 static int expand_args_home(char **args, sh_env_t *env)
 {
     for (size_t i = 0; args[i] != NULL; i++) {
-        if (expand_arg_home(&args[i], env) == ERROR_RETURN) {
+        if (expand_single_home(&args[i], env) == ERROR_RETURN) {
             mem_free_array(args);
             return ERROR_RETURN;
         }

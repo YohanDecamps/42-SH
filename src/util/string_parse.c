@@ -59,9 +59,10 @@ char *str_trim(char *str)
 
     size_t start_index = 0;
     size_t end_index = string_length - 1;
-    while (str[start_index] == ' ' || str[start_index] == '\n') start_index++;
-    while ((str[end_index] == ' ' || str[end_index] == '\n') &&
-        end_index > start_index) {
+    while (str[start_index] == ' ' || str[start_index] == '\t'
+        || str[start_index] == '\n') start_index++;
+    while ((str[end_index] == ' ' || str[end_index] == '\t'
+        || str[end_index] == '\n') && end_index > start_index) {
         end_index--;
     }
 
