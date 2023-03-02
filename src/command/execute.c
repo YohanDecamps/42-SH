@@ -22,24 +22,24 @@ static void child_exec(sh_command_t *command, sh_env_t *env)
 {
     char **envp = sh_env_to_array(env);
     if (envp == NULL) return;
-
     if (execve(command->path, command->args, envp) == -1) {
-        print_error(command->path, errno);
+        env->exit_status = 1;
+        if (errno == ENOENT) {
+            write(STDERR, command->path, str_len(command->path));
+            write(STDERR, ": Command not found.", 20);
+        } else {
+            print_error(command->path, errno);
+        }
         if (errno == ENOEXEC) {
             write(STDERR, " Wrong architecture.", 20);
             env->exit_status = 126;
-        } else {
-            env->exit_status = 1;
         }
         write(STDERR, "\n", 1);
     }
-
     mem_free_array(envp);
     env->exit_status = 1;
     env->exit_silent = true;
     env->exit = true;
-
-    return;
 }
 
 static void signal_error(int wstatus, sh_env_t *env)
