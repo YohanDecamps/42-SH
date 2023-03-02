@@ -20,6 +20,7 @@ SRC				:=	src/main.c \
                     src/util/string.c \
                     src/util/string_parse.c \
                     src/util/path.c \
+                    src/util/error.c \
 
 RELEASE_OUT		:= 	mysh
 DEBUG_OUT		:= 	mysh_debug

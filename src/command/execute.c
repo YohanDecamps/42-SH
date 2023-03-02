@@ -5,10 +5,13 @@
 ** execute
 */
 
+#include <signal.h>
 #include <stdio.h>
+#include <stdlib.h>
 #include <unistd.h>
 #include <sys/wait.h>
 #include <string.h>
+#include <errno.h>
 
 #include "builtin.h"
 #include "command.h"
@@ -20,8 +23,16 @@ static void child_exec(sh_command_t *command, sh_env_t *env)
     char **envp = sh_env_to_array(env);
     if (envp == NULL) return;
 
-    if (execve(command->path, command->args, envp) == -1)
-        perror(command->path);
+    if (execve(command->path, command->args, envp) == -1) {
+        print_error(command->path, errno);
+        if (errno == ENOEXEC) {
+            write(STDERR, " Wrong architecture.", 20);
+            env->exit_status = 126;
+        } else {
+            env->exit_status = 1;
+        }
+        write(STDERR, "\n", 1);
+    }
 
     mem_free_array(envp);
     env->exit_status = 1;
@@ -29,6 +40,23 @@ static void child_exec(sh_command_t *command, sh_env_t *env)
     env->exit = true;
 
     return;
+}
+
+static void signal_error(int wstatus, sh_env_t *env)
+{
+    int signal = WTERMSIG(wstatus);
+    if (signal == SIGFPE) {
+        write(STDERR, "Floating exception", 18);
+    } else {
+        char *signal_name = strsignal(signal);
+        write(STDERR, signal_name, str_len(signal_name));
+    }
+
+    if (WCOREDUMP(wstatus))
+        write(STDERR, " (core dumped)", 14);
+
+    write(STDERR, "\n", 1);
+    env->exit_status = 128 + signal;
 }
 
 static void wait_process(pid_t pid, sh_env_t *env)
@@ -45,11 +73,7 @@ static void wait_process(pid_t pid, sh_env_t *env)
             return;
         }
         if (WIFSIGNALED(wstatus)) {
-            int signal = WTERMSIG(wstatus);
-            char *signal_name = strsignal(signal);
-            write(STDERR, signal_name, str_len(signal_name));
-            write(STDERR, "\n", 1);
-            env->exit_status = 128 + signal;
+            signal_error(wstatus, env);
             return;
         }
     }

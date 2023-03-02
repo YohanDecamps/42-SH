@@ -149,4 +149,15 @@
      */
     char *expand_home(char *path, char *home);
 
+    /* ERROR */
+
+    /**
+     * @brief Print the error message corresponding to the specified error
+     * code.
+     *
+     * @param prefix The prefix of the error message.
+     * @param code The error code.
+     */
+    void print_error(const char *prefix, int code);
+
 #endif /* !UTIL_H_ */
