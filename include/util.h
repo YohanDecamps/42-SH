@@ -93,14 +93,14 @@
     char *str_trim(char *str);
 
     /**
-     * @brief Parse number from a string.
+     * @brief Parse an int from a string.
      *
      * @param str The string to parse.
      * @param number Pointer to the variable that will contain the parsed
      * number.
      * @return int 0 if the parsing succeeded, -1 otherwise.
      */
-    int str_parse_number(const char *str, size_t *number);
+    int str_parse_int(const char *str, int *number);
 
     /* MEMORY */
 

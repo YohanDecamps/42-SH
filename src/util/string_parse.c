@@ -69,21 +69,26 @@ char *str_trim(char *str)
     return str_copy(str + start_index, new_length);
 }
 
-int str_parse_number(const char *str, size_t *number)
+int str_parse_int(const char *str, int *number)
 {
     size_t n = 0;
+    int sign = 1;
+
+    if (*str == '-') {
+        sign = -1;
+        str++;
+    }
 
     for (size_t i = 0; str[i] != '\0'; i++) {
-        if (str[i] < '0' || str[i] > '9') return (ERROR_RETURN);
+        if (str[i] < '0' || str[i] > '9') return ERROR_RETURN;
         size_t parsed = str[i] - '0';
 
         if (n > SIZE_MAX / 10 ||
             (n == SIZE_MAX / 10 && parsed > SIZE_MAX % 10))
-            return (ERROR_RETURN);
-
+            return ERROR_RETURN;
         n = n * 10 + parsed;
     }
 
-    *number = n;
-    return (SUCCESS_RETURN);
+    *number = (int) n * sign;
+    return SUCCESS_RETURN;
 }
