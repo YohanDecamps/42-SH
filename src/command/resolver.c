@@ -50,12 +50,6 @@ char *resolve_path(char *path, sh_env_t *env)
     if (*path == '/' || *path == '.' || *path == '\0')
         return str_copy(path, 0);
 
-    if (*path == '~') {
-        char *home = sh_env_get(env, "HOME");
-        if (home == NULL) return NULL;
-        return expand_home(path, home);
-    }
-
     char *resolved = resolve_from_env(path, env);
     if (resolved != NULL) {
         return resolved;

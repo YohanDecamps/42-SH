@@ -75,3 +75,15 @@ void command_exec(sh_command_t *command, sh_env_t *env)
         perror("fork");
     }
 }
+
+void run_command(char *command, sh_env_t *env)
+{
+    sh_command_t *parsed_command = parse_command(command, env);
+    if (parsed_command == NULL) {
+        env->exit_status = 1;
+        return;
+    }
+
+    command_exec(parsed_command, env);
+    command_free(parsed_command);
+}

@@ -20,9 +20,18 @@
     } sh_command_t;
 
     /**
+     * @brief Run a command (parse and execute).
+     *
+     * @param command Command to run
+     * @param env Shell environment
+     */
+    void run_command(char *command, sh_env_t *env);
+
+    /**
      * @brief Parse a command
      *
      * @param command Command to parse
+     * @param env Shell environment
      * @return sh_command_t* Parsed command (NULL if error)
      */
     sh_command_t *parse_command(char *command, sh_env_t *env);

@@ -43,12 +43,14 @@ sh_env_t *sh_env_init(char **envp)
     size_t size = envp_size(envp);
     sh_env_kv_t *kv = envp_parse(envp, size);
 
-    env->exit = false;
-    env->exit_status = SUCCESS_EXIT;
-    env->exit_silent = false;
-    env->env = kv;
-    env->env_size = size;
-    env->env_capacity = size;
+    *env = (sh_env_t) {
+        .exit = false,
+        .exit_status = SUCCESS_EXIT,
+        .exit_silent = false,
+        .env = kv,
+        .env_size = size,
+        .env_capacity = size
+    };
 
     return env;
 }

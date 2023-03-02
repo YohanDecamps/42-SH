@@ -23,9 +23,7 @@ int interactive_prompt(sh_env_t *env)
         if (getline(&input, &input_size, stdin) == -1) {
             env->exit = true;
         } else {
-            sh_command_t *command = parse_command(input, env);
-            command_exec(command, env);
-            command_free(command);
+            run_command(input, env);
         }
     }
 
@@ -46,9 +44,7 @@ int non_interactive_command(sh_env_t *env)
         return SUCCESS_EXIT;
     }
 
-    sh_command_t *command = parse_command(input, env);
-    command_exec(command, env);
-    command_free(command);
+    run_command(input, env);
 
     free(input);
     return env->exit_status;
