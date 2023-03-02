@@ -62,6 +62,7 @@ static char *cd_parse_args(sh_command_t *command, sh_env_t *env)
 
 int builtin_cd(sh_command_t *command, sh_env_t *env)
 {
+    char *oldpwd = getcwd(NULL, 0);
     char *path = cd_parse_args(command, env);
     if (path == NULL) return 1;
 
@@ -72,11 +73,12 @@ int builtin_cd(sh_command_t *command, sh_env_t *env)
         return 1;
     }
 
-    char *oldpwd = sh_env_get(env, "PWD");
-    if (oldpwd != NULL)
+    if (oldpwd != NULL) {
         sh_env_set(env, "OLDPWD", oldpwd);
-    sh_env_set(env, "PWD", path);
+        free(oldpwd);
+    }
 
+    sh_env_set(env, "PWD", path);
     free(path);
     return 0;
 }
