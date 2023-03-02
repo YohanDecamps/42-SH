@@ -26,7 +26,7 @@ static sh_env_kv_t *envp_parse(char **envp, size_t size)
     if (env == NULL) return NULL;
 
     for (size_t i = 0; i < size; i++) {
-        char **kv = str_split_once(envp[i], '=');
+        char **kv = str_split_once(envp[i], "=");
         if (kv == NULL) return NULL;
 
         env[i] = (sh_env_kv_t) {kv[0], kv[1]};

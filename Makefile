@@ -19,6 +19,7 @@ SRC				:=	src/main.c \
                     src/util/mem.c \
                     src/util/string.c \
                     src/util/string_parse.c \
+                    src/util/string_split.c \
                     src/util/path.c \
                     src/util/error.c \
 

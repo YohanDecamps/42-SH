@@ -12,14 +12,14 @@
 
 size_t str_len(const char *str)
 {
-    return str_len_until(str, '\0');
+    return str_len_until(str, "\0");
 }
 
-size_t str_len_until(const char *str, char delimiter)
+size_t str_len_until(const char *str, const char *delimiters)
 {
     if (str == NULL) return 0;
     size_t len = 0;
-    while (str[len] != '\0' && str[len] != delimiter) len++;
+    while (str[len] != '\0' && !str_char_in(str[len], delimiters)) len++;
 
     return len;
 }

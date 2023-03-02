@@ -30,7 +30,7 @@ static char *resolve_from_env(char *path, sh_env_t *env)
 
     char *path_dirs = sh_env_get(env, "PATH");
     if (path_dirs == NULL) return str_copy(path, 0);
-    char **parsed_path = str_split(path_dirs, ':');
+    char **parsed_path = str_split(path_dirs, ":");
     if (parsed_path == NULL) return str_copy(path, 0);
 
     for (size_t i = 0; parsed_path[i] != NULL; i++) {

@@ -13,43 +13,13 @@
 #include "util.h"
 #include "macros.h"
 
-char **str_split(const char *str, char delimiter)
+bool str_char_in(char c, const char *list)
 {
-    if (str == NULL) return NULL;
-    while (*str == delimiter) str++;
-
-    size_t part_count = 1;
-    for (size_t i = 0; str[i] != '\0'; i++) {
-        if (str[i] == delimiter) part_count++;
-        while (str[i] == delimiter) i++;
+    if (list == NULL) return false;
+    for (size_t i = 0; list[i] != '\0'; i++) {
+        if (list[i] == c) return true;
     }
-
-    char **result = malloc(sizeof(char *) * (part_count + 1));
-    if (result == NULL) return NULL;
-
-    for (size_t i = 0; i < part_count; i++) {
-        size_t part_size = str_len_until(str, delimiter);
-        result[i] = str_copy(str, part_size);
-        str += part_size;
-        while (*str == delimiter) str++;
-    }
-    result[part_count] = NULL;
-    return result;
-}
-
-char **str_split_once(const char *str, char delimiter)
-{
-    if (str == NULL) return NULL;
-    char **result = malloc(sizeof(char *) * 2);
-    if (result == NULL) return NULL;
-
-    size_t str_length = str_len(str);
-    size_t start_index = str_len_until(str, delimiter);
-
-    result[0] = str_copy(str, start_index);
-    result[1] = str_copy(str + start_index + 1, str_length - start_index - 1);
-
-    return result;
+    return false;
 }
 
 void str_remove_newline(char *str)

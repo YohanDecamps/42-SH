@@ -8,6 +8,7 @@
 #ifndef UTIL_H_
     #define UTIL_H_
 
+    #include <stdbool.h>
     #include <stddef.h>
 
     /* STRING */
@@ -21,14 +22,14 @@
     size_t str_len(const char *str);
 
     /**
-     * @brief Get the length of a string until a specified character.
+     * @brief Get the length of a string until one of the specified characters.
      *
      * @param str The string.
-     * @param delimiter The delimiter (use '\0' to get the length of the
+     * @param delimiters The delimiters (use '\0' to get the length of the
      * whole string).
      * @return size_t The length of the string.
      */
-    size_t str_len_until(const char *str, char delimiter);
+    size_t str_len_until(const char *str, const char *delimiters);
 
     /**
      * @brief Allocates a copy of the specified string with the specified
@@ -63,36 +64,43 @@
     int str_compare(const char *str1, const char *str2);
 
     /**
-     * @brief Split a string on the specified delimiter and returns an array
+     * @brief Split a string on the specified delimiters and returns an array
      * of the parts.
      *
      * @param str The string to split.
-     * @param delimiter The delimiter.
+     * @param delimiters List of delimiters
      * @return char** An array of the parts, ended by NULL (NULL if the
      * allocation failed).
      */
-    char **str_split(const char *str, char delimiter);
+    char **str_split(const char *str, const char *delimiters);
 
     /**
-     * @brief Split on whitespaces and tabs and returns an array of the parts.
+     * @brief Split a string once on one of the specified delimiters and
+     * returns an array of the two parts.
      *
      * @param str The string to split.
-     * @param delimiter The delimiter.
-     * @return char** An array of the parts, ended by NULL (NULL if the
-     * allocation failed).
-     */
-    char **str_split_whitespace(const char *str);
-
-    /**
-     * @brief Split a string once on the specified delimiter and returns an
-     * array of the two parts.
-     *
-     * @param str The string to split.
-     * @param delimiter The delimiter.
+     * @param delimiters List of delimiters
      * @return char** An array of the two parts (NULL if the delimiter is not
      * found).
      */
-    char **str_split_once(const char *str, char delimiter);
+    char **str_split_once(const char *str, const char *delimiter);
+
+    /**
+     * @brief Remove starting and ending spaces/newlines/tabs from a string.
+     *
+     * @param str The string to trim.
+     * @return char* The trimmed string (NULL if the allocation failed).
+     */
+    char *str_trim(char *str);
+
+    /**
+     * @brief Check if a character is in the given list of characters.
+     *
+     * @param c The character to check.
+     * @param list The list of characters.
+     * @return bool true if the character is in the list, false otherwise.
+     */
+    bool str_char_in(char c, const char *list);
 
     /**
      * @brief Remove the ending newline of a string.
