@@ -16,22 +16,23 @@
 char **str_split(const char *str, char delimiter)
 {
     if (str == NULL) return NULL;
+    while (*str == delimiter) str++;
 
     size_t part_count = 1;
     for (size_t i = 0; str[i] != '\0'; i++) {
         if (str[i] == delimiter) part_count++;
+        while (str[i] == delimiter) i++;
     }
 
     char **result = malloc(sizeof(char *) * (part_count + 1));
     if (result == NULL) return NULL;
 
-    size_t start_index = 0;
     for (size_t i = 0; i < part_count; i++) {
-        size_t part_size = str_len_until(str + start_index, delimiter);
-        result[i] = str_copy(str + start_index, part_size);
-        start_index += part_size + 1;
+        size_t part_size = str_len_until(str, delimiter);
+        result[i] = str_copy(str, part_size);
+        str += part_size;
+        while (*str == delimiter) str++;
     }
-
     result[part_count] = NULL;
     return result;
 }
@@ -51,23 +52,12 @@ char **str_split_once(const char *str, char delimiter)
     return result;
 }
 
-char *str_trim(char *str)
+void str_remove_newline(char *str)
 {
-    if (str == NULL) return NULL;
-    size_t string_length = str_len(str);
-    if (string_length == 0) return str;
-
-    size_t start_index = 0;
-    size_t end_index = string_length - 1;
-    while (str[start_index] == ' ' || str[start_index] == '\t'
-        || str[start_index] == '\n') start_index++;
-    while ((str[end_index] == ' ' || str[end_index] == '\t'
-        || str[end_index] == '\n') && end_index > start_index) {
-        end_index--;
-    }
-
-    size_t new_length = end_index - start_index + 1;
-    return str_copy(str + start_index, new_length);
+    if (str == NULL) return;
+    size_t str_length = str_len(str);
+    if (str[str_length - 1] == '\n' && str_length > 0)
+        str[str_length - 1] = '\0';
 }
 
 int str_parse_int(const char *str, int *number)

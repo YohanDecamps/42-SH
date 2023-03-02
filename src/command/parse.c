@@ -44,9 +44,8 @@ static int expand_args_home(char **args, sh_env_t *env)
 
 sh_command_t *parse_command(char *command, sh_env_t *env)
 {
-    char *trimmed = str_trim(command);
-    char **args = str_split(trimmed, ' ');
-    free(trimmed);
+    str_remove_newline(command);
+    char **args = str_split(command, ' ');
 
     if (args == NULL) return NULL;
     if (expand_args_home(args, env) == ERROR_RETURN) return NULL;

@@ -95,12 +95,11 @@
     char **str_split_once(const char *str, char delimiter);
 
     /**
-     * @brief Remove starting and ending spaces/newlines/tabs from a string.
+     * @brief Remove the ending newline of a string.
      *
-     * @param str The string to trim.
-     * @return char* The trimmed string (NULL if the allocation failed).
+     * @param str The string.
      */
-    char *str_trim(char *str);
+    void str_remove_newline(char *str);
 
     /**
      * @brief Parse an int from a string.
