@@ -8,6 +8,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
+#include <errno.h>
 
 #include "builtin.h"
 #include "macros.h"
@@ -41,7 +42,8 @@ int builtin_cd(sh_command_t *command, sh_env_t *env)
     if (path == NULL) return 1;
 
     if (chdir(path) == -1) {
-        perror(path);
+        print_error(path, errno);
+        write(STDERR, "\n", 1);
         free(path);
         return 1;
     }
