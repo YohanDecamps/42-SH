@@ -14,6 +14,30 @@
 #include "macros.h"
 #include "util.h"
 
+static int cd_home(char **path, sh_env_t *env)
+{
+    char *home = sh_env_get(env, "HOME");
+    if (home == NULL) {
+        write(STDERR, "cd: No home directory.\n", 23);
+        return ERROR_RETURN;
+    }
+
+    *path = home;
+    return SUCCESS_RETURN;
+}
+
+static int cd_oldpwd(char **path, sh_env_t *env)
+{
+    char *oldpwd = sh_env_get(env, "OLDPWD");
+    if (oldpwd == NULL) {
+        write(STDERR, ": No such file or directory.\n", 29);
+        return ERROR_RETURN;
+    }
+
+    *path = oldpwd;
+    return SUCCESS_RETURN;
+}
+
 static char *cd_parse_args(sh_command_t *command, sh_env_t *env)
 {
     size_t args_count = mem_array_len(command->args) - 1;
@@ -25,12 +49,12 @@ static char *cd_parse_args(sh_command_t *command, sh_env_t *env)
     }
 
     if (args_count == 0) {
-        char *home = sh_env_get(env, "HOME");
-        if (home == NULL) {
-            write(STDERR, "cd: No home directory.\n", 23);
+        if (cd_home(&path, env) == ERROR_RETURN)
             return NULL;
-        }
-        path = home;
+    }
+    if (str_compare(path, "-") == 0) {
+        if (cd_oldpwd(&path, env) == ERROR_RETURN)
+            return NULL;
     }
 
     return str_copy(path, 0);
@@ -47,6 +71,11 @@ int builtin_cd(sh_command_t *command, sh_env_t *env)
         free(path);
         return 1;
     }
+
+    char *oldpwd = sh_env_get(env, "PWD");
+    if (oldpwd != NULL)
+        sh_env_set(env, "OLDPWD", oldpwd);
+    sh_env_set(env, "PWD", path);
 
     free(path);
     return 0;
