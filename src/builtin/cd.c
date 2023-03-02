@@ -62,13 +62,14 @@ static char *cd_parse_args(sh_command_t *command, sh_env_t *env)
 
 int builtin_cd(sh_command_t *command, sh_env_t *env)
 {
-    char *oldpwd = getcwd(NULL, 0);
     char *path = cd_parse_args(command, env);
     if (path == NULL) return 1;
+    char *oldpwd = getcwd(NULL, 0);
 
     if (chdir(path) == -1) {
         print_error(path, errno);
         write(STDERR, "\n", 1);
+        if (oldpwd != NULL) free(oldpwd);
         free(path);
         return 1;
     }
