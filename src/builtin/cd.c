@@ -16,23 +16,21 @@
 static char *cd_parse_args(sh_command_t *command, sh_env_t *env)
 {
     size_t args_count = mem_array_len(command->args) - 1;
-    char *home = sh_env_get(env, "HOME");
     char *path = command->args[1];
 
     if (args_count > 1) {
         write(STDERR, "cd: Too many arguments.\n", 24);
         return NULL;
     }
-    if (args_count == 0 && home == NULL) {
-        write(STDERR, "cd: No home directory.\n", 23);
-        return NULL;
+
+    if (args_count == 0) {
+        char *home = sh_env_get(env, "HOME");
+        if (home == NULL) {
+            write(STDERR, "cd: No home directory.\n", 23);
+            return NULL;
+        }
+        path = home;
     }
-    if (args_count == 1 && *path == '~' && home == NULL) {
-        write(STDERR, "No $home variable set.\n", 23);
-        return NULL;
-    }
-    if (args_count == 0) path = home;
-    if (*path == '~') path = expand_home(path, home);
 
     return str_copy(path, 0);
 }
