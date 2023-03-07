@@ -37,7 +37,6 @@ static void child_exec(sh_command_t *command, sh_env_t *env)
         write(STDERR, "\n", 1);
     }
     mem_free_array(envp);
-    env->exit_status = 1;
     env->exit_silent = true;
     env->exit = true;
 }
