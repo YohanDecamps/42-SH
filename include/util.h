@@ -1,6 +1,6 @@
 /*
 ** EPITECH PROJECT, 2023
-** minishell1
+** shell
 ** File description:
 ** util
 */

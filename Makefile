@@ -1,6 +1,6 @@
 ##
 ## EPITECH PROJECT, 2022
-## minishell1
+## shell
 ## File description:
 ## Makefile
 ##
