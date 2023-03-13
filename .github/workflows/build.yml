@@ -1,0 +1,60 @@
+name: Build
+on: [push, pull_request]
+
+env:
+  MIRROR_URL: git@github.com:EpitechPromo2027/B-PSU-200-BDX-2-1-minishell2-baptiste.girardeau.git
+
+jobs:
+  build:
+    name: Build project
+    runs-on: ubuntu-latest
+    container: epitechcontent/epitest-docker:latest
+
+    steps:
+      - name: Checkout sources
+        uses: actions/checkout@v3
+
+      - name: Compile project
+        run: make
+
+  coding-style:
+    name: Check coding style
+    runs-on: ubuntu-latest
+    container: ghcr.io/epitech/coding-style-checker:latest
+
+    steps:
+      - name: Checkout sources
+        uses: actions/checkout@v3
+
+      - name: Check coding style
+        run: check.sh $(pwd) $(pwd)
+
+      - name: Report errors
+        run: |
+          error_count=$(cat coding-style-reports.log | wc -l)
+          echo "Found $error_count coding style errors"
+          while IFS=":" read -r file line type code; do
+            type=$(echo "$type" | xargs)
+            echo "::error file=$file,line=$line,title=$type coding style error::$code"
+          done < coding-style-reports.log
+          if [ $error_count -gt 0 ]; then
+            exit 1
+          fi
+
+  mirror:
+    name: Push to mirror
+    runs-on: ubuntu-latest
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    needs: [build, coding-style]
+
+    steps:
+      - name: Checkout sources
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Mirror repository
+        uses: pixta-dev/repository-mirroring-action@v1
+        with:
+          target_repo_url: ${{ env.MIRROR_URL }}
+          ssh_private_key: ${{ secrets.GIT_SSH_PRIVATE_KEY }}
