@@ -13,10 +13,10 @@
 #include <string.h>
 #include <errno.h>
 
-#include "builtin.h"
-#include "command.h"
-#include "macros.h"
-#include "util.h"
+#include "shell/builtin.h"
+#include "shell/command.h"
+#include "shell/macros.h"
+#include "shell/util.h"
 
 static void child_exec(sh_command_t *command, sh_env_t *env)
 {

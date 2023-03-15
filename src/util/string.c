@@ -8,7 +8,7 @@
 #include <stddef.h>
 #include <stdlib.h>
 
-#include "util.h"
+#include "shell/util.h"
 
 size_t str_len(const char *str)
 {

@@ -7,7 +7,7 @@
 
 #include <stdlib.h>
 
-#include "util.h"
+#include "shell/util.h"
 
 char **str_split(const char *str, const char *delimiters)
 {

@@ -9,9 +9,9 @@
 #include <stdlib.h>
 #include <unistd.h>
 
-#include "macros.h"
-#include "prompt.h"
-#include "command.h"
+#include "shell/macros.h"
+#include "shell/prompt.h"
+#include "shell/command.h"
 
 int interactive_prompt(sh_env_t *env)
 {

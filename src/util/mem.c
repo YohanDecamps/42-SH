@@ -8,7 +8,7 @@
 #include <stddef.h>
 #include <stdlib.h>
 
-#include "util.h"
+#include "shell/util.h"
 
 void *mem_realloc(void *ptr, size_t size, size_t new_size)
 {

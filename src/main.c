@@ -7,9 +7,9 @@
 
 #include <unistd.h>
 
-#include "macros.h"
-#include "prompt.h"
-#include "env.h"
+#include "shell/macros.h"
+#include "shell/prompt.h"
+#include "shell/env.h"
 
 int main(int argc, char **argv, char **envp)
 {

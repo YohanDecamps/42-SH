@@ -8,9 +8,9 @@
 #include <stddef.h>
 #include <unistd.h>
 
-#include "builtin.h"
-#include "macros.h"
-#include "util.h"
+#include "shell/builtin.h"
+#include "shell/macros.h"
+#include "shell/util.h"
 
 const size_t BUILTIN_COUNT = 5;
 const sh_builtin_t BUILTIN_COMMANDS[] = {

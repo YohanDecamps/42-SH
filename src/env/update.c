@@ -7,9 +7,9 @@
 
 #include <stdlib.h>
 
-#include "env.h"
-#include "util.h"
-#include "util.h"
+#include "shell/env.h"
+#include "shell/util.h"
+#include "shell/util.h"
 
 char *sh_env_get(sh_env_t *env, const char *key)
 {

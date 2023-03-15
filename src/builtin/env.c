@@ -7,9 +7,9 @@
 
 #include <unistd.h>
 
-#include "macros.h"
-#include "builtin.h"
-#include "util.h"
+#include "shell/macros.h"
+#include "shell/builtin.h"
+#include "shell/util.h"
 
 int builtin_env(sh_command_t *command, sh_env_t *env)
 {

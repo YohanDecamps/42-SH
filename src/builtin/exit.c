@@ -5,9 +5,9 @@
 ** exit
 */
 
-#include "builtin.h"
-#include "macros.h"
-#include "util.h"
+#include "shell/builtin.h"
+#include "shell/macros.h"
+#include "shell/util.h"
 #include <unistd.h>
 
 int builtin_exit(sh_command_t *command, sh_env_t *env)

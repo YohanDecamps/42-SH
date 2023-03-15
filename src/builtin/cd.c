@@ -10,9 +10,9 @@
 #include <unistd.h>
 #include <errno.h>
 
-#include "builtin.h"
-#include "macros.h"
-#include "util.h"
+#include "shell/builtin.h"
+#include "shell/macros.h"
+#include "shell/util.h"
 
 static int cd_home(char **path, sh_env_t *env)
 {

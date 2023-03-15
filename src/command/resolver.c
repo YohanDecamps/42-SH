@@ -8,9 +8,9 @@
 #include <stdlib.h>
 #include <unistd.h>
 
-#include "builtin.h"
-#include "command.h"
-#include "util.h"
+#include "shell/builtin.h"
+#include "shell/command.h"
+#include "shell/util.h"
 
 static char *resolve_directory(char *path, char *directory)
 {

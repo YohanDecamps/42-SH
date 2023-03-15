@@ -9,10 +9,10 @@
 #include <stdlib.h>
 #include <unistd.h>
 
-#include "macros.h"
-#include "builtin.h"
-#include "command.h"
-#include "util.h"
+#include "shell/macros.h"
+#include "shell/builtin.h"
+#include "shell/command.h"
+#include "shell/util.h"
 
 static int expand_single_home(char **arg, sh_env_t *env)
 {

@@ -8,8 +8,8 @@
 #include <string.h>
 #include <unistd.h>
 
-#include "macros.h"
-#include "util.h"
+#include "shell/macros.h"
+#include "shell/util.h"
 
 void print_error(const char *prefix, int code)
 {
