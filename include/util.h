@@ -54,8 +54,8 @@
     char *str_concat(const char *str1, const char *str2, const char *sep);
 
     /**
-     * @brief Compare two strings and returns an integer indicating their
-     * order (-1 if str1 < str2, 0 if str1 == str2, 1 if str1 > str2).
+     * @brief Compare two strings and returns an integer indicating their order
+     * (-1 if str1 < str2, 0 if str1 == str2, 1 if str1 > str2).
      *
      * @param str1 First string to compare.
      * @param str2 Second string to compare.

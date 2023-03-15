@@ -6,22 +6,22 @@
 ##
 
 SRC				:=	src/main.c \
-                    src/prompt.c \
-                    src/env/parse.c \
-                    src/env/update.c \
-                    src/command/parse.c \
-                    src/command/resolver.c \
-                    src/command/execute.c \
-                    src/builtin/exec.c \
-                    src/builtin/env.c \
-                    src/builtin/cd.c \
-                    src/builtin/exit.c \
-                    src/util/mem.c \
-                    src/util/string.c \
-                    src/util/string_parse.c \
-                    src/util/string_split.c \
-                    src/util/path.c \
-                    src/util/error.c \
+					src/builtin/cd.c \
+					src/builtin/env.c \
+					src/builtin/exec.c \
+					src/builtin/exit.c \
+					src/command/execute.c \
+					src/command/parse.c \
+					src/command/resolver.c \
+					src/env/parse.c \
+					src/env/update.c \
+					src/prompt.c \
+					src/util/error.c \
+					src/util/mem.c \
+					src/util/path.c \
+					src/util/string_parse.c \
+					src/util/string_split.c \
+					src/util/string.c \
 
 RELEASE_OUT		:= 	mysh
 DEBUG_OUT		:= 	mysh_debug
@@ -35,11 +35,11 @@ CFLAGS			+=	-I./include/ -MMD -MP
 LDFLAGS			:=
 
 RELEASE_OBJ 	:= 	$(addprefix $(RELEASE_DIR)/,$(SRC:.c=.o))
-RELEASE_FLAGS	:=	-O1
+RELEASE_FLAGS	:=	-O2 -fno-optimize-strlen
 
 DEBUG_OBJ		:= 	$(addprefix $(DEBUG_DIR)/,$(SRC:.c=.o))
 SANITIZERS		:=	-fsanitize=address -fsanitize=undefined
-DEBUG_FLAGS		:=	-Og -g3 -Wall -Wextra -Wpedantic -Wshadow
+DEBUG_FLAGS		:=	-g3 -Wall -Wextra -Wpedantic -Wshadow
 DEBUG_FLAGS     +=	$(if $(NO_SANITIZE),, $(SANITIZERS))
 
 reset			:=  \033[0m

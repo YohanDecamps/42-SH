@@ -52,8 +52,8 @@
     void command_exec(sh_command_t *command, sh_env_t *env);
 
     /**
-     * @brief Resolve a path, using the PATH environment variable and expand
-     * it with the $HOME environment variable.
+     * @brief Resolve a path, using the PATH environment variable and expand it
+     * with the $HOME environment variable.
      *
      * @param path Path to resolve
      * @param env Shell environment
