@@ -10,6 +10,7 @@
 
 #include "shell/builtin.h"
 #include "shell/command.h"
+#include "shell/string.h"
 #include "shell/util.h"
 
 static char *resolve_directory(char *path, char *directory)

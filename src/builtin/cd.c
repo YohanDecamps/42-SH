@@ -12,6 +12,7 @@
 
 #include "shell/builtin.h"
 #include "shell/macros.h"
+#include "shell/string.h"
 #include "shell/util.h"
 
 static int cd_home(char **path, sh_env_t *env)

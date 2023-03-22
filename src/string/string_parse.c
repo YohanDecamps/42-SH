@@ -10,7 +10,7 @@
 #include <stdlib.h>
 #include <stdint.h>
 
-#include "shell/util.h"
+#include "shell/string.h"
 #include "shell/macros.h"
 
 bool str_char_in(char c, const char *list)

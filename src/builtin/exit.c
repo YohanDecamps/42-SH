@@ -5,10 +5,12 @@
 ** exit
 */
 
+#include <unistd.h>
+
 #include "shell/builtin.h"
 #include "shell/macros.h"
+#include "shell/string.h"
 #include "shell/util.h"
-#include <unistd.h>
 
 int builtin_exit(sh_command_t *command, sh_env_t *env)
 {

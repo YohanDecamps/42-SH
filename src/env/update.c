@@ -9,7 +9,7 @@
 
 #include "shell/env.h"
 #include "shell/util.h"
-#include "shell/util.h"
+#include "shell/string.h"
 
 char *sh_env_get(sh_env_t *env, const char *key)
 {

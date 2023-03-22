@@ -19,9 +19,9 @@ SRC				:=	src/main.c \
 					src/util/error.c \
 					src/util/mem.c \
 					src/util/path.c \
-					src/util/string_parse.c \
-					src/util/string_split.c \
-					src/util/string.c \
+					src/string/string_parse.c \
+					src/string/string_split.c \
+					src/string/string.c \
 
 RELEASE_OUT		:= 	mysh
 DEBUG_OUT		:= 	mysh_debug

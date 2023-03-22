@@ -9,7 +9,7 @@
 #include <unistd.h>
 
 #include "shell/macros.h"
-#include "shell/util.h"
+#include "shell/string.h"
 
 void print_error(const char *prefix, int code)
 {

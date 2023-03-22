@@ -5,7 +5,7 @@
 ** path
 */
 
-#include "shell/util.h"
+#include "shell/string.h"
 
 char *normalize_directory(char *path)
 {

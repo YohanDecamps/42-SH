@@ -10,7 +10,7 @@
 
 #include "shell/builtin.h"
 #include "shell/macros.h"
-#include "shell/util.h"
+#include "shell/string.h"
 
 const size_t BUILTIN_COUNT = 5;
 const sh_builtin_t BUILTIN_COMMANDS[] = {
