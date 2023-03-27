@@ -15,6 +15,7 @@ SRC				:=	src/main.c \
 					src/command/resolver.c \
 					src/env/parse.c \
 					src/env/update.c \
+					src/parser/token_syntax.c \
 					src/parser/token.c \
 					src/parser/tokenizer.c \
 					src/prompt.c \

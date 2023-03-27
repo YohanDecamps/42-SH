@@ -16,7 +16,10 @@ typedef enum {
     TOK_WORD,
     TOK_PIPE,
     TOK_SEMICOLON,
-    TOK_REDIRECT,
+    TOK_REDIRECT_IN,
+    TOK_REDIRECT_OUT,
+    TOK_APPEND_OUT,
+    TOK_APPEND_IN,
 } token_type_t;
 
 typedef struct {
@@ -80,3 +83,39 @@ token_result_t next_token(const char **input, token_t *token);
  * @return bool True if the character is a separator, false otherwise.
  */
 bool is_separator(char c);
+
+/**
+ * @brief Tokenize a quoted word (e.g. "hello world")
+ *
+ * @param input Pointer to the input string.
+ * @param token Pointer to the token to fill.
+ * @return token_result_t Result of the operation.
+ */
+token_result_t tokenize_quote(const char **input, token_t *token);
+
+/**
+ * @brief Tokenize a word (e.g. ls)
+ *
+ * @param input Pointer to the input string.
+ * @param token Pointer to the token to fill.
+ * @return token_result_t Result of the operation.
+ */
+token_result_t tokenize_word(const char **input, token_t *token);
+
+/**
+ * @brief Tokenize a redirection (e.g. >, >>, <, <<)
+ *
+ * @param input Pointer to the input string.
+ * @param token Pointer to the token to fill.
+ * @return token_result_t Result of the operation.
+ */
+token_result_t tokenize_redirection(const char **input, token_t *token);
+
+/**
+ * @brief Tokenize a pipe (|) or a semicolon (;)
+ *
+ * @param input Pointer to the input string.
+ * @param token Pointer to the token to fill.
+ * @return token_result_t Result of the operation.
+ */
+token_result_t tokenize_pipe_semicolon(const char **input, token_t *token);

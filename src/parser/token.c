@@ -8,7 +8,27 @@
 #include "shell/parser.h"
 #include "shell/string.h"
 
-static token_result_t tokenize_quote(const char **input, token_t *token)
+bool is_separator(char c)
+{
+    return c == ' ' || c == '\t' || c == '\n';
+}
+
+token_result_t next_token(const char **input, token_t *token)
+{
+    while (is_separator(**input)) (*input)++;
+    if (**input == '\0') return TOK_RES_END;
+
+    if (**input == '\'' || **input == '"')
+        return tokenize_quote(input, token);
+    if (**input == '>' || **input == '<')
+        return tokenize_redirection(input, token);
+    if (**input == '|' || **input == ';')
+        return tokenize_pipe_semicolon(input, token);
+
+    return tokenize_word(input, token);
+}
+
+token_result_t tokenize_quote(const char **input, token_t *token)
 {
     size_t size = 0;
     char quote = **input;
@@ -29,7 +49,7 @@ static token_result_t tokenize_quote(const char **input, token_t *token)
     return TOK_RES_OK;
 }
 
-static token_result_t tokenize_word(const char **input, token_t *token)
+token_result_t tokenize_word(const char **input, token_t *token)
 {
     size_t size = 0;
     while (!is_separator((*input)[size]) && (*input)[size] != '\0')
@@ -40,20 +60,4 @@ static token_result_t tokenize_word(const char **input, token_t *token)
 
     *input += size;
     return TOK_RES_OK;
-}
-
-token_result_t next_token(const char **input, token_t *token)
-{
-    while (is_separator(**input)) (*input)++;
-    if (**input == '\0') return TOK_RES_END;
-
-    if (**input == '\'' || **input == '"')
-        return tokenize_quote(input, token);
-
-    return tokenize_word(input, token);
-}
-
-bool is_separator(char c)
-{
-    return c == ' ' || c == '\t' || c == '\n';
 }
