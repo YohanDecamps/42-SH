@@ -57,6 +57,8 @@ int tokenizer_push(tokenizer_t *tokenizer, token_t token)
 
 void tokenizer_free(tokenizer_t *tokenizer)
 {
+    for (size_t i = 0; i < tokenizer->size; i++)
+        free(tokenizer->tokens[i].value);
     free(tokenizer->tokens);
     free(tokenizer);
 }
