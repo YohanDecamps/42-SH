@@ -19,9 +19,9 @@ static void print_token_error(token_result_t res)
         write(STDERR, "Unmatched '\"'.\n", 15);
 }
 
-tokenizer_t *tokenize(const char *input)
+token_list_t *tokenize(const char *input)
 {
-    tokenizer_t *tokenizer = malloc(sizeof(tokenizer_t));
+    token_list_t *tokenizer = malloc(sizeof(token_list_t));
     if (tokenizer == NULL) return NULL;
 
     tokenizer->size = 0;
@@ -35,15 +35,15 @@ tokenizer_t *tokenize(const char *input)
         if (res == TOK_RES_END) break;
         if (res != TOK_RES_OK) {
             print_token_error(res);
-            tokenizer_free(tokenizer);
+            token_list_free(tokenizer);
             return NULL;
         }
-        if (tokenizer_push(tokenizer, token) == ERROR_RETURN) return NULL;
+        if (token_list_push(tokenizer, token) == ERROR_RETURN) return NULL;
     }
     return tokenizer;
 }
 
-int tokenizer_push(tokenizer_t *tokenizer, token_t token)
+int token_list_push(token_list_t *tokenizer, token_t token)
 {
     if (tokenizer->size == tokenizer->capacity) {
         tokenizer->capacity *= 2;
@@ -55,7 +55,7 @@ int tokenizer_push(tokenizer_t *tokenizer, token_t token)
     return SUCCESS_RETURN;
 }
 
-void tokenizer_free(tokenizer_t *tokenizer)
+void token_list_free(token_list_t *tokenizer)
 {
     for (size_t i = 0; i < tokenizer->size; i++)
         free(tokenizer->tokens[i].value);

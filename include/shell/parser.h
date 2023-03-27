@@ -31,7 +31,7 @@ typedef struct {
     token_t *tokens;
     size_t size;
     size_t capacity;
-} tokenizer_t;
+} token_list_t;
 
 /**
  * @brief Tokenize the given input string and return the tokens. If an error
@@ -40,7 +40,7 @@ typedef struct {
  * @param input String to tokenize.
  * @return tokenizer_t* Tokens.
  */
-tokenizer_t *tokenize(const char *input);
+token_list_t *tokenize(const char *input);
 
 /**
  * @brief Push a token into the tokenizer output.
@@ -49,14 +49,14 @@ tokenizer_t *tokenize(const char *input);
  * @param token The token to push.
  * @return int 0 on success, -1 on error.
  */
-int tokenizer_push(tokenizer_t *tokenizer, token_t token);
+int token_list_push(token_list_t *tokenizer, token_t token);
 
 /**
  * @brief Free the tokenizer.
  *
  * @param tokenizer The tokenizer to free.
  */
-void tokenizer_free(tokenizer_t *tokenizer);
+void token_list_free(token_list_t *tokenizer);
 
 typedef enum {
     TOK_RES_OK, // Success

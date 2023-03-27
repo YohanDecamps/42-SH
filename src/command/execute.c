@@ -16,6 +16,7 @@
 #include "shell/builtin.h"
 #include "shell/command.h"
 #include "shell/macros.h"
+#include "shell/parser.h"
 #include "shell/string.h"
 #include "shell/util.h"
 
@@ -102,6 +103,7 @@ void command_exec(sh_command_t *command, sh_env_t *env)
 
 void run_command(char *command, sh_env_t *env)
 {
+    token_list_t *tokens = tokenize(command);
     sh_command_t *parsed_command = parse_command(command, env);
     if (parsed_command == NULL) {
         env->exit_status = 1;
@@ -110,4 +112,5 @@ void run_command(char *command, sh_env_t *env)
 
     command_exec(parsed_command, env);
     command_free(parsed_command);
+    token_list_free(tokens);
 }
