@@ -15,13 +15,15 @@ SRC				:=	src/main.c \
 					src/command/resolver.c \
 					src/env/parse.c \
 					src/env/update.c \
+					src/parser/token.c \
+					src/parser/tokenizer.c \
 					src/prompt.c \
-					src/util/error.c \
-					src/util/mem.c \
-					src/util/path.c \
 					src/string/string_parse.c \
 					src/string/string_split.c \
 					src/string/string.c \
+					src/util/error.c \
+					src/util/mem.c \
+					src/util/path.c \
 
 RELEASE_OUT		:= 	mysh
 DEBUG_OUT		:= 	mysh_debug
