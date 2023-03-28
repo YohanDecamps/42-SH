@@ -199,22 +199,22 @@ Test(tokenizer, double_pipe) {
     cr_assert_str_eq(tokens->tokens[3].value, "cat");
 }
 
-// Test(tokenizer, pipe_no_space) {
-//     char *input = "ls|cat";
-//     token_list_t *tokens = tokenize(input);
+Test(tokenizer, pipe_no_space) {
+    char *input = "ls|cat";
+    token_list_t *tokens = tokenize(input);
 
-//     cr_assert_not_null(tokens);
-//     cr_assert_eq(tokens->size, 3);
+    cr_assert_not_null(tokens);
+    cr_assert_eq(tokens->size, 3);
 
-//     cr_assert_eq(tokens->tokens[0].type, TOK_WORD);
-//     cr_assert_str_eq(tokens->tokens[0].value, "ls");
+    cr_assert_eq(tokens->tokens[0].type, TOK_WORD);
+    cr_assert_str_eq(tokens->tokens[0].value, "ls");
 
-//     cr_assert_eq(tokens->tokens[1].type, TOK_PIPE);
-//     cr_assert_str_eq(tokens->tokens[1].value, "|");
+    cr_assert_eq(tokens->tokens[1].type, TOK_PIPE);
+    cr_assert_str_eq(tokens->tokens[1].value, "|");
 
-//     cr_assert_eq(tokens->tokens[2].type, TOK_WORD);
-//     cr_assert_str_eq(tokens->tokens[2].value, "cat");
-// }
+    cr_assert_eq(tokens->tokens[2].type, TOK_WORD);
+    cr_assert_str_eq(tokens->tokens[2].value, "cat");
+}
 
 Test(tokenizer, semicolon) {
     char *input = "ls ; cat";
@@ -233,22 +233,22 @@ Test(tokenizer, semicolon) {
     cr_assert_str_eq(tokens->tokens[2].value, "cat");
 }
 
-// Test(tokenizer, semicolon_no_space) {
-//     char *input = "ls;cat";
-//     token_list_t *tokens = tokenize(input);
+Test(tokenizer, semicolon_no_space) {
+    char *input = "ls;cat";
+    token_list_t *tokens = tokenize(input);
 
-//     cr_assert_not_null(tokens);
-//     cr_assert_eq(tokens->size, 3);
+    cr_assert_not_null(tokens);
+    cr_assert_eq(tokens->size, 3);
 
-//     cr_assert_eq(tokens->tokens[0].type, TOK_WORD);
-//     cr_assert_str_eq(tokens->tokens[0].value, "ls");
+    cr_assert_eq(tokens->tokens[0].type, TOK_WORD);
+    cr_assert_str_eq(tokens->tokens[0].value, "ls");
 
-//     cr_assert_eq(tokens->tokens[1].type, TOK_SEMICOLON);
-//     cr_assert_str_eq(tokens->tokens[1].value, ";");
+    cr_assert_eq(tokens->tokens[1].type, TOK_SEMICOLON);
+    cr_assert_str_eq(tokens->tokens[1].value, ";");
 
-//     cr_assert_eq(tokens->tokens[2].type, TOK_WORD);
-//     cr_assert_str_eq(tokens->tokens[2].value, "cat");
-// }
+    cr_assert_eq(tokens->tokens[2].type, TOK_WORD);
+    cr_assert_str_eq(tokens->tokens[2].value, "cat");
+}
 
 Test(tokenizer, redirection_in) {
     char *input = "ls < file";
@@ -267,22 +267,22 @@ Test(tokenizer, redirection_in) {
     cr_assert_str_eq(tokens->tokens[2].value, "file");
 }
 
-// Test(tokenizer, redirect_no_space) {
-//     char *input = "ls<file";
-//     token_list_t *tokens = tokenize(input);
+Test(tokenizer, redirect_no_space) {
+    char *input = "ls<file";
+    token_list_t *tokens = tokenize(input);
 
-//     cr_assert_not_null(tokens);
-//     cr_assert_eq(tokens->size, 3);
+    cr_assert_not_null(tokens);
+    cr_assert_eq(tokens->size, 3);
 
-//     cr_assert_eq(tokens->tokens[0].type, TOK_WORD);
-//     cr_assert_str_eq(tokens->tokens[0].value, "ls");
+    cr_assert_eq(tokens->tokens[0].type, TOK_WORD);
+    cr_assert_str_eq(tokens->tokens[0].value, "ls");
 
-//     cr_assert_eq(tokens->tokens[1].type, TOK_REDIRECT_IN);
-//     cr_assert_str_eq(tokens->tokens[1].value, "<");
+    cr_assert_eq(tokens->tokens[1].type, TOK_REDIRECT_IN);
+    cr_assert_str_eq(tokens->tokens[1].value, "<");
 
-//     cr_assert_eq(tokens->tokens[2].type, TOK_WORD);
-//     cr_assert_str_eq(tokens->tokens[2].value, "file");
-// }
+    cr_assert_eq(tokens->tokens[2].type, TOK_WORD);
+    cr_assert_str_eq(tokens->tokens[2].value, "file");
+}
 
 Test(tokenizer, redirection_out) {
     char *input = "ls > file";
