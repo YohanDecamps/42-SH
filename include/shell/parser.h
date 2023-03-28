@@ -85,6 +85,15 @@ token_result_t next_token(const char **input, token_t *token);
 bool is_separator(char c);
 
 /**
+ * @brief Check whether the given character is a word end (separator, pipe,
+ * semicolon, redirection)
+ *
+ * @param c The character to check.
+ * @return bool True if the character is a word end, false otherwise.
+ */
+bool is_word_end(char c);
+
+/**
  * @brief Tokenize a quoted word (e.g. "hello world")
  *
  * @param input Pointer to the input string.

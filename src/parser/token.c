@@ -13,6 +13,11 @@ bool is_separator(char c)
     return c == ' ' || c == '\t' || c == '\n';
 }
 
+bool is_word_end(char c)
+{
+    return is_separator(c) || c == '>' || c == '<' || c == '|' || c == ';';
+}
+
 token_result_t next_token(const char **input, token_t *token)
 {
     while (is_separator(**input)) (*input)++;
@@ -52,7 +57,7 @@ token_result_t tokenize_quote(const char **input, token_t *token)
 token_result_t tokenize_word(const char **input, token_t *token)
 {
     size_t size = 0;
-    while (!is_separator((*input)[size]) && (*input)[size] != '\0')
+    while (!is_word_end((*input)[size]) && (*input)[size] != '\0')
         size++;
 
     token->type = TOK_WORD;
