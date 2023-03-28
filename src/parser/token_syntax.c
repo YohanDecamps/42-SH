@@ -13,16 +13,18 @@ token_result_t tokenize_redirection(const char **input, token_t *token)
     if (**input == '<' && (*input)[1] == '<') {
         *token = (token_t) {TOK_APPEND_IN, str_copy("<<", 2)};
         *input += 2;
+        return TOK_RES_OK;
     }
     if (**input == '>' && (*input)[1] == '>') {
         *token = (token_t) {TOK_APPEND_OUT, str_copy(">>", 2)};
         *input += 2;
+        return TOK_RES_OK;
     }
-    if (**input == '<' && (*input)[1] != '<') {
+    if (**input == '<') {
         *token = (token_t) {TOK_REDIRECT_IN, str_copy("<", 1)};
         *input += 1;
     }
-    if (**input == '>' && (*input)[1] != '>') {
+    if (**input == '>') {
         *token = (token_t) {TOK_REDIRECT_OUT, str_copy(">", 1)};
         *input += 1;
     }
