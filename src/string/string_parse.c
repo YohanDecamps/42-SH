@@ -5,10 +5,7 @@
 ** parse
 */
 
-
-#include <stddef.h>
-#include <stdlib.h>
-#include <stdint.h>
+#include <limits.h>
 
 #include "shell/string.h"
 #include "shell/macros.h"
@@ -32,7 +29,7 @@ void str_remove_newline(char *str)
 
 int str_parse_int(const char *str, int *number)
 {
-    size_t n = 0;
+    int n = 0;
     int sign = 1;
 
     if (*str == '-') {
@@ -42,14 +39,14 @@ int str_parse_int(const char *str, int *number)
 
     for (size_t i = 0; str[i] != '\0'; i++) {
         if (str[i] < '0' || str[i] > '9') return ERROR_RETURN;
-        size_t parsed = str[i] - '0';
+        int parsed = str[i] - '0';
 
-        if (n > SIZE_MAX / 10 ||
-            (n == SIZE_MAX / 10 && parsed > SIZE_MAX % 10))
+        if (n > INT_MAX / 10 ||
+            (n == INT_MAX / 10 && parsed > INT_MAX % 10))
             return ERROR_RETURN;
         n = n * 10 + parsed;
     }
 
-    *number = (int) n * sign;
+    *number = n * sign;
     return SUCCESS_RETURN;
 }
