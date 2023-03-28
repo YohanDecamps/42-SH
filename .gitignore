@@ -11,6 +11,7 @@
 build/
 mysh
 mysh_debug
+unit_tests
 
 # Temp files
 .cache/

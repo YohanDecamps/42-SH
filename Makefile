@@ -5,8 +5,7 @@
 ## Makefile
 ##
 
-SRC				:=	src/main.c \
-					src/builtin/cd.c \
+SRC				:=	src/builtin/cd.c \
 					src/builtin/env.c \
 					src/builtin/exec.c \
 					src/builtin/exit.c \
@@ -26,24 +25,34 @@ SRC				:=	src/main.c \
 					src/util/mem.c \
 					src/util/path.c \
 
+MAIN_SRC		:=	src/main.c
+
+TEST_SRC 		:= 	tests/tokenizer.c
+
 RELEASE_OUT		:= 	mysh
 DEBUG_OUT		:= 	mysh_debug
+TEST_OUT		:= 	unit_tests
 
 BUILD_DIR		:=  build
 RELEASE_DIR 	:= 	build/release
 DEBUG_DIR		:= 	build/debug
+TEST_DIR		:= 	build/test
 
 CC				:=	gcc
 CFLAGS			+=	-I./include/ -MMD -MP
 LDFLAGS			:=
 
-RELEASE_OBJ 	:= 	$(addprefix $(RELEASE_DIR)/,$(SRC:.c=.o))
+RELEASE_OBJ 	:= 	$(addprefix $(RELEASE_DIR)/,$(SRC:.c=.o) $(MAIN_SRC:.c=.o))
 RELEASE_FLAGS	:=	-O2 -fno-optimize-strlen
 
-DEBUG_OBJ		:= 	$(addprefix $(DEBUG_DIR)/,$(SRC:.c=.o))
+DEBUG_OBJ		:= 	$(addprefix $(DEBUG_DIR)/,$(SRC:.c=.o) $(MAIN_SRC:.c=.o))
 SANITIZERS		:=	-fsanitize=address -fsanitize=undefined
 DEBUG_FLAGS		:=	-g3 -Wall -Wextra -Wpedantic -Wshadow
 DEBUG_FLAGS     +=	$(if $(NO_SANITIZE),, $(SANITIZERS))
+
+TEST_OBJ		:= 	$(addprefix $(TEST_DIR)/,$(SRC:.c=.o) $(TEST_SRC:.c=.o))
+TEST_FLAGS		:=	--coverage
+TEST_LIBS		:=	-lcriterion
 
 reset			:=  \033[0m
 bold			:= 	\033[1m
@@ -54,8 +63,9 @@ grey 			:= 	\033[90m
 
 all: release
 
--include $(addprefix $(RELEASE_DIR)/,$(SRC:.c=.d))
--include $(addprefix $(DEBUG_DIR)/,$(SRC:.c=.d))
+-include $(RELEASE_OBJ:.o=.d)
+-include $(DEBUG_OBJ:.o=.d)
+-include $(TEST_OBJ:.o=.d)
 
 ## BUILD ##
 
@@ -71,6 +81,11 @@ debug: $(DEBUG_OUT)
 	@printf "$(if $(NO_SANITIZE),disabled,enabled)$(reset) "
 	@printf "$(grey)output:$(reset)$(underline)$(grey)$(DEBUG_OUT)$(reset)\n"
 
+test: $(TEST_OUT)
+	@printf "$(bold)$(green)$(TEST_OUT) compiled$(reset) "
+	@printf "$(grey)mode:$(reset)$(underline)$(grey)test$(reset) "
+	@printf "$(grey)output:$(reset)$(underline)$(grey)$(TEST_OUT)$(reset)\n"
+
 $(RELEASE_OUT): CFLAGS += $(RELEASE_FLAGS)
 $(RELEASE_OUT): $(RELEASE_OBJ)
 	@$(CC) -o $@ $^ $(CFLAGS) $(LDFLAGS)
@@ -78,6 +93,11 @@ $(RELEASE_OUT): $(RELEASE_OBJ)
 $(DEBUG_OUT): CFLAGS += $(DEBUG_FLAGS)
 $(DEBUG_OUT): $(DEBUG_OBJ)
 	@$(CC) -o $@ $^ $(CFLAGS) $(LDFLAGS)
+
+$(TEST_OUT): CFLAGS += $(TEST_FLAGS)
+$(TEST_OUT): LDLIBS += $(TEST_LIBS)
+$(TEST_OUT): $(TEST_OBJ)
+	@$(CC) -o $@ $^ $(CFLAGS) $(LDFLAGS) $(LDLIBS)
 
 ## OBJECTS ##
 
@@ -93,6 +113,12 @@ $(DEBUG_DIR)/%.o: %.c
 	@$(CC) -o $@ -c $< $(CFLAGS)
 	@printf "$(green)done$(reset)\n"
 
+$(TEST_DIR)/%.o: %.c
+	@mkdir -p $(dir $@)
+	@printf "$(grey)compiling %-50s$(reset)" $<
+	@$(CC) -o $@ -c $< $(CFLAGS)
+	@printf "$(green)done$(reset)\n"
+
 ## RUN ##
 
 run: release
@@ -102,6 +128,12 @@ run: release
 run_debug: debug
 	@printf "$(blue)running $(DEBUG_OUT)$(reset)\n"
 	@./$(DEBUG_OUT)
+
+tests_run: test
+	@printf "$(blue)running $(TEST_OUT)$(reset)\n"
+	./$(TEST_OUT)
+	gcovr --exclude tests/ --exclude src/main.c
+	gcovr --branches --exclude tests/ --exclude src/main.c
 
 ## CLEANING ##
 
@@ -124,6 +156,8 @@ help:
 	@printf "\t\t$(grey)output: $(underline)$(RELEASE_OUT)$(reset)\n"
 	@printf "make $(bold)debug$(reset)\tdebug infos and sanitizers enabled "
 	@printf "\t$(grey)output: $(underline)$(DEBUG_OUT)$(reset)\n"
+	@printf "make $(bold)test$(reset)\tcompile tests "
+	@printf "\t\t\t\t$(grey)output: $(underline)$(TEST_OUT)$(reset)\n"
 
 	@printf "\n$(bold)$(green)VARIABLES$(reset)\n"
 	@printf "$(bold)CFLAGS$(reset)\t\tadditional compiler flags\n"
