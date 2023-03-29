@@ -18,6 +18,57 @@ typedef struct {
     bool builtin;
 } sh_command_t;
 
+/* File descriptor */
+
+typedef enum {
+    FD_INT,
+    FD_FILE,
+    FD_PIPE,
+} fd_type_t;
+
+typedef struct {
+    int fd;
+} fn_int_t;
+
+typedef struct {
+    char *path;
+} fn_file_t;
+
+typedef union {
+    fd_type_t type;
+    fn_int_t int_fd;
+    fn_file_t file_fd;
+} fd_t;
+
+/* Command */
+
+typedef enum {
+    COMMAND_SIMPLE,
+    COMMAND_PIPE,
+    COMMAND_LIST,
+} command_type_t;
+
+typedef struct {
+    char *path; // Path to the executable
+    char **argv; // Arguments (argv[0] is the executable name, NULL terminated)
+    bool builtin;
+    fd_t in;
+    fd_t out;
+} command_t;
+
+typedef struct {
+    command_t *commands;
+    size_t size;
+    size_t capacity;
+} command_list_t;
+
+typedef union {
+    command_type_t type;
+    command_t simple;
+    command_list_t pipe;
+    command_list_t list;
+} command_exec_t;
+
 /**
  * @brief Run a command (parse and execute).
  *
