@@ -20,6 +20,7 @@ static int resolve_command(command_t *command, sh_env_t *env)
     if (is_builtin(command->args.argv[0])) {
         char *path = str_copy(command->args.argv[0], 0);
         command->path = path;
+        command->builtin = true;
     } else {
         char *path = resolve_path(command->args.argv[0], env);
         command->path = path;
