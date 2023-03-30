@@ -14,9 +14,10 @@ SRC				:=	src/builtin/cd.c \
 					src/command/resolver.c \
 					src/env/parse.c \
 					src/env/update.c \
-					src/parser/token_syntax.c \
-					src/parser/token.c \
-					src/parser/tokenizer.c \
+					src/parser/command.c \
+					src/tokenizer/token_syntax.c \
+					src/tokenizer/token.c \
+					src/partokenizerser/tokenizer.c \
 					src/prompt.c \
 					src/string/string_parse.c \
 					src/string/string_split.c \

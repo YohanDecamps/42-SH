@@ -2,15 +2,13 @@
 ** EPITECH PROJECT, 2023
 ** shell
 ** File description:
-** parser
+** tokenizer
 */
 
 #pragma once
 
 #include <stddef.h>
 #include <stdbool.h>
-
-/* Tokenizer */
 
 typedef enum {
     TOK_WORD,
@@ -59,10 +57,10 @@ int token_list_push(token_list_t *tokenizer, token_t token);
 void token_list_free(token_list_t *tokenizer);
 
 typedef enum {
-    TOK_RES_OK, // Success
-    TOK_RES_END, // Reached end of input
-    TOK_RES_UNMATCHED_SIMPLE_QUOTE, // Error: unmatched ' quote
-    TOK_RES_UNMATCHED_DOUBLE_QUOTE, // Error: unmatched " quote
+    TOK_RES_OK,
+    TOK_RES_END, ///< Reached end of input
+    TOK_RES_UNMATCHED_SIMPLE_QUOTE, ///< Error: unmatched ' quote
+    TOK_RES_UNMATCHED_DOUBLE_QUOTE, ///< Error: unmatched " quote
 } token_result_t;
 
 /**

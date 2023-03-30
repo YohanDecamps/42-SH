@@ -8,7 +8,7 @@
 #include <stdlib.h>
 #include <unistd.h>
 
-#include "shell/parser.h"
+#include "shell/tokenizer.h"
 #include "shell/macros.h"
 
 static void print_token_error(token_result_t res)
@@ -43,22 +43,22 @@ token_list_t *tokenize(const char *input)
     return tokenizer;
 }
 
-int token_list_push(token_list_t *tokenizer, token_t token)
+int token_list_push(token_list_t *tokens, token_t token)
 {
-    if (tokenizer->size == tokenizer->capacity) {
-        tokenizer->capacity *= 2;
-        size_t new_size = sizeof(token_t) * tokenizer->capacity;
-        tokenizer->tokens = realloc(tokenizer->tokens, new_size);
-        if (tokenizer->tokens == NULL) return ERROR_RETURN;
+    if (tokens->size == tokens->capacity) {
+        tokens->capacity *= 2;
+        size_t new_size = sizeof(token_t) * tokens->capacity;
+        tokens->tokens = realloc(tokens->tokens, new_size);
+        if (tokens->tokens == NULL) return ERROR_RETURN;
     }
-    tokenizer->tokens[tokenizer->size++] = token;
+    tokens->tokens[tokens->size++] = token;
     return SUCCESS_RETURN;
 }
 
-void token_list_free(token_list_t *tokenizer)
+void token_list_free(token_list_t *tokens)
 {
-    for (size_t i = 0; i < tokenizer->size; i++)
-        free(tokenizer->tokens[i].value);
-    free(tokenizer->tokens);
-    free(tokenizer);
+    for (size_t i = 0; i < tokens->size; i++)
+        free(tokens->tokens[i].value);
+    free(tokens->tokens);
+    free(tokens);
 }
