@@ -152,7 +152,7 @@ clean:
 
 fclean: clean
 	@printf "$(blue)cleaning binaries$(reset)\n"
-	@$(RM) $(RELEASE_OUT) $(DEBUG_OUT)
+	@$(RM) $(RELEASE_OUT) $(DEBUG_OUT) $(TEST_OUT)
 
 re: fclean all
 
