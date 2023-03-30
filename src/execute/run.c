@@ -42,6 +42,8 @@ static int run_inner(char *command, sh_env_t *env)
         }
     }
 
+    command_exec_free(exec);
+    token_list_free(tokens);
     return SUCCESS_RETURN;
 }
 

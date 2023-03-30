@@ -11,6 +11,10 @@
 
 static void command_free(command_t *command)
 {
+    for (size_t i = 0; i < command->args.size; i++) {
+        free(command->args.argv[i]);
+    }
+    if (command->path != NULL) free(command->path);
     free(command->args.argv);
 }
 
