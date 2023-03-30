@@ -16,6 +16,8 @@ command_res_t parse_redirect_in(token_list_t *tokens, size_t *index,
     token_t *token = &tokens->tokens[*index + 1];
     if (token->type != TOK_WORD)
         return CMD_RES_REDIRECT_NAME;
+    if (command->in.type != FD_NULL)
+        return CMD_RES_REDIRECT_AMBIGUOUS;
 
     command->in = (fd_t) {FD_FILE, 0, token->value};
     *index += 2;
@@ -31,6 +33,8 @@ command_res_t parse_redirect_out(token_list_t *tokens, size_t *index,
     token_t *token = &tokens->tokens[*index + 1];
     if (token->type != TOK_WORD)
         return CMD_RES_REDIRECT_NAME;
+    if (command->out.type != FD_NULL)
+        return CMD_RES_REDIRECT_AMBIGUOUS;
 
     command->out = (fd_t) {FD_FILE, 1, token->value};
     *index += 2;

@@ -12,6 +12,7 @@ SRC				:=	src/builtin/cd.c \
 					src/command_new/data.c \
 					src/command_new/free.c \
 					src/command_new/parse.c \
+					src/command_new/parse_command.c \
 					src/command_new/parse_redirect.c \
 					src/command/execute.c \
 					src/command/parse.c \

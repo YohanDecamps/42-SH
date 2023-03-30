@@ -19,39 +19,48 @@ void print_command_error(command_res_t res)
         write(STDERR, "Invalid null command.\n", 22);
     if (res == CMD_RES_REDIRECT_NAME)
         write(STDERR, "Missing name for redirect.\n", 27);
+    if (res == CMD_RES_REDIRECT_AMBIGUOUS)
+        write(STDERR, "Ambiguous input redirect.\n", 26);
+    if (res == CMD_RES_NOT_IMPLEMENTED)
+        write(STDERR, "Not implemented.\n", 17);
 }
 
-command_res_t command_parse_inner(token_list_t *tokens, size_t *index,
-    command_t *command)
+static bool handle_separator(token_list_t *tokens, size_t *index,
+    command_group_t **group, command_exec_t *exec)
 {
-    token_t *token = &tokens->tokens[*index];
-    if (token->type == TOK_PIPE || token->type == TOK_SEMICOLON)
-        return CMD_RES_OK;
-
-    if (token->type == TOK_WORD) {
-        command_push_arg(command, token->value);
-        *index += 1;
+    if (tokens->tokens[*index].type == TOK_PIPE) {
+        (*index) += 1;
+        return true;
+    }
+    if (tokens->tokens[*index].type == TOK_SEMICOLON) {
+        (*index) += 1;
+        *group = command_exec_add_group(exec);
+        return true;
     }
 
-    if (token->type == TOK_REDIRECT_IN)
-        return parse_redirect_in(tokens, index, command);
-    if (token->type == TOK_REDIRECT_OUT)
-        return parse_redirect_out(tokens, index, command);
-    if (token->type == TOK_APPEND_OUT)
-        return parse_append_out(tokens, index, command);
-    if (token->type == TOK_APPEND_IN)
-        return parse_append_in(tokens, index, command);
-
-    return CMD_RES_OK;
+    return false;
 }
 
-command_res_t command_parse(token_list_t *tokens, size_t *index,
-    command_t *command)
+command_exec_t *parse_command_exec(token_list_t *tokens)
 {
-    while (*index < tokens->size) {
-        command_res_t res = command_parse_inner(tokens, index, command);
-        if (res != CMD_RES_OK)
-            return res;
+    command_exec_t *exec = command_exec_new();
+    if (exec == NULL) return NULL;
+    command_group_t *group = command_exec_add_group(exec);
+    if (group == NULL) return NULL;
+
+    size_t index = 0;
+    while (index < tokens->size) {
+        if (handle_separator(tokens, &index, &group, exec))
+            continue;
+
+        command_t *command = command_group_add_command(group);
+        if (command == NULL) return NULL;
+        command_res_t res = command_parse(tokens, &index, command);
+        if (res != CMD_RES_OK) {
+            print_command_error(res);
+            command_exec_free(exec);
+            return NULL;
+        }
     }
-    return CMD_RES_OK;
+    return exec;
 }
