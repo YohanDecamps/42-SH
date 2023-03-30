@@ -13,18 +13,18 @@
 #include <string.h>
 #include <errno.h>
 
+#include "shell/execute.h"
 #include "shell/builtin.h"
 #include "shell/command.h"
 #include "shell/macros.h"
-#include "shell/tokenizer.h"
 #include "shell/string.h"
 #include "shell/util.h"
 
-static void child_exec(sh_command_t *command, sh_env_t *env)
+static void child_exec(command_t *command, sh_env_t *env)
 {
     char **envp = sh_env_to_array(env);
     if (envp == NULL) return;
-    if (execve(command->path, command->args, envp) == -1) {
+    if (execve(command->path, command->args.argv, envp) == -1) {
         env->exit_status = 1;
         if (errno == ENOENT) {
             write(STDERR, command->path, str_len(command->path));
@@ -80,7 +80,7 @@ static void wait_process(pid_t pid, sh_env_t *env)
     }
 }
 
-void command_exec(sh_command_t *command, sh_env_t *env)
+void command_exec(command_t *command, sh_env_t *env)
 {
     if (command == NULL) return;
     if (command->path == NULL || *command->path == '\0') return;
@@ -99,18 +99,4 @@ void command_exec(sh_command_t *command, sh_env_t *env)
     } else {
         perror("fork");
     }
-}
-
-void run_command(char *command, sh_env_t *env)
-{
-    token_list_t *tokens = tokenize(command);
-    sh_command_t *parsed_command = parse_command(command, env);
-    if (parsed_command == NULL) {
-        env->exit_status = 1;
-        return;
-    }
-
-    command_exec(parsed_command, env);
-    command_free(parsed_command);
-    token_list_free(tokens);
 }

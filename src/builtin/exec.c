@@ -30,7 +30,7 @@ bool is_builtin(char *path)
     return false;
 }
 
-void builtin_exec(sh_command_t *command, sh_env_t *env)
+void builtin_exec(command_t *command, sh_env_t *env)
 {
     int status = 0;
 

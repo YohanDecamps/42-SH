@@ -10,6 +10,7 @@
 
 #include "shell/tokenizer.h"
 #include "shell/macros.h"
+#include "shell/util.h"
 
 static void print_token_error(token_result_t res)
 {
@@ -47,8 +48,9 @@ int token_list_push(token_list_t *tokens, token_t token)
 {
     if (tokens->size == tokens->capacity) {
         tokens->capacity *= 2;
-        size_t new_size = sizeof(token_t) * tokens->capacity;
-        tokens->tokens = realloc(tokens->tokens, new_size);
+        tokens->tokens = mem_realloc(tokens->tokens,
+            sizeof(token_t) * tokens->size,
+            sizeof(token_t) * tokens->capacity);
         if (tokens->tokens == NULL) return ERROR_RETURN;
     }
     tokens->tokens[tokens->size++] = token;

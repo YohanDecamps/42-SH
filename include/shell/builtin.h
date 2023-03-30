@@ -17,7 +17,7 @@
  */
 typedef struct {
     char *name;
-    int (*exec)(sh_command_t *, sh_env_t *);
+    int (*exec)(command_t *, sh_env_t *);
 } sh_builtin_t;
 
 /**
@@ -34,7 +34,7 @@ bool is_builtin(char *path);
  * @param command Parsed shell command.
  * @param env Shell environment.
  */
-void builtin_exec(sh_command_t *command, sh_env_t *env);
+void builtin_exec(command_t *command, sh_env_t *env);
 
 /**
  * @brief Execute cd builtin command.
@@ -43,7 +43,7 @@ void builtin_exec(sh_command_t *command, sh_env_t *env);
  * @param env Shell environment.
  * @return int Exit status.
  */
-int builtin_cd(sh_command_t *command, sh_env_t *env);
+int builtin_cd(command_t *command, sh_env_t *env);
 
 /**
  * @brief Execute exit builtin command.
@@ -52,7 +52,7 @@ int builtin_cd(sh_command_t *command, sh_env_t *env);
  * @param env Shell environment.
  * @return int Exit status.
  */
-int builtin_exit(sh_command_t *command, sh_env_t *env);
+int builtin_exit(command_t *command, sh_env_t *env);
 
 /**
  * @brief Execute env builtin command.
@@ -61,7 +61,7 @@ int builtin_exit(sh_command_t *command, sh_env_t *env);
  * @param env Shell environment.
  * @return int Exit status.
  */
-int builtin_env(sh_command_t *command, sh_env_t *env);
+int builtin_env(command_t *command, sh_env_t *env);
 
 /**
  * @brief Execute setenv builtin command.
@@ -70,7 +70,7 @@ int builtin_env(sh_command_t *command, sh_env_t *env);
  * @param env Shell environment.
  * @return int Exit status.
  */
-int builtin_setenv(sh_command_t *command, sh_env_t *env);
+int builtin_setenv(command_t *command, sh_env_t *env);
 
 /**
  * @brief Execute unsetenv builtin command.
@@ -79,4 +79,4 @@ int builtin_setenv(sh_command_t *command, sh_env_t *env);
  * @param env Shell environment.
  * @return int Exit status.
  */
-int builtin_unsetenv(sh_command_t *command, sh_env_t *env);
+int builtin_unsetenv(command_t *command, sh_env_t *env);

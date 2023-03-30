@@ -2,73 +2,65 @@
 ** EPITECH PROJECT, 2023
 ** shell
 ** File description:
-** parse
+** command
 */
 
-#include <stddef.h>
+#include <stdbool.h>
 #include <stdlib.h>
 #include <unistd.h>
 
-#include "shell/macros.h"
-#include "shell/builtin.h"
 #include "shell/command.h"
+#include "shell/macros.h"
 #include "shell/string.h"
-#include "shell/util.h"
 
-static int expand_single_home(char **arg, sh_env_t *env)
+void print_command_error(command_res_t res)
 {
-    if (**arg != '~') return SUCCESS_RETURN;
-
-    char *home = sh_env_get(env, "HOME");
-    if (home == NULL) {
-        write(STDERR, "No $home variable set.\n", 23);
-        return ERROR_RETURN;
-    }
-
-    char *expanded = expand_home(*arg, home);
-    free(*arg);
-    *arg = expanded;
-    return SUCCESS_RETURN;
+    if (res == CMD_RES_EMPTY)
+        write(STDERR, "Invalid null command.\n", 22);
+    if (res == CMD_RES_REDIRECT_NAME)
+        write(STDERR, "Missing name for redirect.\n", 27);
+    if (res == CMD_RES_REDIRECT_AMBIGUOUS)
+        write(STDERR, "Ambiguous input redirect.\n", 26);
+    if (res == CMD_RES_NOT_IMPLEMENTED)
+        write(STDERR, "Not implemented.\n", 17);
 }
 
-static int expand_args_home(char **args, sh_env_t *env)
+static bool handle_separator(token_list_t *tokens, size_t *index,
+    command_group_t **group, command_exec_t *exec)
 {
-    for (size_t i = 0; args[i] != NULL; i++) {
-        if (expand_single_home(&args[i], env) == ERROR_RETURN) {
-            mem_free_array(args);
-            return ERROR_RETURN;
+    if (tokens->tokens[*index].type == TOK_PIPE) {
+        (*index) += 1;
+        return true;
+    }
+    if (tokens->tokens[*index].type == TOK_SEMICOLON) {
+        (*index) += 1;
+        *group = command_exec_add_group(exec);
+        return true;
+    }
+
+    return false;
+}
+
+command_exec_t *parse_command_exec(token_list_t *tokens)
+{
+    command_exec_t *exec = command_exec_new();
+    if (exec == NULL) return NULL;
+    command_group_t *group = command_exec_add_group(exec);
+    if (group == NULL) return NULL;
+
+    size_t index = 0;
+    while (index < tokens->size) {
+        if (handle_separator(tokens, &index, &group, exec))
+            continue;
+
+        command_t *command = command_group_add_command(group);
+        if (command == NULL) return NULL;
+        command_res_t res = command_parse(tokens, &index, command);
+        if (res != CMD_RES_OK) {
+            print_command_error(res);
+            command_exec_free(exec);
+            return NULL;
         }
     }
-
-    return SUCCESS_RETURN;
-}
-
-sh_command_t *parse_command(char *command, sh_env_t *env)
-{
-    str_remove_newline(command);
-    char *trimmed = str_trim(command);
-    char **args = str_split(trimmed, " \t");
-    free(trimmed);
-
-    if (args == NULL) return NULL;
-    if (expand_args_home(args, env) == ERROR_RETURN) return NULL;
-
-    sh_command_t *cmd = malloc(sizeof(sh_command_t));
-    if (cmd == NULL) return NULL;
-    if (is_builtin(args[0])) {
-        char *path = str_copy(args[0], 0);
-        *cmd = (sh_command_t) {path, args, true};
-    } else {
-        char *path = resolve_path(args[0], env);
-        *cmd = (sh_command_t) {path, args, false};
-    }
-    return cmd;
-}
-
-void command_free(sh_command_t *command)
-{
-    if (command == NULL) return;
-    free(command->path);
-    mem_free_array(command->args);
-    free(command);
+    return exec;
 }

@@ -9,17 +9,19 @@ SRC				:=	src/builtin/cd.c \
 					src/builtin/env.c \
 					src/builtin/exec.c \
 					src/builtin/exit.c \
-					src/command_new/data.c \
-					src/command_new/free.c \
-					src/command_new/parse.c \
-					src/command_new/parse_command.c \
-					src/command_new/parse_redirect.c \
-					src/command/execute.c \
+					src/command/data.c \
+					src/command/free.c \
 					src/command/parse.c \
-					src/command/resolver.c \
+					src/command/parse_command.c \
+					src/command/parse_redirect.c \
 					src/env/parse.c \
 					src/env/update.c \
 					src/prompt.c \
+					src/execute/execute.c \
+					src/execute/run.c \
+					src/resolve/group.c \
+					src/resolve/home.c \
+					src/resolve/path.c \
 					src/string/string_parse.c \
 					src/string/string_split.c \
 					src/string/string.c \
@@ -48,7 +50,7 @@ CFLAGS			+=	-I./include/ -MMD -MP
 LDFLAGS			:=
 
 RELEASE_OBJ 	:= 	$(addprefix $(RELEASE_DIR)/,$(SRC:.c=.o) $(MAIN_SRC:.c=.o))
-RELEASE_FLAGS	:=	-O2 -fno-optimize-strlen
+RELEASE_FLAGS	:=	-O2 -fno-optimize-strlen -fno-builtin
 
 DEBUG_OBJ		:= 	$(addprefix $(DEBUG_DIR)/,$(SRC:.c=.o) $(MAIN_SRC:.c=.o))
 SANITIZERS		:=	-fsanitize=address -fsanitize=undefined

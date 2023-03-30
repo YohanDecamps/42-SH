@@ -8,8 +8,8 @@
 #include <stdlib.h>
 #include <unistd.h>
 
+#include "shell/resolve.h"
 #include "shell/builtin.h"
-#include "shell/command.h"
 #include "shell/string.h"
 #include "shell/util.h"
 

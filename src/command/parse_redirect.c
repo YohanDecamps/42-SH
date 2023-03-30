@@ -5,7 +5,7 @@
 ** parse_redirect
 */
 
-#include "shell/command_new.h"
+#include "shell/command.h"
 
 command_res_t parse_redirect_in(token_list_t *tokens, size_t *index,
     command_t *command)

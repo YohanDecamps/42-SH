@@ -39,10 +39,10 @@ static int cd_oldpwd(char **path, sh_env_t *env)
     return SUCCESS_RETURN;
 }
 
-static char *cd_parse_args(sh_command_t *command, sh_env_t *env)
+static char *cd_parse_args(command_t *command, sh_env_t *env)
 {
-    size_t args_count = mem_array_len(command->args) - 1;
-    char *path = command->args[1];
+    size_t args_count = command->args.size - 1;
+    char *path = command->args.argv[1];
 
     if (args_count > 1) {
         write(STDERR, "cd: Too many arguments.\n", 24);
@@ -61,7 +61,7 @@ static char *cd_parse_args(sh_command_t *command, sh_env_t *env)
     return str_copy(path, 0);
 }
 
-int builtin_cd(sh_command_t *command, sh_env_t *env)
+int builtin_cd(command_t *command, sh_env_t *env)
 {
     char *path = cd_parse_args(command, env);
     if (path == NULL) return 1;

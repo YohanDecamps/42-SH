@@ -5,9 +5,10 @@
 ** parse_command
 */
 
-#include "shell/command_new.h"
+#include "shell/string.h"
+#include "shell/command.h"
 
-command_res_t command_parse_inner(token_list_t *tokens, size_t *index,
+static command_res_t command_parse_inner(token_list_t *tokens, size_t *index,
     command_t *command)
 {
     token_t *token = &tokens->tokens[*index];
@@ -15,7 +16,7 @@ command_res_t command_parse_inner(token_list_t *tokens, size_t *index,
         return CMD_RES_OK;
 
     if (token->type == TOK_WORD) {
-        command_push_arg(command, token->value);
+        command_push_arg(command, str_copy(token->value, 0));
         *index += 1;
     }
 
@@ -35,6 +36,10 @@ command_res_t command_parse(token_list_t *tokens, size_t *index,
     command_t *command)
 {
     while (*index < tokens->size) {
+        token_t *token = &tokens->tokens[*index];
+        if (token->type == TOK_PIPE || token->type == TOK_SEMICOLON)
+            return CMD_RES_OK;
+
         command_res_t res = command_parse_inner(tokens, index, command);
         if (res != CMD_RES_OK)
             return res;

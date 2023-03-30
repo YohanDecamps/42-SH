@@ -11,7 +11,7 @@
 
 #include "shell/macros.h"
 #include "shell/prompt.h"
-#include "shell/command.h"
+#include "shell/execute.h"
 
 int interactive_prompt(sh_env_t *env)
 {
@@ -23,7 +23,7 @@ int interactive_prompt(sh_env_t *env)
         if (getline(&input, &input_size, stdin) == -1) {
             env->exit = true;
         } else {
-            run_command(input, env);
+            command_run(input, env);
         }
     }
 
@@ -44,7 +44,7 @@ int non_interactive_command(sh_env_t *env)
         if (getline(&input, &input_size, stdin) == -1) {
             env->exit = true;
         } else {
-            run_command(input, env);
+            command_run(input, env);
         }
     }
 

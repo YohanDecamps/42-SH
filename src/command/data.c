@@ -7,7 +7,7 @@
 
 #include <stdlib.h>
 
-#include "shell/command_new.h"
+#include "shell/command.h"
 #include "shell/util.h"
 #include "shell/macros.h"
 
@@ -18,7 +18,7 @@ command_exec_t *command_exec_new(void)
 
     exec->capacity = DEFAULT_EXEC_CAP;
     exec->size = 0;
-    exec->groups = malloc(sizeof(command_group_t *) * exec->capacity);
+    exec->groups = malloc(sizeof(command_group_t) * exec->capacity);
 
     return exec;
 }
@@ -71,15 +71,16 @@ command_t *command_group_add_command(command_group_t *group)
 
 int command_push_arg(command_t *command, char *arg)
 {
-    if (command->args.size == command->args.capacity) {
+    if (command->args.size == command->args.capacity - 1) {
         command->args.capacity *= 2;
         command->args.argv = mem_realloc(command->args.argv,
-        sizeof(char *) * command->args.size,
+        sizeof(char *) * (command->args.size + 1),
         sizeof(char *) * command->args.capacity);
         if (command->args.argv == NULL) return ERROR_RETURN;
     }
-    command->args.argv[command->args.size++] = arg;
-    command->args.argv[command->args.size++] = NULL;
+    command->args.argv[command->args.size] = arg;
+    command->args.size++;
+    command->args.argv[command->args.size] = NULL;
 
     return SUCCESS_RETURN;
 }

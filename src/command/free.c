@@ -7,13 +7,10 @@
 
 #include <stdlib.h>
 
-#include "shell/command_new.h"
+#include "shell/command.h"
 
 static void command_free(command_t *command)
 {
-    for (size_t i = 0; i < command->args.size; i++) {
-        free(command->args.argv[i]);
-    }
     free(command->args.argv);
 }
 
