@@ -45,15 +45,16 @@ command_res_t parse_redirect_out(token_list_t *tokens, size_t *index,
 command_res_t parse_append_out(token_list_t *tokens, size_t *index,
     command_t *command)
 {
-    (void) command;
-
     if (*index + 1 >= tokens->size)
         return CMD_RES_REDIRECT_NAME;
 
     token_t *token = &tokens->tokens[*index + 1];
     if (token->type != TOK_WORD)
         return CMD_RES_REDIRECT_NAME;
+    if (command->out.type != FD_NULL)
+        return CMD_RES_REDIRECT_AMBIGUOUS;
 
+    command->out = (fd_t) {FD_APPEND, STDOUT, token->value};
     *index += 2;
     return CMD_RES_OK;
 }

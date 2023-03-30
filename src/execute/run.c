@@ -20,6 +20,7 @@ static int run_command_group(command_group_t *group, sh_env_t *env)
         command_exec(&group->commands[i], env);
     }
 
+    close_group_fd(group);
     return SUCCESS_RETURN;
 }
 
