@@ -26,10 +26,10 @@ int builtin_env(command_t *command, sh_env_t *env)
     for (size_t i = 0; i < env->env_size; i++) {
         sh_env_kv_t var = env->env[i];
         if (var.key == NULL) continue;
-        write(STDOUT, var.key, str_len(var.key));
-        write(STDOUT, "=", 1);
-        write(STDOUT, var.value, str_len(var.value));
-        write(STDOUT, "\n", 1);
+        write(command->out.fd, var.key, str_len(var.key));
+        write(command->out.fd, "=", 1);
+        write(command->out.fd, var.value, str_len(var.value));
+        write(command->out.fd, "\n", 1);
     }
 
     return 0;

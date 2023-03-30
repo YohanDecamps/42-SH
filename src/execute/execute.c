@@ -24,6 +24,7 @@ static void child_exec(command_t *command, sh_env_t *env)
 {
     char **envp = sh_env_to_array(env);
     if (envp == NULL) return;
+    if (command_bind_fd(command) == ERROR_RETURN) return;
     if (execve(command->path, command->args.argv, envp) == -1) {
         env->exit_status = 1;
         if (errno == ENOENT) {

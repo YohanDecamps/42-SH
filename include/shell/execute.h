@@ -25,3 +25,12 @@ void command_run(char *command, sh_env_t *env);
  * @param env Shell environment
  */
 void command_exec(command_t *command, sh_env_t *env);
+
+/**
+ * @brief Bind stdin and stdout file descriptors of the current process to
+ * the given file descriptors.
+ *
+ * @param command Command containing the file descriptors.
+ * @return int 0 if success, -1 otherwise.
+ */
+int command_bind_fd(command_t *command);

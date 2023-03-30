@@ -6,6 +6,7 @@
 */
 
 #include "shell/command.h"
+#include "shell/macros.h"
 
 command_res_t parse_redirect_in(token_list_t *tokens, size_t *index,
     command_t *command)
@@ -19,7 +20,7 @@ command_res_t parse_redirect_in(token_list_t *tokens, size_t *index,
     if (command->in.type != FD_NULL)
         return CMD_RES_REDIRECT_AMBIGUOUS;
 
-    command->in = (fd_t) {FD_FILE, 0, token->value};
+    command->in = (fd_t) {FD_FILE, STDIN, token->value};
     *index += 2;
     return CMD_RES_OK;
 }
@@ -36,7 +37,7 @@ command_res_t parse_redirect_out(token_list_t *tokens, size_t *index,
     if (command->out.type != FD_NULL)
         return CMD_RES_REDIRECT_AMBIGUOUS;
 
-    command->out = (fd_t) {FD_FILE, 1, token->value};
+    command->out = (fd_t) {FD_FILE, STDOUT, token->value};
     *index += 2;
     return CMD_RES_OK;
 }

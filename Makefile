@@ -11,14 +11,15 @@ SRC				:=	src/builtin/cd.c \
 					src/builtin/exit.c \
 					src/command/data.c \
 					src/command/free.c \
-					src/command/parse.c \
 					src/command/parse_command.c \
 					src/command/parse_redirect.c \
+					src/command/parse.c \
 					src/env/parse.c \
 					src/env/update.c \
-					src/prompt.c \
+					src/execute/bind.c \
 					src/execute/execute.c \
 					src/execute/run.c \
+					src/prompt.c \
 					src/resolve/group.c \
 					src/resolve/home.c \
 					src/resolve/path.c \
