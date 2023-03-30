@@ -74,6 +74,8 @@ typedef enum {
     CMD_RES_OK,
     CMD_RES_ERR,  ///< Other error (malloc, ...)
     CMD_RES_EMPTY,  ///< Empty command ("Invalid null command.")
+    CMD_RES_REDIRECT_NAME, ///< "Missing name for redirect."
+    CMD_RES_NOT_IMPLEMENTED, ///< "Not implemented."
 } command_res_t;
 
 /**
@@ -94,6 +96,13 @@ command_exec_t *parse_command_exec(token_list_t *tokens);
  */
 command_res_t command_parse(token_list_t *tokens, size_t *index,
     command_t *command);
+
+/**
+ * @brief Print command error to stderr.
+ *
+ * @param res Result of the command.
+ */
+void print_command_error(command_res_t res);
 
 /**
  * @brief Parse a REDIRECT_IN token.
