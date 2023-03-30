@@ -74,7 +74,7 @@ typedef enum {
     CMD_RES_OK,
     CMD_RES_ERR,  ///< Other error (malloc, ...)
     CMD_RES_EMPTY,  ///< Empty command ("Invalid null command.")
-} command_result_t;
+} command_res_t;
 
 /**
  * @brief Parse a command executor from the given tokens.
@@ -90,10 +90,54 @@ command_exec_t *parse_command_exec(token_list_t *tokens);
  * @param tokens Tokens to parse.
  * @param index Index of the first token to parse.
  * @param command Command to fill.
- * @return command_result_t Result of the operation.
+ * @return command_res_t Result of the operation.
  */
-command_result_t command_parse(token_list_t *tokens, size_t *index,
-    command_exec_t *command);
+command_res_t command_parse(token_list_t *tokens, size_t *index,
+    command_t *command);
+
+/**
+ * @brief Parse a REDIRECT_IN token.
+ *
+ * @param tokens Tokens to parse.
+ * @param index Index of the first token to parse.
+ * @param command Command to fill.
+ * @return command_res_t Result of the operation.
+ */
+command_res_t parse_redirect_in(token_list_t *tokens, size_t *index,
+    command_t *command);
+
+/**
+ * @brief Parse a REDIRECT_OUT token.
+ *
+ * @param tokens Tokens to parse.
+ * @param index Index of the first token to parse.
+ * @param command Command to fill.
+ * @return command_res_t Result of the operation.
+ */
+command_res_t parse_redirect_out(token_list_t *tokens, size_t *index,
+    command_t *command);
+
+/**
+ * @brief Parse a APPEND_OUT token.
+ *
+ * @param tokens Tokens to parse.
+ * @param index Index of the first token to parse.
+ * @param command Command to fill.
+ * @return command_res_t Result of the operation.
+ */
+command_res_t parse_append_out(token_list_t *tokens, size_t *index,
+    command_t *command);
+
+/**
+ * @brief Parse a APPEND_IN token.
+ *
+ * @param tokens Tokens to parse.
+ * @param index Index of the first token to parse.
+ * @param command Command to fill.
+ * @return command_res_t Result of the operation.
+ */
+command_res_t parse_append_in(token_list_t *tokens, size_t *index,
+    command_t *command);
 
 /* Data structures */
 

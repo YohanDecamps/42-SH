@@ -16,7 +16,7 @@
 #include "shell/builtin.h"
 #include "shell/command.h"
 #include "shell/macros.h"
-#include "shell/parser.h"
+#include "shell/tokenizer.h"
 #include "shell/string.h"
 #include "shell/util.h"
 

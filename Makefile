@@ -9,19 +9,21 @@ SRC				:=	src/builtin/cd.c \
 					src/builtin/env.c \
 					src/builtin/exec.c \
 					src/builtin/exit.c \
+					src/command_new/data.c \
+					src/command_new/free.c \
+					src/command_new/parse.c \
 					src/command/execute.c \
 					src/command/parse.c \
 					src/command/resolver.c \
 					src/env/parse.c \
 					src/env/update.c \
-					src/parser/command.c \
-					src/tokenizer/token_syntax.c \
-					src/tokenizer/token.c \
-					src/partokenizerser/tokenizer.c \
 					src/prompt.c \
 					src/string/string_parse.c \
 					src/string/string_split.c \
 					src/string/string.c \
+					src/tokenizer/token_syntax.c \
+					src/tokenizer/token.c \
+					src/tokenizer/tokenizer.c \
 					src/util/error.c \
 					src/util/mem.c \
 					src/util/path.c \

@@ -7,7 +7,7 @@
 
 #include <criterion/criterion.h>
 
-#include "shell/parser.h"
+#include "shell/tokenizer.h"
 
 Test(tokenizer, single_word) {
     char *input = "ls";

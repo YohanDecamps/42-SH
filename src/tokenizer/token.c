@@ -5,7 +5,7 @@
 ** token
 */
 
-#include "shell/parser.h"
+#include "shell/tokenizer.h"
 #include "shell/string.h"
 
 bool is_separator(char c)

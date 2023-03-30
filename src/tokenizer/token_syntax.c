@@ -5,7 +5,7 @@
 ** token_syntax
 */
 
-#include "shell/parser.h"
+#include "shell/tokenizer.h"
 #include "shell/string.h"
 
 token_result_t tokenize_redirection(const char **input, token_t *token)
