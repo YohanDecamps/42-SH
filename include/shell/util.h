@@ -7,6 +7,7 @@
 
 #pragma once
 
+#include <stdbool.h>
 #include <stddef.h>
 
 /* MEMORY */
@@ -61,5 +62,6 @@ char *expand_home(char *path, char *home);
  *
  * @param prefix The prefix of the error message.
  * @param code The error code.
+ * @param newline Whether to print a newline at the end of the message.
  */
-void print_error(const char *prefix, int code);
+void print_error(const char *prefix, int code, bool newline);

@@ -21,8 +21,6 @@ void print_command_error(command_res_t res)
         write(STDERR, "Missing name for redirect.\n", 27);
     if (res == CMD_RES_REDIRECT_AMBIGUOUS)
         write(STDERR, "Ambiguous input redirect.\n", 26);
-    if (res == CMD_RES_NOT_IMPLEMENTED)
-        write(STDERR, "Not implemented.\n", 17);
 }
 
 static bool handle_separator(token_list_t *tokens, size_t *index,

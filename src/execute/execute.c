@@ -31,7 +31,7 @@ static void child_exec(command_t *command, sh_env_t *env)
             write(STDERR, command->path, str_len(command->path));
             write(STDERR, ": Command not found.", 20);
         } else {
-            print_error(command->path, errno);
+            print_error(command->path, errno, false);
         }
         if (errno == ENOEXEC) {
             write(STDERR, " Wrong architecture.", 20);

@@ -76,7 +76,6 @@ typedef enum {
     CMD_RES_EMPTY,  ///< Empty command ("Invalid null command.")
     CMD_RES_REDIRECT_NAME, ///< "Missing name for redirect."
     CMD_RES_REDIRECT_AMBIGUOUS, ///< "Ambiguous input redirect."
-    CMD_RES_NOT_IMPLEMENTED, ///< "Not implemented."
 } command_res_t;
 
 /**

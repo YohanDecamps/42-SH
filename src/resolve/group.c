@@ -33,6 +33,8 @@ int resolve_command_group(command_group_t *group, sh_env_t *env)
 {
     if (group == NULL) return ERROR_RETURN;
 
+    if (resolve_group_fd(group) == ERROR_RETURN)
+        return ERROR_RETURN;
     for (size_t i = 0; i < group->size; i++) {
         if (resolve_command(&group->commands[i], env) == ERROR_RETURN)
             return ERROR_RETURN;

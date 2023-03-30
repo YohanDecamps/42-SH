@@ -68,8 +68,7 @@ int builtin_cd(command_t *command, sh_env_t *env)
     char *oldpwd = getcwd(NULL, 0);
 
     if (chdir(path) == -1) {
-        print_error(path, errno);
-        write(STDERR, "\n", 1);
+        print_error(path, errno, true);
         if (oldpwd != NULL) free(oldpwd);
         free(path);
         return 1;
