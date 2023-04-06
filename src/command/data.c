@@ -45,6 +45,28 @@ command_group_t *command_exec_add_group(command_exec_t *exec)
     return &exec->groups[exec->size - 1];
 }
 
+static int default_command(command_t *command)
+{
+    command_args_t args = {
+        .capacity = DEFAULT_ARGS_CAP,
+        .size = 0,
+        .argv = malloc(sizeof(char *) * DEFAULT_ARGS_CAP)
+    };
+
+    if (args.argv == NULL) return ERROR_RETURN;
+    args.argv[0] = NULL;
+
+    *command = (command_t) {
+        .args = args,
+        .builtin = NULL,
+        .path = NULL,
+        .in = {FD_NULL, STDIN, NULL},
+        .out = {FD_NULL, STDOUT, NULL},
+    };
+
+    return SUCCESS_RETURN;
+}
+
 command_t *command_group_add_command(command_group_t *group)
 {
     if (group->size == group->capacity) {
@@ -54,16 +76,10 @@ command_t *command_group_add_command(command_group_t *group)
         sizeof(command_t) * group->capacity);
         if (group->commands == NULL) return NULL;
     }
-    command_args_t args = {
-        .capacity = DEFAULT_ARGS_CAP,
-        .size = 0,
-        .argv = malloc(sizeof(char *) * DEFAULT_ARGS_CAP)
-    };
-    if (args.argv == NULL) return NULL;
-    args.argv[0] = NULL;
 
     command_t command = {0};
-    command.args = args;
+    if (default_command(&command) == ERROR_RETURN) return NULL;
+
     group->commands[group->size] = command;
     group->size++;
     return &group->commands[group->size - 1];
