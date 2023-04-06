@@ -2,6 +2,10 @@ name: Build
 on: [push, pull_request]
 
 env:
+  BINARY: mysh
+  ALLOWED_FUNCTIONS: |
+    access chdir close dup2 execve fork free getcwd getline isatty malloc open
+    perror strerror strsignal waitpid write
   MIRROR_URL: git@github.com:EpitechPromo2027/B-PSU-200-BDX-2-1-minishell2-baptiste.girardeau.git
 
 jobs:
@@ -9,12 +13,37 @@ jobs:
     name: Build and test
     runs-on: ubuntu-latest
     container: epitechcontent/epitest-docker:latest
+    timeout-minutes: 5
 
     steps:
       - name: Checkout sources
         uses: actions/checkout@v3
 
-      - name: Compile project
+      - name: Install ripgrep
+        run: sudo dnf install ripgrep --assumeyes
+
+      - name: Compile in release mode
+        run: make
+
+      - name: Ensure executable exists
+        run: |
+          if [ ! -f $BINARY ] || [ ! -x $BINARY ]; then
+            echo "::error title=Missing executable::$BINARY"
+            exit 1
+          fi
+
+      - name: Check for banned functions
+        run: |
+          error=0
+          for sym in $(nm $BINARY | rg ' +U (.+)@GLIBC_.+$' --replace '$1'); do
+            if [[ ! $sym == __* && ! $ALLOWED_FUNCTIONS =~ $sym ]]; then
+              echo "::error title=Banned function::$sym"
+              error=1
+            fi
+          done
+          exit $error
+
+      - name: Compile in debug mode
         run: make debug
         env:
           NO_SANITIZE: 1
