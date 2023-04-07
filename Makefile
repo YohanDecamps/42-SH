@@ -38,8 +38,8 @@ MAIN_SRC		:=	src/main.c
 
 TEST_SRC 		:= 	tests/tokenizer.c
 
-RELEASE_OUT		:= 	mysh
-DEBUG_OUT		:= 	mysh_debug
+RELEASE_OUT		:= 	42sh
+DEBUG_OUT		:= 	42sh_debug
 TEST_OUT		:= 	unit_tests
 
 BUILD_DIR		:=  build
@@ -52,7 +52,7 @@ CFLAGS			+=	-I./include/ -MMD -MP
 LDFLAGS			:=
 
 RELEASE_OBJ 	:= 	$(addprefix $(RELEASE_DIR)/,$(SRC:.c=.o) $(MAIN_SRC:.c=.o))
-RELEASE_FLAGS	:=	-O2 -fno-optimize-strlen -fno-builtin
+RELEASE_FLAGS	:=	-O2
 
 DEBUG_OBJ		:= 	$(addprefix $(DEBUG_DIR)/,$(SRC:.c=.o) $(MAIN_SRC:.c=.o))
 SANITIZERS		:=	-fsanitize=address -fsanitize=undefined

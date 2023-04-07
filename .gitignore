@@ -9,6 +9,8 @@
 
 # Binaries
 build/
+42sh
+42sh_debug
 mysh
 mysh_debug
 unit_tests
