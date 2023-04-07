@@ -19,9 +19,6 @@ jobs:
       - name: Checkout sources
         uses: actions/checkout@v3
 
-      - name: Install ripgrep
-        run: sudo dnf install ripgrep --assumeyes
-
       - name: Compile in release mode
         run: make
 
