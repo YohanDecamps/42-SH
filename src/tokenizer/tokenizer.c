@@ -6,18 +6,18 @@
 */
 
 #include <stdlib.h>
-#include <unistd.h>
 
 #include "shell/tokenizer.h"
 #include "shell/macros.h"
 #include "shell/util.h"
+#include "stdio.h"
 
 static void print_token_error(token_result_t res)
 {
     if (res == TOK_RES_UNMATCHED_SIMPLE_QUOTE)
-        write(STDERR, "Unmatched \"'\".\n", 15);
+        fprintf(stderr, "Unmatched \"'\".\n");
     if (res == TOK_RES_UNMATCHED_DOUBLE_QUOTE)
-        write(STDERR, "Unmatched '\"'.\n", 15);
+        fprintf(stderr, "Unmatched '\"'.\n");
 }
 
 token_list_t *tokenize(const char *input)

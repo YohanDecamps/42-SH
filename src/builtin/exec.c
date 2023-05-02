@@ -6,7 +6,6 @@
 */
 
 #include <stddef.h>
-#include <unistd.h>
 
 #include "shell/builtin.h"
 #include "shell/macros.h"

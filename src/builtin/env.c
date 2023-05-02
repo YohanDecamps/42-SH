@@ -5,7 +5,8 @@
 ** env
 */
 
-#include <unistd.h>
+#include <stdio.h>
+#include <stdarg.h>
 
 #include "shell/macros.h"
 #include "shell/builtin.h"
@@ -17,19 +18,15 @@ int builtin_env(command_t *command, sh_env_t *env)
     size_t args_len = command->args.size - 1;
 
     if (args_len > 0) {
-        write(STDERR, "env: '", 6);
-        write(STDERR, command->args.argv[1], str_len(command->args.argv[1]));
-        write(STDERR, "': No such file or directory\n", 29);
+        fprintf(stderr, "env: '%s'", command->args.argv[1]);
+        fprintf(stderr, ": No such file or directory\n");
         return 127;
     }
 
     for (size_t i = 0; i < env->env_size; i++) {
         sh_env_kv_t var = env->env[i];
         if (var.key == NULL) continue;
-        write(command->out.fd, var.key, str_len(var.key));
-        write(command->out.fd, "=", 1);
-        write(command->out.fd, var.value, str_len(var.value));
-        write(command->out.fd, "\n", 1);
+        dprintf(command->out.fd, "%s=%s\n", var.key, var.value);
     }
 
     return 0;
@@ -52,14 +49,14 @@ int builtin_setenv(command_t *command, sh_env_t *env)
     if (args_len < 1)
         return builtin_env(command, env);
     if (args_len > 2) {
-        write(STDERR, "setenv: Too many arguments.\n", 28);
+        fprintf(stderr, "setenv: Too many arguments.\n");
         return 1;
     }
     size_t key_len = str_len(command->args.argv[1]);
     for (size_t i = 0; i < key_len; i++) {
         if (!is_alphanumeric(command->args.argv[1][i])) {
-            write(STDERR, "setenv: Variable name must contain", 34);
-            write(STDERR, " alphanumeric characters.\n", 26);
+            fprintf(stderr, "setenv: Variable name must contain");
+            fprintf(stderr, " alphanumeric characters.\n");
             return 1;
         }
     }
@@ -74,7 +71,7 @@ int builtin_unsetenv(command_t *command, sh_env_t *env)
 {
     size_t args_len = command->args.size - 1;
     if (args_len == 0) {
-        write(STDERR, "unsetenv: Too few arguments.\n", 29);
+        fprintf(stderr, "unsetenv: Too few arguments.\n");
         return 1;
     }
 

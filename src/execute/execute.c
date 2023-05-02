@@ -28,16 +28,15 @@ static void child_exec(command_t *command, sh_env_t *env)
     if (execve(command->path, command->args.argv, envp) == -1) {
         env->exit_status = 1;
         if (errno == ENOENT) {
-            write(STDERR, command->path, str_len(command->path));
-            write(STDERR, ": Command not found.", 20);
+            fprintf(stderr, "%s: Command not found.", command->path);
         } else {
             print_error(command->path, errno, false);
         }
         if (errno == ENOEXEC) {
-            write(STDERR, " Wrong architecture.", 20);
+            fprintf(stderr, " Wrong architecture.");
             env->exit_status = 126;
         }
-        write(STDERR, "\n", 1);
+        fprintf(stderr, "\n");
     }
     mem_free_array(envp);
     env->exit_silent = true;
@@ -48,16 +47,16 @@ static void signal_error(int wstatus, sh_env_t *env)
 {
     int signal = WTERMSIG(wstatus);
     if (signal == SIGFPE) {
-        write(STDERR, "Floating exception", 18);
+        fprintf(stderr, "Floating exception");
     } else {
         char *signal_name = strsignal(signal);
-        write(STDERR, signal_name, str_len(signal_name));
+        fprintf(stderr, "%s", signal_name);
     }
 
     if (WCOREDUMP(wstatus))
-        write(STDERR, " (core dumped)", 14);
+        fprintf(stderr, " (core dumped)");
 
-    write(STDERR, "\n", 1);
+    fprintf(stderr, "\n");
     env->exit_status = 128 + signal;
 }
 

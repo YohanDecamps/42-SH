@@ -19,7 +19,7 @@ static int cd_home(char **path, sh_env_t *env)
 {
     char *home = sh_env_get(env, "HOME");
     if (home == NULL) {
-        write(STDERR, "cd: No home directory.\n", 23);
+        fprintf(stderr, "cd: No home directory.\n");
         return ERROR_RETURN;
     }
 
@@ -31,7 +31,7 @@ static int cd_oldpwd(char **path, sh_env_t *env)
 {
     char *oldpwd = sh_env_get(env, "OLDPWD");
     if (oldpwd == NULL) {
-        write(STDERR, ": No such file or directory.\n", 29);
+        fprintf(stderr, ": No such file or directory.\n");
         return ERROR_RETURN;
     }
 
@@ -45,7 +45,7 @@ static char *cd_parse_args(command_t *command, sh_env_t *env)
     char *path = command->args.argv[1];
 
     if (args_count > 1) {
-        write(STDERR, "cd: Too many arguments.\n", 24);
+        fprintf(stderr, "cd: Too many arguments.\n");
         return NULL;
     }
 

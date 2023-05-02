@@ -5,8 +5,8 @@
 ** expand
 */
 
-#include <unistd.h>
 #include <stdlib.h>
+#include <stdio.h>
 
 #include "shell/resolve.h"
 #include "shell/macros.h"
@@ -18,7 +18,7 @@ static int expand_single_home(char **arg, sh_env_t *env)
 
     char *home = sh_env_get(env, "HOME");
     if (home == NULL) {
-        write(STDERR, "No $home variable set.\n", 23);
+        fprintf(stderr, "No $home variable set.\n");
         return ERROR_RETURN;
     }
 

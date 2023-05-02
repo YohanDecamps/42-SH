@@ -7,7 +7,6 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-#include <unistd.h>
 
 #include "shell/macros.h"
 #include "shell/prompt.h"
@@ -19,7 +18,7 @@ int interactive_prompt(sh_env_t *env)
     size_t input_size = 0;
 
     while (env->exit == false) {
-        write(STDOUT, "$> ", 3);
+        fprintf(stdout, "$> ");
         if (getline(&input, &input_size, stdin) == -1) {
             env->exit = true;
         } else {
@@ -31,7 +30,7 @@ int interactive_prompt(sh_env_t *env)
         free(input);
 
     if (env->exit_silent == false)
-        write(STDOUT, "exit\n", 5);
+        fprintf(stdout, "exit\n");
     return env->exit_status;
 }
 

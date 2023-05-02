@@ -5,7 +5,7 @@
 ** exit
 */
 
-#include <unistd.h>
+#include <stdio.h>
 
 #include "shell/builtin.h"
 #include "shell/macros.h"
@@ -18,12 +18,12 @@ int builtin_exit(command_t *command, sh_env_t *env)
     size_t command_size = command->args.size;
 
     if (command_size > 2) {
-        write(STDERR, "exit: Expression Syntax.\n", 25);
+        fprintf(stderr, "exit: Expression Syntax.\n");
         return 1;
     }
     if (command_size == 2) {
         if (str_parse_int(command->args.argv[1], &status)) {
-            write(STDERR, "exit: Expression Syntax.\n", 25);
+            fprintf(stderr, "exit: Expression Syntax.\n");
             return 1;
         }
     }

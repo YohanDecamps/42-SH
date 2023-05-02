@@ -6,7 +6,7 @@
 */
 
 #include <string.h>
-#include <unistd.h>
+#include "stdio.h"
 
 #include "shell/util.h"
 #include "shell/macros.h"
@@ -15,13 +15,11 @@
 void print_error(const char *prefix, int code, bool newline)
 {
     if (prefix != NULL) {
-        write(STDERR, prefix, str_len(prefix));
-        write(STDERR, ": ", 2);
+        fprintf(stderr, "%s: ", prefix);
     }
 
     char *error = strerror(code);
-    write(STDERR, error, str_len(error));
-    write(STDERR, ".", 1);
+    fprintf(stderr, "%s.", error);
     if (newline)
-        write(STDERR, "\n", 1);
+        fprintf(stderr, "\n");
 }

@@ -7,7 +7,7 @@
 
 #include <stdbool.h>
 #include <stdlib.h>
-#include <unistd.h>
+#include <stdio.h>
 
 #include "shell/command.h"
 #include "shell/macros.h"
@@ -16,11 +16,11 @@
 void print_command_error(command_res_t res)
 {
     if (res == CMD_RES_EMPTY)
-        write(STDERR, "Invalid null command.\n", 22);
+        fprintf(stderr, "Invalid null command.\n");
     if (res == CMD_RES_REDIRECT_NAME)
-        write(STDERR, "Missing name for redirect.\n", 27);
+        fprintf(stderr, "Missing name for redirect.\n");
     if (res == CMD_RES_REDIRECT_AMBIGUOUS)
-        write(STDERR, "Ambiguous input redirect.\n", 26);
+        fprintf(stderr, "Ambiguous input redirect.\n");
 }
 
 static bool handle_separator(token_list_t *tokens, size_t *index,
