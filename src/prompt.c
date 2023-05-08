@@ -7,10 +7,26 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <unistd.h>
 
-#include "shell/macros.h"
-#include "shell/prompt.h"
 #include "shell/execute.h"
+#include "shell/util.h"
+
+int print_custom_prompt (sh_env_t *env)
+{
+    char *path = getcwd(NULL, 0);
+
+    fprintf(stdout, BLUE "%s " RESET, path);
+    if (env->exit_status == 0)
+        fprintf(stdout, GREEN "[%d] " RESET, env->exit_status);
+    else
+        fprintf(stdout, RED "[%d] " RESET, env->exit_status);
+    fprintf(stdout, BLUE "$> " RESET);
+
+    free(path);
+
+    return 0;
+}
 
 int interactive_prompt(sh_env_t *env)
 {
@@ -18,7 +34,8 @@ int interactive_prompt(sh_env_t *env)
     size_t input_size = 0;
 
     while (env->exit == false) {
-        fprintf(stdout, "$> ");
+        print_custom_prompt(env);
+
         if (getline(&input, &input_size, stdin) == -1) {
             env->exit = true;
         } else {
