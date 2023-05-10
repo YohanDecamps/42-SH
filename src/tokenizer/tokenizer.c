@@ -23,26 +23,26 @@ static void print_token_error(token_result_t res)
 
 token_list_t *tokenize(const char *input)
 {
-    token_list_t *tokenizer = malloc(sizeof(token_list_t));
-    if (tokenizer == NULL) return NULL;
-    tokenizer->size = 0;
-    tokenizer->capacity = 32;
-    tokenizer->tokens = malloc(sizeof(token_t) * 32);
-    if (tokenizer->tokens == NULL) return NULL;
+    token_list_t *tokens = malloc(sizeof(token_list_t));
+    if (tokens == NULL) return NULL;
+    *tokens = (token_list_t) {malloc(sizeof(token_t) * 32), 0, 32};
+    if (tokens->tokens == NULL) return NULL;
 
     while (*input != '\0') {
-        token_t token = {0};
-        token_result_t res = next_token(&input, &token);
+        token_t tok = {0};
+        token_result_t res = next_token(&input, &tok);
         if (res == TOK_RES_END) break;
         if (res != TOK_RES_OK) {
             print_token_error(res);
-            token_list_free(tokenizer);
+            token_list_free(tokens);
             return NULL;
         }
-        token.value = parse_backslash(token.value);
-        if (token_list_push(tokenizer, token) == ERROR_RETURN) return NULL;
+        tok.value = parse_backslash(tok.value);
+        if (token_list_push(tokens, tok) == ERROR_RETURN) return NULL;
     }
-    return tokenizer;
+
+    process_commands(tokens);
+    return tokens;
 }
 
 int token_list_push(token_list_t *tokens, token_t token)

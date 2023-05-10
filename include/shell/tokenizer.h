@@ -18,6 +18,7 @@ typedef enum {
     TOK_REDIRECT_OUT,
     TOK_APPEND_OUT,
     TOK_APPEND_IN,
+    TOK_COMMAND,
 } token_type_t;
 
 typedef struct {
@@ -72,6 +73,13 @@ typedef enum {
  * @return token_result_t Result of the operation.
  */
 token_result_t next_token(const char **input, token_t *token);
+
+/**
+ * @brief Replace word tokens with command tokens where appropriate.
+ *
+ * @param tokens The tokens to process.
+ */
+void process_commands(token_list_t *tokens);
 
 /**
  * @brief Check whether the given character is a separator (newline, space,

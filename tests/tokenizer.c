@@ -16,7 +16,7 @@ Test(tokenizer, single_word) {
     cr_assert_not_null(tokens);
     cr_assert_eq(tokens->size, 1);
 
-    cr_assert_eq(tokens->tokens[0].type, TOK_WORD);
+    cr_assert_eq(tokens->tokens[0].type, TOK_COMMAND);
     cr_assert_str_eq(tokens->tokens[0].value, "ls");
 }
 
@@ -27,7 +27,7 @@ Test(tokenizer, multiple_words) {
     cr_assert_not_null(tokens);
     cr_assert_eq(tokens->size, 2);
 
-    cr_assert_eq(tokens->tokens[0].type, TOK_WORD);
+    cr_assert_eq(tokens->tokens[0].type, TOK_COMMAND);
     cr_assert_str_eq(tokens->tokens[0].value, "ls");
 
     cr_assert_eq(tokens->tokens[1].type, TOK_WORD);
@@ -49,7 +49,7 @@ Test(tokenizer, spaces_between) {
     cr_assert_not_null(tokens);
     cr_assert_eq(tokens->size, 2);
 
-    cr_assert_eq(tokens->tokens[0].type, TOK_WORD);
+    cr_assert_eq(tokens->tokens[0].type, TOK_COMMAND);
     cr_assert_str_eq(tokens->tokens[0].value, "ls");
 
     cr_assert_eq(tokens->tokens[1].type, TOK_WORD);
@@ -63,7 +63,7 @@ Test(tokenizer, spaces_leading) {
     cr_assert_not_null(tokens);
     cr_assert_eq(tokens->size, 2);
 
-    cr_assert_eq(tokens->tokens[0].type, TOK_WORD);
+    cr_assert_eq(tokens->tokens[0].type, TOK_COMMAND);
     cr_assert_str_eq(tokens->tokens[0].value, "ls");
 
     cr_assert_eq(tokens->tokens[1].type, TOK_WORD);
@@ -77,7 +77,7 @@ Test(tokenizer, spaces_trailing) {
     cr_assert_not_null(tokens);
     cr_assert_eq(tokens->size, 2);
 
-    cr_assert_eq(tokens->tokens[0].type, TOK_WORD);
+    cr_assert_eq(tokens->tokens[0].type, TOK_COMMAND);
     cr_assert_str_eq(tokens->tokens[0].value, "ls");
 
     cr_assert_eq(tokens->tokens[1].type, TOK_WORD);
@@ -91,7 +91,7 @@ Test(tokenizer, tabs) {
     cr_assert_not_null(tokens);
     cr_assert_eq(tokens->size, 2);
 
-    cr_assert_eq(tokens->tokens[0].type, TOK_WORD);
+    cr_assert_eq(tokens->tokens[0].type, TOK_COMMAND);
     cr_assert_str_eq(tokens->tokens[0].value, "ls");
 
     cr_assert_eq(tokens->tokens[1].type, TOK_WORD);
@@ -105,7 +105,7 @@ Test(tokenizer, simple_quotes) {
     cr_assert_not_null(tokens);
     cr_assert_eq(tokens->size, 1);
 
-    cr_assert_eq(tokens->tokens[0].type, TOK_WORD);
+    cr_assert_eq(tokens->tokens[0].type, TOK_COMMAND);
     cr_assert_str_eq(tokens->tokens[0].value, "ls");
 }
 
@@ -116,7 +116,7 @@ Test(tokenizer, simple_quotes_multiple_words) {
     cr_assert_not_null(tokens);
     cr_assert_eq(tokens->size, 2);
 
-    cr_assert_eq(tokens->tokens[0].type, TOK_WORD);
+    cr_assert_eq(tokens->tokens[0].type, TOK_COMMAND);
     cr_assert_str_eq(tokens->tokens[0].value, "ls");
 
     cr_assert_eq(tokens->tokens[1].type, TOK_WORD);
@@ -137,7 +137,7 @@ Test(tokenizer, double_quotes) {
     cr_assert_not_null(tokens);
     cr_assert_eq(tokens->size, 1);
 
-    cr_assert_eq(tokens->tokens[0].type, TOK_WORD);
+    cr_assert_eq(tokens->tokens[0].type, TOK_COMMAND);
     cr_assert_str_eq(tokens->tokens[0].value, "ls");
 }
 
@@ -148,7 +148,7 @@ Test(tokenizer, double_quotes_multiple_words) {
     cr_assert_not_null(tokens);
     cr_assert_eq(tokens->size, 2);
 
-    cr_assert_eq(tokens->tokens[0].type, TOK_WORD);
+    cr_assert_eq(tokens->tokens[0].type, TOK_COMMAND);
     cr_assert_str_eq(tokens->tokens[0].value, "ls");
 
     cr_assert_eq(tokens->tokens[1].type, TOK_WORD);
@@ -169,13 +169,13 @@ Test(tokenizer, pipe) {
     cr_assert_not_null(tokens);
     cr_assert_eq(tokens->size, 3);
 
-    cr_assert_eq(tokens->tokens[0].type, TOK_WORD);
+    cr_assert_eq(tokens->tokens[0].type, TOK_COMMAND);
     cr_assert_str_eq(tokens->tokens[0].value, "ls");
 
     cr_assert_eq(tokens->tokens[1].type, TOK_PIPE);
     cr_assert_str_eq(tokens->tokens[1].value, "|");
 
-    cr_assert_eq(tokens->tokens[2].type, TOK_WORD);
+    cr_assert_eq(tokens->tokens[2].type, TOK_COMMAND);
     cr_assert_str_eq(tokens->tokens[2].value, "cat");
 }
 
@@ -186,7 +186,7 @@ Test(tokenizer, double_pipe) {
     cr_assert_not_null(tokens);
     cr_assert_eq(tokens->size, 4);
 
-    cr_assert_eq(tokens->tokens[0].type, TOK_WORD);
+    cr_assert_eq(tokens->tokens[0].type, TOK_COMMAND);
     cr_assert_str_eq(tokens->tokens[0].value, "ls");
 
     cr_assert_eq(tokens->tokens[1].type, TOK_PIPE);
@@ -195,7 +195,7 @@ Test(tokenizer, double_pipe) {
     cr_assert_eq(tokens->tokens[2].type, TOK_PIPE);
     cr_assert_str_eq(tokens->tokens[2].value, "|");
 
-    cr_assert_eq(tokens->tokens[3].type, TOK_WORD);
+    cr_assert_eq(tokens->tokens[3].type, TOK_COMMAND);
     cr_assert_str_eq(tokens->tokens[3].value, "cat");
 }
 
@@ -206,13 +206,13 @@ Test(tokenizer, pipe_no_space) {
     cr_assert_not_null(tokens);
     cr_assert_eq(tokens->size, 3);
 
-    cr_assert_eq(tokens->tokens[0].type, TOK_WORD);
+    cr_assert_eq(tokens->tokens[0].type, TOK_COMMAND);
     cr_assert_str_eq(tokens->tokens[0].value, "ls");
 
     cr_assert_eq(tokens->tokens[1].type, TOK_PIPE);
     cr_assert_str_eq(tokens->tokens[1].value, "|");
 
-    cr_assert_eq(tokens->tokens[2].type, TOK_WORD);
+    cr_assert_eq(tokens->tokens[2].type, TOK_COMMAND);
     cr_assert_str_eq(tokens->tokens[2].value, "cat");
 }
 
@@ -223,13 +223,13 @@ Test(tokenizer, semicolon) {
     cr_assert_not_null(tokens);
     cr_assert_eq(tokens->size, 3);
 
-    cr_assert_eq(tokens->tokens[0].type, TOK_WORD);
+    cr_assert_eq(tokens->tokens[0].type, TOK_COMMAND);
     cr_assert_str_eq(tokens->tokens[0].value, "ls");
 
     cr_assert_eq(tokens->tokens[1].type, TOK_SEMICOLON);
     cr_assert_str_eq(tokens->tokens[1].value, ";");
 
-    cr_assert_eq(tokens->tokens[2].type, TOK_WORD);
+    cr_assert_eq(tokens->tokens[2].type, TOK_COMMAND);
     cr_assert_str_eq(tokens->tokens[2].value, "cat");
 }
 
@@ -240,13 +240,13 @@ Test(tokenizer, semicolon_no_space) {
     cr_assert_not_null(tokens);
     cr_assert_eq(tokens->size, 3);
 
-    cr_assert_eq(tokens->tokens[0].type, TOK_WORD);
+    cr_assert_eq(tokens->tokens[0].type, TOK_COMMAND);
     cr_assert_str_eq(tokens->tokens[0].value, "ls");
 
     cr_assert_eq(tokens->tokens[1].type, TOK_SEMICOLON);
     cr_assert_str_eq(tokens->tokens[1].value, ";");
 
-    cr_assert_eq(tokens->tokens[2].type, TOK_WORD);
+    cr_assert_eq(tokens->tokens[2].type, TOK_COMMAND);
     cr_assert_str_eq(tokens->tokens[2].value, "cat");
 }
 
@@ -257,7 +257,7 @@ Test(tokenizer, redirection_in) {
     cr_assert_not_null(tokens);
     cr_assert_eq(tokens->size, 3);
 
-    cr_assert_eq(tokens->tokens[0].type, TOK_WORD);
+    cr_assert_eq(tokens->tokens[0].type, TOK_COMMAND);
     cr_assert_str_eq(tokens->tokens[0].value, "ls");
 
     cr_assert_eq(tokens->tokens[1].type, TOK_REDIRECT_IN);
@@ -274,7 +274,7 @@ Test(tokenizer, redirect_no_space) {
     cr_assert_not_null(tokens);
     cr_assert_eq(tokens->size, 3);
 
-    cr_assert_eq(tokens->tokens[0].type, TOK_WORD);
+    cr_assert_eq(tokens->tokens[0].type, TOK_COMMAND);
     cr_assert_str_eq(tokens->tokens[0].value, "ls");
 
     cr_assert_eq(tokens->tokens[1].type, TOK_REDIRECT_IN);
@@ -291,7 +291,7 @@ Test(tokenizer, redirection_out) {
     cr_assert_not_null(tokens);
     cr_assert_eq(tokens->size, 3);
 
-    cr_assert_eq(tokens->tokens[0].type, TOK_WORD);
+    cr_assert_eq(tokens->tokens[0].type, TOK_COMMAND);
     cr_assert_str_eq(tokens->tokens[0].value, "ls");
 
     cr_assert_eq(tokens->tokens[1].type, TOK_REDIRECT_OUT);
@@ -308,7 +308,7 @@ Test(tokenizer, append_out) {
     cr_assert_not_null(tokens);
     cr_assert_eq(tokens->size, 3);
 
-    cr_assert_eq(tokens->tokens[0].type, TOK_WORD);
+    cr_assert_eq(tokens->tokens[0].type, TOK_COMMAND);
     cr_assert_str_eq(tokens->tokens[0].value, "ls");
 
     cr_assert_eq(tokens->tokens[1].type, TOK_APPEND_OUT);
@@ -325,7 +325,7 @@ Test(tokenizer, append_in) {
     cr_assert_not_null(tokens);
     cr_assert_eq(tokens->size, 3);
 
-    cr_assert_eq(tokens->tokens[0].type, TOK_WORD);
+    cr_assert_eq(tokens->tokens[0].type, TOK_COMMAND);
     cr_assert_str_eq(tokens->tokens[0].value, "ls");
 
     cr_assert_eq(tokens->tokens[1].type, TOK_APPEND_IN);
@@ -342,7 +342,7 @@ Test(tokenizer, redirection_both) {
     cr_assert_not_null(tokens);
     cr_assert_eq(tokens->size, 6);
 
-    cr_assert_eq(tokens->tokens[0].type, TOK_WORD);
+    cr_assert_eq(tokens->tokens[0].type, TOK_COMMAND);
     cr_assert_str_eq(tokens->tokens[0].value, "ls");
 
     cr_assert_eq(tokens->tokens[1].type, TOK_REDIRECT_IN);

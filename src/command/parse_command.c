@@ -15,7 +15,7 @@ static command_res_t command_parse_inner(token_list_t *tokens, size_t *index,
     if (token->type == TOK_PIPE || token->type == TOK_SEMICOLON)
         return CMD_RES_OK;
 
-    if (token->type == TOK_WORD) {
+    if (token->type == TOK_WORD || token->type == TOK_COMMAND) {
         command_push_arg(command, str_copy(token->value, 0));
         *index += 1;
     }
@@ -44,5 +44,8 @@ command_res_t command_parse(token_list_t *tokens, size_t *index,
         if (res != CMD_RES_OK)
             return res;
     }
+
+    if (command->args.size == 0)
+        return CMD_RES_EMPTY;
     return CMD_RES_OK;
 }

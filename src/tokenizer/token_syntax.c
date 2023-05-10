@@ -8,6 +8,20 @@
 #include "shell/tokenizer.h"
 #include "shell/string.h"
 
+void process_commands(token_list_t *tokens)
+{
+    for (size_t i = 0; i < tokens->size; i++) {
+        token_t *token = &tokens->tokens[i];
+        token_t *prev = i > 0 ? &tokens->tokens[i - 1] : NULL;
+
+        if (token->type != TOK_WORD)
+            continue;
+        if (prev == NULL || prev->type == TOK_PIPE
+            || prev->type == TOK_SEMICOLON)
+            token->type = TOK_COMMAND;
+    }
+}
+
 token_result_t tokenize_redirection(const char **input, token_t *token)
 {
     if (**input == '<' && (*input)[1] == '<') {
