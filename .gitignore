@@ -11,8 +11,7 @@
 build/
 42sh
 42sh_debug
-mysh
-mysh_debug
+42sh_test
 unit_tests
 
 # Temp files

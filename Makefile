@@ -37,11 +37,15 @@ SRC				:=	src/builtin/cd.c \
 
 MAIN_SRC		:=	src/main.c
 
-TEST_SRC 		:= 	tests/tokenizer.c
+TEST_SRC 		:= 	tests/test_tokenizer.c
+
+TESTER_SCRIPT	:= 	bonus/tester.sh
+TESTER_FILE		:= 	tests/integration.json
 
 RELEASE_OUT		:= 	42sh
 DEBUG_OUT		:= 	42sh_debug
-TEST_OUT		:= 	unit_tests
+TEST_OUT		:= 	42sh_test
+UNIT_OUT	:= 	unit_tests
 
 BUILD_DIR		:=  build
 RELEASE_DIR 	:= 	build/release
@@ -60,7 +64,8 @@ SANITIZERS		:=	-fsanitize=address -fsanitize=undefined
 DEBUG_FLAGS		:=	-g3 -Wall -Wextra -Wpedantic -Wshadow
 DEBUG_FLAGS     +=	$(if $(NO_SANITIZE),, $(SANITIZERS))
 
-TEST_OBJ		:= 	$(addprefix $(TEST_DIR)/,$(SRC:.c=.o) $(TEST_SRC:.c=.o))
+TEST_OBJ		:= 	$(addprefix $(TEST_DIR)/,$(SRC:.c=.o) $(MAIN_SRC:.c=.o))
+TEST_UNIT_OBJ	:= 	$(addprefix $(TEST_DIR)/,$(SRC:.c=.o) $(TEST_SRC:.c=.o))
 TEST_FLAGS		:=	--coverage
 TEST_LIBS		:=	-lcriterion
 
@@ -91,10 +96,14 @@ debug: $(DEBUG_OUT)
 	@printf "$(if $(NO_SANITIZE),disabled,enabled)$(reset) "
 	@printf "$(grey)output:$(reset)$(underline)$(grey)$(DEBUG_OUT)$(reset)\n"
 
-test: $(TEST_OUT)
+test: $(TEST_OUT) $(UNIT_OUT)
 	@printf "$(bold)$(green)$(TEST_OUT) compiled$(reset) "
 	@printf "$(grey)mode:$(reset)$(underline)$(grey)test$(reset) "
 	@printf "$(grey)output:$(reset)$(underline)$(grey)$(TEST_OUT)$(reset)\n"
+
+	@printf "$(bold)$(green)$(UNIT_OUT) compiled$(reset) "
+	@printf "$(grey)mode:$(reset)$(underline)$(grey)test$(reset) "
+	@printf "$(grey)output:$(reset)$(underline)$(grey)$(UNIT_OUT)$(reset)\n"
 
 $(RELEASE_OUT): CFLAGS += $(RELEASE_FLAGS)
 $(RELEASE_OUT): $(RELEASE_OBJ)
@@ -105,8 +114,12 @@ $(DEBUG_OUT): $(DEBUG_OBJ)
 	@$(CC) -o $@ $^ $(CFLAGS) $(LDFLAGS)
 
 $(TEST_OUT): CFLAGS += $(TEST_FLAGS)
-$(TEST_OUT): LDLIBS += $(TEST_LIBS)
 $(TEST_OUT): $(TEST_OBJ)
+	@$(CC) -o $@ $^ $(CFLAGS) $(LDFLAGS) $(LDLIBS)
+
+$(UNIT_OUT): CFLAGS += $(TEST_FLAGS)
+$(UNIT_OUT): LDLIBS += $(TEST_LIBS)
+$(UNIT_OUT): $(TEST_UNIT_OBJ)
 	@$(CC) -o $@ $^ $(CFLAGS) $(LDFLAGS) $(LDLIBS)
 
 ## OBJECTS ##
@@ -140,8 +153,13 @@ run_debug: debug
 	@./$(DEBUG_OUT)
 
 tests_run: test
-	@printf "$(blue)running $(TEST_OUT)$(reset)\n"
-	./$(TEST_OUT)
+	@printf "$(blue)running $(UNIT_OUT)$(reset)\n"
+	./$(UNIT_OUT)
+
+	@printf "$(blue)running $(TESTER_FILE)$(reset)\n"
+	@bash -c "$(TESTER_SCRIPT) $(TEST_OUT) $(TESTER_FILE)"
+
+	@printf "$(blue)generating coverage$(reset)\n"
 	gcovr --exclude tests/ --exclude src/main.c
 	gcovr --branches --exclude tests/ --exclude src/main.c
 
