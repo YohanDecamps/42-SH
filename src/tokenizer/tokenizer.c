@@ -10,6 +10,7 @@
 #include "shell/tokenizer.h"
 #include "shell/macros.h"
 #include "shell/util.h"
+#include "shell/inhibitors.h"
 #include "stdio.h"
 
 static void print_token_error(token_result_t res)
@@ -24,7 +25,6 @@ token_list_t *tokenize(const char *input)
 {
     token_list_t *tokenizer = malloc(sizeof(token_list_t));
     if (tokenizer == NULL) return NULL;
-
     tokenizer->size = 0;
     tokenizer->capacity = 32;
     tokenizer->tokens = malloc(sizeof(token_t) * 32);
@@ -39,6 +39,7 @@ token_list_t *tokenize(const char *input)
             token_list_free(tokenizer);
             return NULL;
         }
+        token.value = parse_backslash(token.value);
         if (token_list_push(tokenizer, token) == ERROR_RETURN) return NULL;
     }
     return tokenizer;
@@ -46,6 +47,8 @@ token_list_t *tokenize(const char *input)
 
 int token_list_push(token_list_t *tokens, token_t token)
 {
+    if (token.value == NULL) return ERROR_RETURN;
+
     if (tokens->size == tokens->capacity) {
         tokens->capacity *= 2;
         tokens->tokens = mem_realloc(tokens->tokens,

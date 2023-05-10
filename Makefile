@@ -33,6 +33,7 @@ SRC				:=	src/builtin/cd.c \
 					src/util/error.c \
 					src/util/mem.c \
 					src/util/path.c \
+					src/inhibitors.c \
 
 MAIN_SRC		:=	src/main.c
 
