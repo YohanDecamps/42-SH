@@ -10,6 +10,8 @@
 #include <stddef.h>
 #include <stdbool.h>
 
+#include "shell/env.h"
+
 typedef enum {
     TOK_WORD,
     TOK_PIPE,
@@ -42,6 +44,15 @@ typedef struct {
  * @return tokenizer_t* Tokens.
  */
 token_list_t *tokenize(const char *input);
+
+/**
+ * @brief Check for aliasses in the given tokens and replace them with their
+ *
+ * @param tokens The tokens to check.
+ * @param env The shell environment.
+ * @return token_list_t* The new tokens.
+ */
+token_list_t *check_for_aliases (token_list_t *tokens, sh_env_t *env);
 
 /**
  * @brief Push a token into the tokenizer output.

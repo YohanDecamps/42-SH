@@ -55,6 +55,15 @@ int builtin_cd(command_t *command, sh_env_t *env);
 int builtin_exit(command_t *command, sh_env_t *env);
 
 /**
+ * @brief Execute alias builtin command.
+ *
+ * @param command Parsed shell command.
+ * @param env Shell environment.
+ * @return int Exit status.
+ */
+int builtin_alias (command_t *command, sh_env_t *env);
+
+/**
  * @brief Execute env builtin command.
  *
  * @param command Parsed shell command.

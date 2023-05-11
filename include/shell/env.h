@@ -23,6 +23,15 @@ typedef struct {
 } sh_env_kv_t;
 
 /**
+ * @brief Alias structure. Contains the name of the alias and its value.
+ *
+ */
+typedef struct {
+    char *name;
+    char *value;
+} alias_t;
+
+/**
  * @brief Shell environement. Includes exit state and environment variables.
  */
 typedef struct {
@@ -33,6 +42,9 @@ typedef struct {
     size_t env_size;
     size_t env_capacity;
     history_t *history;
+    alias_t *alias;
+    size_t alias_size;
+    size_t alias_capacity;
 } sh_env_t;
 
 /**

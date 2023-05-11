@@ -40,21 +40,16 @@ static sh_env_kv_t *envp_parse(char **envp, size_t size)
 
 sh_env_t *sh_env_init(char **envp)
 {
-    sh_env_t *env = malloc(sizeof(sh_env_t));
+    sh_env_t *env = calloc(1, sizeof(sh_env_t));
     history_t *history = init_history();
     if (env == NULL || history == NULL) return NULL;
     size_t size = envp_size(envp);
     sh_env_kv_t *kv = envp_parse(envp, size);
 
-    *env = (sh_env_t) {
-        .exit = false,
-        .exit_status = SUCCESS_EXIT,
-        .exit_silent = false,
-        .env = kv,
-        .env_size = size,
-        .env_capacity = size,
-        .history = history,
-    };
+    env->env = kv;
+    env->env_size = size;
+    env->env_capacity = size;
+    env->history = history;
 
     if (load_history(env->history, sh_env_get(env, "HOME"))
         == ERROR_RETURN) return NULL;
@@ -68,7 +63,13 @@ void sh_env_free(sh_env_t *env)
         free(env->env[i].key);
         free(env->env[i].value);
     }
+    for (size_t i = 0; i < env->alias_size; i++) {
+        free(env->alias[i].name);
+        free(env->alias[i].value);
+    }
+
     free(env->env);
+    free(env->alias);
     free_history(env->history);
     free(env);
 }

@@ -21,7 +21,8 @@ const sh_builtin_t BUILTIN_COMMANDS[] = {
     {"exit", builtin_exit},
     {"set", builtin_local_set},
     {"unset", builtin_local_unset},
-    {"history", builtin_history}
+    {"history", builtin_history},
+    {"alias", builtin_alias},
 };
 
 const size_t BUILTIN_COUNT = sizeof(BUILTIN_COMMANDS) / sizeof(sh_builtin_t);

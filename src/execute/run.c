@@ -5,9 +5,13 @@
 ** run
 */
 
-#include <unistd.h>
+#include <string.h>
 #include <stdlib.h>
+#include <stdio.h>
+#include <unistd.h>
 
+#include "shell/env.h"
+#include "shell/execute.h"
 #include "shell/command.h"
 #include "shell/execute.h"
 #include "shell/macros.h"
@@ -49,7 +53,7 @@ static bool check_run_flags(sh_env_t *env, command_exec_t *exec, size_t i)
 
 static int run_inner(char *command, sh_env_t *env)
 {
-    token_list_t *tokens = tokenize(command);
+    token_list_t *tokens = check_for_aliases(tokenize(command), env);
     if (tokens == NULL) return ERROR_RETURN;
     command_exec_t *exec = parse_command_exec(tokens);
     if (exec == NULL) {

@@ -6,10 +6,12 @@
 ##
 
 SRC				:=	src/builtin/cd.c \
+					src/builtin/alias.c \
 					src/builtin/env.c \
 					src/builtin/exec.c \
 					src/builtin/exit.c \
 					src/builtin/history.c \
+					src/builtin/local.c \
 					src/command/data.c \
 					src/command/free.c \
 					src/command/parse_command.c \
@@ -37,14 +39,13 @@ SRC				:=	src/builtin/cd.c \
 					src/string/string_parse.c \
 					src/string/string_split.c \
 					src/string/string.c \
+					src/tokenizer/aliases.c \
 					src/tokenizer/token_syntax.c \
 					src/tokenizer/token.c \
 					src/tokenizer/tokenizer.c \
 					src/util/error.c \
 					src/util/mem.c \
 					src/util/path.c \
-					src/inhibitors.c \
-					src/builtin/local.c
 
 MAIN_SRC		:=	src/main.c
 
