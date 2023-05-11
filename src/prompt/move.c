@@ -10,15 +10,10 @@
 #include "shell/macros.h"
 #include "shell/prompt.h"
 
-static void print_from_cursor(line_buffer_t *line)
-{
-    printf("%s%s", A_ERASE, line->buffer + line->cursor);
-    for (size_t i = 0; i < line->size - line->cursor; i++)
-        printf(A_MLEFT);
-}
-
 int print_char(line_buffer_t *line, char input)
 {
+    line->is_history = false;
+    line->history = 0;
     if (line_buffer_add(line, input) == ERROR_RETURN)
         return ERROR_RETURN;
 
@@ -29,6 +24,8 @@ int print_char(line_buffer_t *line, char input)
 
 void delete_char(line_buffer_t *line)
 {
+    line->is_history = false;
+    line->history = 0;
     if (line->cursor > 0) {
         line_buffer_remove(line);
         printf(A_MLEFT);

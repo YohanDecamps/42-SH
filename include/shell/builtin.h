@@ -80,3 +80,12 @@ int builtin_setenv(command_t *command, sh_env_t *env);
  * @return int Exit status.
  */
 int builtin_unsetenv(command_t *command, sh_env_t *env);
+
+/**
+ * @brief Execute history builtin command.
+ *
+ * @param command Parsed shell command.
+ * @param env Shell environment.
+ * @return int Exit status.
+ */
+int builtin_history(command_t *command, sh_env_t *env);

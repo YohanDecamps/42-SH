@@ -63,8 +63,10 @@ int non_interactive_command(sh_env_t *env);
 typedef struct {
     char *buffer;
     size_t cursor; //< position of the cursor in the buffer
+    size_t history; //< index of the current position in history (0 = current)
     size_t size;
     size_t capacity;
+    bool is_history; //< true if the current line is a history command
 } line_buffer_t;
 
 /**
@@ -109,13 +111,20 @@ void free_line_buffer(line_buffer_t *line);
 
 /* LINE EDITING */
 
+typedef enum {
+    P_OK,
+    P_ERROR,
+    P_EXIT,
+} prompt_res_t;
+
 /**
  * @brief Read a line from stdin with interactive editing.
  *
  * @param line Line buffer.
+ * @param history Shell history.
  * @return int 0 on success, -1 on error.
  */
-int interactive_prompt_line(line_buffer_t *line);
+prompt_res_t interactive_prompt_line(line_buffer_t *line, history_t *history);
 
 /**
  * @brief Print a character to stdout and add it to the line buffer.
@@ -148,3 +157,40 @@ void move_cursor_right(line_buffer_t *line, size_t n);
  * @param n Number of characters to move.
  */
 void move_cursor_left(line_buffer_t *line, size_t n);
+
+/**
+ * @brief Print all characters from the cursor position to the end of the line
+ * buffer.
+ *
+ * @param line Line buffer.
+ */
+void print_from_cursor(line_buffer_t *line);
+
+/**
+ * @brief Print all characters in the line buffer and put the cursor at the end.
+ *
+ * @param line Line buffer.
+ */
+void print_all(line_buffer_t *line);
+
+/* HISTORY */
+
+/**
+ * @brief Show previous command from history, either as full command or as
+ * autocompletion.
+ *
+ * @param line Line buffer.
+ * @param history Shell history.
+ * @return int 0 on success, -1 on error.
+ */
+int show_prev_history(line_buffer_t *line, history_t *history);
+
+/**
+ * @brief Show next command from history, either as full command or as
+ * autocompletion.
+ *
+ * @param line Line buffer.
+ * @param history Shell history.
+ * @return int 0 on success, -1 on error.
+ */
+int show_next_history(line_buffer_t *line, history_t *history);

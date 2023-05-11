@@ -8,6 +8,7 @@
 #include "shell/env.h"
 #include "shell/execute.h"
 #include "shell/command.h"
+#include "shell/history.h"
 #include "shell/macros.h"
 #include "shell/tokenizer.h"
 #include "shell/resolve.h"
@@ -85,6 +86,8 @@ static int run_inner(char *command, sh_env_t *env)
 
 void command_run(char *command, sh_env_t *env)
 {
+    push_history(env->history, command);
+    write_history(env->history, sh_env_get(env, "HOME"));
     if (run_inner(command, env) == ERROR_RETURN)
         env->exit_status = 1;
 }

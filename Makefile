@@ -9,6 +9,7 @@ SRC				:=	src/builtin/cd.c \
 					src/builtin/env.c \
 					src/builtin/exec.c \
 					src/builtin/exit.c \
+					src/builtin/history.c \
 					src/command/data.c \
 					src/command/free.c \
 					src/command/parse_command.c \
@@ -19,9 +20,13 @@ SRC				:=	src/builtin/cd.c \
 					src/execute/bind.c \
 					src/execute/execute.c \
 					src/execute/run.c \
+					src/history/file.c \
+					src/history/history.c \
 					src/prompt/buffer.c \
+					src/prompt/history.c \
 					src/prompt/line.c \
 					src/prompt/move.c \
+					src/prompt/print.c \
 					src/prompt/prompt.c \
 					src/resolve/fd.c \
 					src/resolve/group.c \

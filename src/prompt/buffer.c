@@ -73,6 +73,8 @@ int line_buffer_reset(line_buffer_t *line)
 {
     line->size = 0;
     line->cursor = 0;
+    line->history = 0;
+    line->is_history = false;
     line->buffer[0] = '\0';
 
     return SUCCESS_RETURN;

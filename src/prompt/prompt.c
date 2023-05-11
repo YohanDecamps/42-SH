@@ -54,10 +54,10 @@ int interactive_prompt(sh_env_t *env)
     while (env->exit == false) {
         print_colored_prompt(env);
         struct termios old_term = setup_interactive_prompt();
-        int prompt_result = interactive_prompt_line(line);
+        int prompt_result = interactive_prompt_line(line, env->history);
         tcsetattr(STDIN_FILENO, TCSANOW, &old_term);
-
-        if (prompt_result == ERROR_RETURN) {
+        if (prompt_result == P_ERROR) return 1;
+        if (prompt_result == P_EXIT) {
             env->exit = true;
         } else {
             printf("\n");

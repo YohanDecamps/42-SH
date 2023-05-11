@@ -12,14 +12,16 @@
 #include "shell/macros.h"
 #include "shell/string.h"
 
-const size_t BUILTIN_COUNT = 5;
 const sh_builtin_t BUILTIN_COMMANDS[] = {
     {"cd", builtin_cd},
     {"env", builtin_env},
     {"setenv", builtin_setenv},
     {"unsetenv", builtin_unsetenv},
     {"exit", builtin_exit},
+    {"history", builtin_history},
 };
+
+const size_t BUILTIN_COUNT = sizeof(BUILTIN_COMMANDS) / sizeof(sh_builtin_t);
 
 bool is_builtin(char *path)
 {

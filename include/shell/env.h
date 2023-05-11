@@ -10,6 +10,8 @@
 #include <stdbool.h>
 #include <stddef.h>
 
+#include "shell/history.h"
+
 /**
  * @brief Shell environment key-value pair. If the key is NULL, the structure
  * is considered empty.
@@ -29,6 +31,7 @@ typedef struct {
     sh_env_kv_t *env;
     size_t env_size;
     size_t env_capacity;
+    history_t *history;
 } sh_env_t;
 
 /**
