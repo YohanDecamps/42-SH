@@ -14,7 +14,6 @@
 #include "shell/macros.h"
 #include "shell/prompt.h"
 #include "shell/util.h"
-#include "shell/inhibitors.h"
 
 static void print_colored_prompt(sh_env_t *env)
 {
@@ -61,7 +60,6 @@ int interactive_prompt(sh_env_t *env)
             env->exit = true;
         } else {
             printf("\n");
-            line->buffer = parse_backslash (line->buffer);
             command_run(line->buffer, env);
         }
         free_line_buffer(line);
@@ -82,7 +80,6 @@ int basic_interactive_prompt(sh_env_t *env)
         if (getline(&input, &input_size, stdin) == -1) {
             env->exit = true;
         } else {
-            input = parse_backslash (input);
             command_run(input, env);
         }
         if (input != NULL)
@@ -104,7 +101,6 @@ int non_interactive_command(sh_env_t *env)
         if (getline(&input, &input_size, stdin) == -1) {
             env->exit = true;
         } else {
-            input = parse_backslash (input);
             command_run(input, env);
         }
         if (input != NULL)

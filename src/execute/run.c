@@ -12,6 +12,7 @@
 #include "shell/execute.h"
 #include "shell/macros.h"
 #include "shell/resolve.h"
+#include "shell/inhibitors.h"
 
 static int check_run_inner(sh_env_t *env, size_t i, command_exec_t *exec,
     token_list_t *tokens)
@@ -74,6 +75,8 @@ void command_run(char *command, sh_env_t *env)
 {
     push_history(env->history, command);
     write_history(env->history, sh_env_get(env, "HOME"));
+    command = parse_backslash (command);
     if (run_inner(command, env) == ERROR_RETURN)
         env->exit_status = 1;
+    free(command);
 }

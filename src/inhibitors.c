@@ -67,6 +67,5 @@ char *parse_backslash (char *input)
             output[j++] = input[i];
     }
     output[j] = '\0';
-    free(input);
     return output;
 }
