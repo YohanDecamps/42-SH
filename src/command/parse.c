@@ -12,6 +12,7 @@
 #include "shell/command.h"
 #include "shell/macros.h"
 #include "shell/string.h"
+#include "shell/tokenizer.h"
 
 void print_command_error(command_res_t res)
 {
@@ -32,10 +33,19 @@ static bool handle_separator(token_list_t *tokens, size_t *index,
     }
     if (tokens->tokens[*index].type == TOK_SEMICOLON) {
         (*index) += 1;
-        *group = command_exec_add_group(exec);
+        *group = command_exec_add_group(exec, F_NULL);
         return true;
     }
-
+    if (tokens->tokens[*index].type == TOK_OR) {
+        (*index) += 1;
+        *group = command_exec_add_group(exec, F_DOUBLE_PIPE);
+        return true;
+    }
+    if (tokens->tokens[*index].type == TOK_AND) {
+        (*index) += 1;
+        *group = command_exec_add_group(exec, F_DOUBLE_AMPERSAND);
+        return true;
+    }
     return false;
 }
 
@@ -43,7 +53,7 @@ command_exec_t *parse_command_exec(token_list_t *tokens)
 {
     command_exec_t *exec = command_exec_new();
     if (exec == NULL) return NULL;
-    command_group_t *group = command_exec_add_group(exec);
+    command_group_t *group = command_exec_add_group(exec, F_NULL);
     if (group == NULL) return NULL;
 
     size_t index = 0;

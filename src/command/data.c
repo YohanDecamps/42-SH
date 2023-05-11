@@ -23,7 +23,8 @@ command_exec_t *command_exec_new(void)
     return exec;
 }
 
-command_group_t *command_exec_add_group(command_exec_t *exec)
+command_group_t *command_exec_add_group(command_exec_t *exec,
+    group_flags_t flags)
 {
     if (exec->size == exec->capacity) {
         exec->capacity *= 2;
@@ -36,8 +37,10 @@ command_group_t *command_exec_add_group(command_exec_t *exec)
     command_group_t group = {
         .capacity = DEFAULT_GROUP_CAP,
         .size = 0,
+        .flags = flags,
         .commands = malloc(sizeof(command_t) * DEFAULT_GROUP_CAP)
     };
+
     if (group.commands == NULL) return NULL;
     exec->groups[exec->size] = group;
     exec->size++;

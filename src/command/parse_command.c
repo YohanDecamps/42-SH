@@ -12,7 +12,8 @@ static command_res_t command_parse_inner(token_list_t *tokens, size_t *index,
     command_t *command)
 {
     token_t *token = &tokens->tokens[*index];
-    if (token->type == TOK_PIPE || token->type == TOK_SEMICOLON)
+    if (token->type == TOK_PIPE || token->type == TOK_SEMICOLON
+        || token->type == TOK_AND || token->type == TOK_OR)
         return CMD_RES_OK;
 
     if (token->type == TOK_WORD || token->type == TOK_COMMAND) {
@@ -37,7 +38,10 @@ command_res_t command_parse(token_list_t *tokens, size_t *index,
 {
     while (*index < tokens->size) {
         token_t *token = &tokens->tokens[*index];
-        if (token->type == TOK_PIPE || token->type == TOK_SEMICOLON)
+        if (token->type == TOK_PIPE
+            || token->type == TOK_SEMICOLON
+            || token->type == TOK_AND
+            || token->type == TOK_OR)
             return CMD_RES_OK;
 
         command_res_t res = command_parse_inner(tokens, index, command);

@@ -45,8 +45,23 @@ token_result_t tokenize_redirection(const char **input, token_t *token)
     return TOK_RES_OK;
 }
 
+token_result_t tokenize_ampersand(const char **input, token_t *token)
+{
+    if (**input == '&' && (*input)[1] == '&') {
+        *token = (token_t) {TOK_AND, str_copy("&&", 2)};
+        *input += 2;
+    }
+
+    return TOK_RES_OK;
+}
+
 token_result_t tokenize_pipe_semicolon(const char **input, token_t *token)
 {
+    if (**input == '|' && (*input)[1] == '|') {
+        token->type = TOK_OR;
+        token->value = str_copy("||", 2);
+        *input += 2;
+    }
     if (**input == '|') {
         token->type = TOK_PIPE;
         token->value = str_copy("|", 1);

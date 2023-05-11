@@ -32,6 +32,15 @@ typedef struct {
 } fd_t;
 
 /**
+ * @brief Flags for a command group.
+ */
+typedef enum {
+    F_NULL, ///< No flags
+    F_DOUBLE_PIPE, ///< Double pipe (||)
+    F_DOUBLE_AMPERSAND, ///< Double ampersand (&&)
+} group_flags_t;
+
+/**
  * @brief List of arguments for a command.
  */
 typedef struct {
@@ -58,6 +67,7 @@ typedef struct {
     command_t *commands;
     size_t size;
     size_t capacity;
+    group_flags_t flags;
 } command_group_t;
 
 /**
@@ -162,9 +172,11 @@ command_exec_t *command_exec_new(void);
  * @brief Add a new command group to the command executor.
  *
  * @param exec Command executor.
+ * @param flags Flags for the command group.
  * @return command_group_t* New command group.
  */
-command_group_t *command_exec_add_group(command_exec_t *exec);
+command_group_t *command_exec_add_group(command_exec_t *exec,
+    group_flags_t flags);
 
 /**
  * @brief Add a new command to the command group.

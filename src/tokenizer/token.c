@@ -27,6 +27,8 @@ token_result_t next_token(const char **input, token_t *token)
         return tokenize_quote(input, token);
     if (**input == '>' || **input == '<')
         return tokenize_redirection(input, token);
+    if (**input == '&' && (*input)[1] == '&')
+        return tokenize_ampersand(input, token);
     if (**input == '|' || **input == ';')
         return tokenize_pipe_semicolon(input, token);
 

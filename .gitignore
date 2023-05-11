@@ -17,3 +17,4 @@ unit_tests
 # Temp files
 .cache/
 compile_commands.json
+coding-style-reports.log

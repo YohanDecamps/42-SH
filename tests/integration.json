@@ -168,5 +168,40 @@
     "command": "unsetenv",
     "output": "unsetenv: Too few arguments.",
     "status": 1
+  },
+  "double-pipe": {
+    "command": "echo test || echo test2",
+    "output": "test",
+    "status": 0
+  },
+  "double-pipe-false": {
+    "command": "false || echo test",
+    "output": "test",
+    "status": 0
+  },
+  "double-pipe-true": {
+    "command": "true || echo test",
+    "output": "",
+    "status": 0
+  },
+  "double-pipe-false-false": {
+    "command": "false || false",
+    "output": "",
+    "status": 1
+  },
+  "double-ampersand": {
+    "command": "echo test && echo test2",
+    "output": "test\ntest2",
+    "status": 0
+  },
+  "double-ampersand-false": {
+    "command": "false && echo test",
+    "output": "",
+    "status": 1
+  },
+  "double-ampersand-true": {
+    "command": "true && echo test",
+    "output": "test",
+    "status": 0
   }
 }

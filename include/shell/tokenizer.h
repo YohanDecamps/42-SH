@@ -18,6 +18,8 @@ typedef enum {
     TOK_REDIRECT_OUT,
     TOK_APPEND_OUT,
     TOK_APPEND_IN,
+    TOK_OR,
+    TOK_AND,
     TOK_COMMAND,
 } token_type_t;
 
@@ -125,6 +127,15 @@ token_result_t tokenize_word(const char **input, token_t *token);
  * @return token_result_t Result of the operation.
  */
 token_result_t tokenize_redirection(const char **input, token_t *token);
+
+/**
+ * @brief Tokenize a double ampersand (&&)
+ *
+ * @param input Pointer to the input string.
+ * @param token Pointer to the token to fill.
+ * @return token_result_t Result of the operation.
+ */
+token_result_t tokenize_ampersand(const char **input, token_t *token);
 
 /**
  * @brief Tokenize a pipe (|) or a semicolon (;)

@@ -184,19 +184,33 @@ Test(tokenizer, double_pipe) {
     token_list_t *tokens = tokenize(input);
 
     cr_assert_not_null(tokens);
-    cr_assert_eq(tokens->size, 4);
+    cr_assert_eq(tokens->size, 3);
 
     cr_assert_eq(tokens->tokens[0].type, TOK_COMMAND);
     cr_assert_str_eq(tokens->tokens[0].value, "ls");
 
-    cr_assert_eq(tokens->tokens[1].type, TOK_PIPE);
-    cr_assert_str_eq(tokens->tokens[1].value, "|");
+    cr_assert_eq(tokens->tokens[1].type, TOK_OR);
+    cr_assert_str_eq(tokens->tokens[1].value, "||");
 
-    cr_assert_eq(tokens->tokens[2].type, TOK_PIPE);
-    cr_assert_str_eq(tokens->tokens[2].value, "|");
+    cr_assert_eq(tokens->tokens[2].type, TOK_WORD);
+    cr_assert_str_eq(tokens->tokens[2].value, "cat");
+}
 
-    cr_assert_eq(tokens->tokens[3].type, TOK_COMMAND);
-    cr_assert_str_eq(tokens->tokens[3].value, "cat");
+Test(tokenizer, double_ampersand) {
+    char *input = "ls && ls";
+    token_list_t *tokens = tokenize(input);
+
+    cr_assert_not_null(tokens);
+    cr_assert_eq(tokens->size, 3);
+
+    cr_assert_eq(tokens->tokens[0].type, TOK_COMMAND);
+    cr_assert_str_eq(tokens->tokens[0].value, "ls");
+
+    cr_assert_eq(tokens->tokens[1].type, TOK_AND);
+    cr_assert_str_eq(tokens->tokens[1].value, "&&");
+
+    cr_assert_eq(tokens->tokens[2].type, TOK_WORD);
+    cr_assert_str_eq(tokens->tokens[2].value, "ls");
 }
 
 Test(tokenizer, pipe_no_space) {
