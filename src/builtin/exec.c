@@ -11,6 +11,7 @@
 #include "shell/builtin.h"
 #include "shell/macros.h"
 #include "shell/string.h"
+#include "shell/local.h"
 
 const sh_builtin_t BUILTIN_COMMANDS[] = {
     {"cd", builtin_cd},
@@ -18,7 +19,9 @@ const sh_builtin_t BUILTIN_COMMANDS[] = {
     {"setenv", builtin_setenv},
     {"unsetenv", builtin_unsetenv},
     {"exit", builtin_exit},
-    {"history", builtin_history},
+    {"set", builtin_local_set},
+    {"unset", builtin_local_unset},
+    {"history", builtin_history}
 };
 
 const size_t BUILTIN_COUNT = sizeof(BUILTIN_COMMANDS) / sizeof(sh_builtin_t);

@@ -5,6 +5,7 @@
 ** env
 */
 
+#include <stdbool.h>
 #include <stdlib.h>
 
 #include "shell/history.h"
@@ -30,7 +31,7 @@ static sh_env_kv_t *envp_parse(char **envp, size_t size)
         char **kv = str_split_once(envp[i], "=");
         if (kv == NULL) return NULL;
 
-        env[i] = (sh_env_kv_t) {kv[0], kv[1]};
+        env[i] = (sh_env_kv_t) {kv[0], kv[1], false};
         free(kv);
     }
 

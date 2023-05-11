@@ -19,6 +19,7 @@
 typedef struct {
     char *key;
     char *value;
+    bool local;
 } sh_env_kv_t;
 
 /**
@@ -73,9 +74,10 @@ char *sh_env_get(sh_env_t *env, const char *key);
  * @param env The shell environment.
  * @param key The key of the environment variable.
  * @param value The value of the environment variable.
+ * @param local Is a local variable.
  * @return int 0 on success, -1 on error.
  */
-int sh_env_set(sh_env_t *env, const char *key, const char *value);
+int sh_env_set(sh_env_t *env, const char *key, const char *value, bool local);
 
 /**
  * @brief Adds a variable to the environment. This does not check if the
@@ -84,9 +86,10 @@ int sh_env_set(sh_env_t *env, const char *key, const char *value);
  * @param env The shell environment.
  * @param key The key of the environment variable.
  * @param value The value of the environment variable.
+ * @param local Is a local variable.
  * @return int 0 on success, -1 on error.
  */
-int sh_env_add(sh_env_t *env, const char *key, const char *value);
+int sh_env_add(sh_env_t *env, const char *key, const char *value, bool local);
 
 /**
  * @brief Unset an environment variable. This will not shrink the environment
@@ -94,5 +97,6 @@ int sh_env_add(sh_env_t *env, const char *key, const char *value);
  *
  * @param env The shell environment.
  * @param key The key of the environment variable.
+ * @param local Is a local variable.
  */
-void sh_env_unset(sh_env_t *env, const char *key);
+void sh_env_unset(sh_env_t *env, const char *key, bool local);

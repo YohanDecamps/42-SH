@@ -23,9 +23,13 @@ char *sh_env_get(sh_env_t *env, const char *key)
     return NULL;
 }
 
-int sh_env_set(sh_env_t *env, const char *key, const char *value)
+int sh_env_set(sh_env_t *env, const char *key, const char *value, bool local)
 {
     for (size_t i = 0; i < env->env_size; i++) {
+        if (env->env[i].key == NULL || env->env[i].value == NULL
+            || key == NULL) continue;
+        if (local && !env->env[i].local) continue;
+
         if (strcmp(env->env[i].key, key) == 0) {
             free(env->env[i].value);
             env->env[i].value = str_copy(value, 0);
@@ -33,13 +37,13 @@ int sh_env_set(sh_env_t *env, const char *key, const char *value)
         }
     }
 
-    if (sh_env_add(env, key, value) == ERROR_RETURN)
+    if (sh_env_add(env, key, value, local) == ERROR_RETURN)
         return ERROR_RETURN;
 
     return SUCCESS_RETURN;
 }
 
-int sh_env_add(sh_env_t *env, const char *key, const char *value)
+int sh_env_add(sh_env_t *env, const char *key, const char *value, bool local)
 {
     if (env->env_size == env->env_capacity) {
         env->env_capacity += 5;
@@ -50,6 +54,7 @@ int sh_env_add(sh_env_t *env, const char *key, const char *value)
 
     env->env[env->env_size].key = str_copy(key, 0);
     env->env[env->env_size].value = str_copy(value, 0);
+    env->env[env->env_size].local = local;
 
     if (env->env[env->env_size].key == NULL ||
         env->env[env->env_size].value == NULL)
@@ -59,13 +64,17 @@ int sh_env_add(sh_env_t *env, const char *key, const char *value)
     return SUCCESS_RETURN;
 }
 
-void sh_env_unset(sh_env_t *env, const char *key)
+void sh_env_unset(sh_env_t *env, const char *key, bool local)
 {
     for (size_t i = 0; i < env->env_size; i++) {
+        if (env->env[i].key == NULL || env->env[i].value == NULL
+            || key == NULL) continue;
+        if ((local && !env->env[i].local)) continue;
+
         if (strcmp(env->env[i].key, key) == 0) {
             free(env->env[i].key);
             free(env->env[i].value);
-            env->env[i] = (sh_env_kv_t) {NULL, NULL};
+            env->env[i] = (sh_env_kv_t) {NULL, NULL, false};
             return;
         }
     }

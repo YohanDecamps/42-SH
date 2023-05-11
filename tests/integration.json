@@ -203,5 +203,35 @@
     "command": "true && echo test",
     "output": "test",
     "status": 0
+  },
+  "set-local": {
+    "command": "set aa bb",
+    "output": "",
+    "status": 0
+  },
+  "set-local-view": {
+    "command": "set",
+    "output": "",
+    "status": 0
+  },
+  "set-local-val": {
+    "command": "set aa=bb",
+    "output": "",
+    "status": 0
+  },
+  "set-local-add-view": {
+    "command": "set aa; set",
+    "output": "aa=",
+    "status": 0
+  },
+  "set-local-add-val-view": {
+    "command": "set aa=bb; set",
+    "output": "aa=bb",
+    "status": 0
+  },
+  "set-unset-local": {
+    "command": "set aa bb; unset aa; set",
+    "output": "bb=",
+    "status": 0
   }
 }

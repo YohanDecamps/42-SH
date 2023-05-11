@@ -76,11 +76,11 @@ int builtin_cd(command_t *command, sh_env_t *env)
     }
 
     if (oldpwd != NULL) {
-        if (sh_env_set(env, "OLDPWD", oldpwd) == ERROR_RETURN)
+        if (sh_env_set(env, "OLDPWD", oldpwd, false) == ERROR_RETURN)
             return 1;
         free(oldpwd);
     }
-    if (sh_env_set(env, "PWD", path) == ERROR_RETURN)
+    if (sh_env_set(env, "PWD", path, false) == ERROR_RETURN)
         return 1;
     free(path);
     return 0;

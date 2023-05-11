@@ -26,7 +26,7 @@ int builtin_env(command_t *command, sh_env_t *env)
 
     for (size_t i = 0; i < env->env_size; i++) {
         sh_env_kv_t var = env->env[i];
-        if (var.key == NULL) continue;
+        if (var.key == NULL || var.local) continue;
         dprintf(command->out.fd, "%s=%s\n", var.key, var.value);
     }
 
@@ -63,7 +63,7 @@ int builtin_setenv(command_t *command, sh_env_t *env)
     }
     char *key = command->args.argv[1];
     char *value = args_len == 2 ? command->args.argv[2] : "";
-    if (sh_env_set(env, key, value) == ERROR_RETURN)
+    if (sh_env_set(env, key, value, false) == ERROR_RETURN)
         return 1;
     return 0;
 }
@@ -77,7 +77,8 @@ int builtin_unsetenv(command_t *command, sh_env_t *env)
     }
 
     for (size_t i = 1; i < args_len + 1; i++) {
-        sh_env_unset(env, command->args.argv[i]);
+        sh_env_unset(env, command->args.argv[i], false);
     }
+
     return 0;
 }
