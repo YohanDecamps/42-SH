@@ -203,5 +203,15 @@
     "command": "true && echo test",
     "output": "test",
     "status": 0
+  },
+  "basic-inhibitors": {
+    "command": "\\n",
+    "output": "n: Command not found.",
+    "status": 0
+  },
+  "basic-protected-inhibitors": {
+    "command": "\"\\n\"",
+    "output": "\\n: Command not found.",
+    "status": 0
   }
 }
