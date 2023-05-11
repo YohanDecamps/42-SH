@@ -20,11 +20,12 @@
 #include "shell/string.h"
 #include "shell/util.h"
 
-static void child_exec(command_t *command, sh_env_t *env)
+static void child_exec(command_t *command, command_group_t *group,
+sh_env_t *env)
 {
     char **envp = sh_env_to_array(env);
     if (envp == NULL) return;
-    if (command_bind_fd(command) == ERROR_RETURN) return;
+    if (command_bind_fd(command, group) == ERROR_RETURN) return;
     if (execve(command->path, command->args.argv, envp) == -1) {
         env->exit_status = 1;
         if (errno == ENOENT) {
@@ -60,8 +61,9 @@ static void signal_error(int wstatus, sh_env_t *env)
     env->exit_status = 128 + signal;
 }
 
-static void wait_process(pid_t pid, sh_env_t *env)
+void wait_process(pid_t pid, sh_env_t *env)
 {
+    if (pid == -1) return;
     int wstatus;
     while (1) {
         if (waitpid(pid, &wstatus, 0) == -1) {
@@ -80,23 +82,26 @@ static void wait_process(pid_t pid, sh_env_t *env)
     }
 }
 
-void command_exec(command_t *command, sh_env_t *env)
+pid_t command_exec(command_t *command, command_group_t *group, sh_env_t *env)
 {
-    if (command == NULL) return;
-    if (command->path == NULL || *command->path == '\0') return;
+    if (command == NULL) return ERROR_EXIT;
+    if (command->path == NULL || *command->path == '\0') return ERROR_EXIT;
 
     if (command->builtin) {
         builtin_exec(command, env);
-        return;
+        return -1;
     }
 
     pid_t child_pid = fork();
 
-    if (child_pid == 0) {
-        child_exec(command, env);
-    } else if (child_pid > 0) {
-        wait_process(child_pid, env);
-    } else {
-        perror("fork");
+    if (child_pid == 0)
+        child_exec(command, group, env);
+    if (child_pid > 0) {
+        if (group->size <= 1) wait_process(child_pid, env);
+        return (child_pid);
     }
+    if (child_pid == -1)
+        perror("fork");
+
+    return -1;
 }

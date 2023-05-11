@@ -21,6 +21,7 @@
 typedef enum {
     FD_NULL, ///< Unkown file descriptor (e.g. pipes not yet created)
     FD_INT,  ///< File descriptor (e.g. 0, 1, 2)
+    FD_PIPE, ///< Pipe
     FD_FILE,  ///< File path (e.g. /dev/null)
     FD_APPEND, ///< Append to file path
 } fd_type_t;

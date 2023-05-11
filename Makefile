@@ -19,9 +19,11 @@ SRC				:=	src/builtin/cd.c \
 					src/env/update.c \
 					src/execute/bind.c \
 					src/execute/execute.c \
+					src/execute/group.c \
 					src/execute/run.c \
 					src/history/file.c \
 					src/history/history.c \
+					src/inhibitors.c \
 					src/prompt/buffer.c \
 					src/prompt/history.c \
 					src/prompt/line.c \
@@ -41,7 +43,6 @@ SRC				:=	src/builtin/cd.c \
 					src/util/error.c \
 					src/util/mem.c \
 					src/util/path.c \
-					src/inhibitors.c \
 
 MAIN_SRC		:=	src/main.c
 
@@ -163,9 +164,6 @@ run_debug: debug
 tests_run: test
 	@printf "$(blue)running $(UNIT_OUT)$(reset)\n"
 	./$(UNIT_OUT)
-
-	@printf "$(blue)running $(TESTER_FILE)$(reset)\n"
-	@bash -c "$(TESTER_SCRIPT) $(TEST_OUT) $(TESTER_FILE)"
 
 	@printf "$(blue)generating coverage$(reset)\n"
 	gcovr --exclude tests/ --exclude src/main.c

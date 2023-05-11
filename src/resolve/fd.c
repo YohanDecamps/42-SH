@@ -24,6 +24,18 @@ static int open_fd(fd_t *fd, int flags, int mode)
     return SUCCESS_RETURN;
 }
 
+static int open_pipe_fd(command_group_t *group)
+{
+    pid_t fd[2];
+    for (size_t i = 0; i < group->size - 1; i++) {
+        if (pipe(fd) == -1) return ERROR_RETURN;
+        group->commands[i].out = (fd_t) {FD_PIPE, fd[1], NULL};
+        group->commands[i + 1].in = (fd_t) {FD_PIPE, fd[0], NULL};
+    }
+
+    return SUCCESS_RETURN;
+}
+
 static int resolve_command_fd(command_t *command)
 {
     if (command->in.type == FD_FILE) {
@@ -48,6 +60,10 @@ int resolve_group_fd(command_group_t *group)
         if (resolve_command_fd(command) == ERROR_RETURN)
             return ERROR_RETURN;
     }
+
+    if (group->size > 1 && open_pipe_fd(group) == ERROR_RETURN)
+        return ERROR_RETURN;
+
     return SUCCESS_RETURN;
 }
 
@@ -55,9 +71,11 @@ void close_group_fd(command_group_t *group)
 {
     for (size_t i = 0; i < group->size; i++) {
         command_t *command = &group->commands[i];
-        if (command->in.fd != FD_NULL && command->in.fd != STDIN)
+        if (command->in.type != FD_NULL && command->in.type != FD_PIPE
+            && command->in.fd != STDIN)
             close(command->in.fd);
-        if (command->in.fd != FD_NULL && command->out.fd != STDOUT)
+        if (command->in.type != FD_NULL && command->in.type != FD_PIPE
+            && command->out.fd != STDOUT)
             close(command->out.fd);
     }
 }

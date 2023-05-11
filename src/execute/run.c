@@ -5,27 +5,13 @@
 ** run
 */
 
-#include "shell/env.h"
-#include "shell/execute.h"
+#include <unistd.h>
+#include <stdlib.h>
+
 #include "shell/command.h"
-#include "shell/history.h"
+#include "shell/execute.h"
 #include "shell/macros.h"
-#include "shell/tokenizer.h"
 #include "shell/resolve.h"
-#include <stddef.h>
-
-static int run_command_group(command_group_t *group, sh_env_t *env)
-{
-    if (group == NULL) return ERROR_RETURN;
-    if (resolve_command_group(group, env) == ERROR_RETURN) return ERROR_RETURN;
-
-    for (size_t i = 0; i < group->size; i++) {
-        command_exec(&group->commands[i], env);
-    }
-
-    close_group_fd(group);
-    return SUCCESS_RETURN;
-}
 
 static int check_run_inner(sh_env_t *env, size_t i, command_exec_t *exec,
     token_list_t *tokens)
