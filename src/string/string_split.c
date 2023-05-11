@@ -6,6 +6,7 @@
 */
 
 #include <stdlib.h>
+#include <string.h>
 
 #include "shell/string.h"
 
@@ -39,7 +40,7 @@ char **str_split_once(const char *str, const char *delimiters)
     char **result = malloc(sizeof(char *) * 2);
     if (result == NULL) return NULL;
 
-    size_t str_length = str_len(str);
+    size_t str_length = strlen(str);
     size_t start_index = str_len_until(str, delimiters);
 
     result[0] = str_copy(str, start_index);
@@ -51,7 +52,7 @@ char **str_split_once(const char *str, const char *delimiters)
 char *str_trim(char *str)
 {
     if (str == NULL) return NULL;
-    size_t string_length = str_len(str);
+    size_t string_length = strlen(str);
     if (string_length == 0) return str;
 
     size_t start_index = 0;

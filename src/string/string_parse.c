@@ -6,6 +6,7 @@
 */
 
 #include <limits.h>
+#include <string.h>
 
 #include "shell/string.h"
 #include "shell/macros.h"
@@ -22,7 +23,7 @@ bool str_char_in(char c, const char *list)
 void str_remove_newline(char *str)
 {
     if (str == NULL) return;
-    size_t str_length = str_len(str);
+    size_t str_length = strlen(str);
     if (str[str_length - 1] == '\n' && str_length > 0)
         str[str_length - 1] = '\0';
 }

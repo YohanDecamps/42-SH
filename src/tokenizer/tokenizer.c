@@ -51,8 +51,7 @@ int token_list_push(token_list_t *tokens, token_t token)
 
     if (tokens->size == tokens->capacity) {
         tokens->capacity *= 2;
-        tokens->tokens = mem_realloc(tokens->tokens,
-            sizeof(token_t) * tokens->size,
+        tokens->tokens = realloc(tokens->tokens,
             sizeof(token_t) * tokens->capacity);
         if (tokens->tokens == NULL) return ERROR_RETURN;
     }

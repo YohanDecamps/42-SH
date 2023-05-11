@@ -11,14 +11,6 @@
 #include <stddef.h>
 
 /**
- * @brief Get the length of a string.
- *
- * @param str The string.
- * @return size_t The length of the string.
- */
-size_t str_len(const char *str);
-
-/**
  * @brief Get the length of a string until one of the specified characters.
  *
  * @param str The string.
@@ -49,16 +41,6 @@ char *str_copy(const char *str, size_t len);
  * @return char* The concatenated string (NULL if the allocation failed).
  */
 char *str_concat(const char *str1, const char *str2, const char *sep);
-
-/**
- * @brief Compare two strings and returns an integer indicating their order
- * (-1 if str1 < str2, 0 if str1 == str2, 1 if str1 > str2).
- *
- * @param str1 First string to compare.
- * @param str2 Second string to compare.
- * @return int The result of the comparison.
- */
-int str_compare(const char *str1, const char *str2);
 
 /**
  * @brief Split a string on the specified delimiters and returns an array

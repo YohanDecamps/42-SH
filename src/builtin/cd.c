@@ -7,6 +7,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include <unistd.h>
 #include <errno.h>
 
@@ -53,7 +54,7 @@ static char *cd_parse_args(command_t *command, sh_env_t *env)
         if (cd_home(&path, env) == ERROR_RETURN)
             return NULL;
     }
-    if (str_compare(path, "-") == 0) {
+    if (strcmp(path, "-") == 0) {
         if (cd_oldpwd(&path, env) == ERROR_RETURN)
             return NULL;
     }
@@ -75,11 +76,12 @@ int builtin_cd(command_t *command, sh_env_t *env)
     }
 
     if (oldpwd != NULL) {
-        sh_env_set(env, "OLDPWD", oldpwd);
+        if (sh_env_set(env, "OLDPWD", oldpwd) == ERROR_RETURN)
+            return 1;
         free(oldpwd);
     }
-
-    sh_env_set(env, "PWD", path);
+    if (sh_env_set(env, "PWD", path) == ERROR_RETURN)
+        return 1;
     free(path);
     return 0;
 }

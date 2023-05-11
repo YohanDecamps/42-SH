@@ -70,8 +70,9 @@ char *sh_env_get(sh_env_t *env, const char *key);
  * @param env The shell environment.
  * @param key The key of the environment variable.
  * @param value The value of the environment variable.
+ * @return int 0 on success, -1 on error.
  */
-void sh_env_set(sh_env_t *env, const char *key, const char *value);
+int sh_env_set(sh_env_t *env, const char *key, const char *value);
 
 /**
  * @brief Adds a variable to the environment. This does not check if the
@@ -80,8 +81,9 @@ void sh_env_set(sh_env_t *env, const char *key, const char *value);
  * @param env The shell environment.
  * @param key The key of the environment variable.
  * @param value The value of the environment variable.
+ * @return int 0 on success, -1 on error.
  */
-void sh_env_add(sh_env_t *env, const char *key, const char *value);
+int sh_env_add(sh_env_t *env, const char *key, const char *value);
 
 /**
  * @brief Unset an environment variable. This will not shrink the environment

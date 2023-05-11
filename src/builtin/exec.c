@@ -6,6 +6,7 @@
 */
 
 #include <stddef.h>
+#include <string.h>
 
 #include "shell/builtin.h"
 #include "shell/macros.h"
@@ -23,7 +24,7 @@ const sh_builtin_t BUILTIN_COMMANDS[] = {
 bool is_builtin(char *path)
 {
     for (size_t i = 0; i < BUILTIN_COUNT; i++) {
-        if (str_compare(path, BUILTIN_COMMANDS[i].name) == 0)
+        if (strcmp(path, BUILTIN_COMMANDS[i].name) == 0)
             return true;
     }
     return false;
@@ -34,7 +35,7 @@ void builtin_exec(command_t *command, sh_env_t *env)
     int status = 0;
 
     for (size_t i = 0; i < BUILTIN_COUNT; i++) {
-        if (str_compare(command->path, BUILTIN_COMMANDS[i].name) == 0)
+        if (strcmp(command->path, BUILTIN_COMMANDS[i].name) == 0)
             status = BUILTIN_COMMANDS[i].exec(command, env);
     }
 

@@ -28,8 +28,7 @@ command_group_t *command_exec_add_group(command_exec_t *exec,
 {
     if (exec->size == exec->capacity) {
         exec->capacity *= 2;
-        exec->groups = mem_realloc(exec->groups,
-        sizeof(command_group_t) * exec->size,
+        exec->groups = realloc(exec->groups,
         sizeof(command_group_t) * exec->capacity);
         if (exec->groups == NULL) return NULL;
     }
@@ -74,8 +73,7 @@ command_t *command_group_add_command(command_group_t *group)
 {
     if (group->size == group->capacity) {
         group->capacity *= 2;
-        group->commands = mem_realloc(group->commands,
-        sizeof(command_t) * group->size,
+        group->commands = realloc(group->commands,
         sizeof(command_t) * group->capacity);
         if (group->commands == NULL) return NULL;
     }
@@ -92,8 +90,7 @@ int command_push_arg(command_t *command, char *arg)
 {
     if (command->args.size == command->args.capacity - 1) {
         command->args.capacity *= 2;
-        command->args.argv = mem_realloc(command->args.argv,
-        sizeof(char *) * (command->args.size + 1),
+        command->args.argv = realloc(command->args.argv,
         sizeof(char *) * command->args.capacity);
         if (command->args.argv == NULL) return ERROR_RETURN;
     }

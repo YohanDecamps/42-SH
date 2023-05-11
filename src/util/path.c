@@ -5,13 +5,15 @@
 ** path
 */
 
+#include <string.h>
+
 #include "shell/string.h"
 
 char *normalize_directory(char *path)
 {
     if (path == NULL) return NULL;
 
-    size_t len = str_len(path);
+    size_t len = strlen(path);
     if (path[len - 1] == '/') {
         return str_copy(path, 0);
     } else {

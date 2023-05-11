@@ -7,6 +7,7 @@
 
 #include <stdio.h>
 #include <stdarg.h>
+#include <string.h>
 
 #include "shell/macros.h"
 #include "shell/builtin.h"
@@ -52,7 +53,7 @@ int builtin_setenv(command_t *command, sh_env_t *env)
         fprintf(stderr, "setenv: Too many arguments.\n");
         return 1;
     }
-    size_t key_len = str_len(command->args.argv[1]);
+    size_t key_len = strlen(command->args.argv[1]);
     for (size_t i = 0; i < key_len; i++) {
         if (!is_alphanumeric(command->args.argv[1][i])) {
             fprintf(stderr, "setenv: Variable name must contain");
@@ -60,10 +61,10 @@ int builtin_setenv(command_t *command, sh_env_t *env)
             return 1;
         }
     }
-
     char *key = command->args.argv[1];
     char *value = args_len == 2 ? command->args.argv[2] : "";
-    sh_env_set(env, key, value);
+    if (sh_env_set(env, key, value) == ERROR_RETURN)
+        return 1;
     return 0;
 }
 
