@@ -19,7 +19,10 @@ SRC				:=	src/builtin/cd.c \
 					src/execute/bind.c \
 					src/execute/execute.c \
 					src/execute/run.c \
-					src/prompt.c \
+					src/prompt/buffer.c \
+					src/prompt/line.c \
+					src/prompt/move.c \
+					src/prompt/prompt.c \
 					src/resolve/fd.c \
 					src/resolve/group.c \
 					src/resolve/home.c \
