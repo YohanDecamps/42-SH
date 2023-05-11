@@ -37,7 +37,6 @@ token_list_t *tokenize(const char *input)
             token_list_free(tokens);
             return NULL;
         }
-        tok.value = parse_backslash(tok.value);
         if (token_list_push(tokens, tok) == ERROR_RETURN) return NULL;
     }
 

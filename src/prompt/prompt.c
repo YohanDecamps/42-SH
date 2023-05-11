@@ -14,6 +14,7 @@
 #include "shell/macros.h"
 #include "shell/prompt.h"
 #include "shell/util.h"
+#include "shell/inhibitors.h"
 
 static void print_colored_prompt(sh_env_t *env)
 {
@@ -48,10 +49,9 @@ static struct termios setup_interactive_prompt(void)
 
 int interactive_prompt(sh_env_t *env)
 {
-    line_buffer_t *line = line_buffer_init();
-    if (line == NULL) return 1;
-
     while (env->exit == false) {
+        line_buffer_t *line = line_buffer_init();
+        if (line == NULL) return 1;
         print_colored_prompt(env);
         struct termios old_term = setup_interactive_prompt();
         int prompt_result = interactive_prompt_line(line, env->history);
@@ -61,10 +61,11 @@ int interactive_prompt(sh_env_t *env)
             env->exit = true;
         } else {
             printf("\n");
+            line->buffer = parse_backslash (line->buffer);
             command_run(line->buffer, env);
         }
+        free_line_buffer(line);
     }
-    free_line_buffer(line);
     if (env->exit_silent == false)
         fprintf(stdout, "exit\n");
     return env->exit_status;
@@ -81,12 +82,13 @@ int basic_interactive_prompt(sh_env_t *env)
         if (getline(&input, &input_size, stdin) == -1) {
             env->exit = true;
         } else {
+            input = parse_backslash (input);
             command_run(input, env);
         }
+        if (input != NULL)
+            free(input);
+        input = NULL;
     }
-
-    if (input != NULL)
-        free(input);
 
     if (env->exit_silent == false)
         fprintf(stdout, "exit\n");
@@ -102,11 +104,12 @@ int non_interactive_command(sh_env_t *env)
         if (getline(&input, &input_size, stdin) == -1) {
             env->exit = true;
         } else {
+            input = parse_backslash (input);
             command_run(input, env);
         }
+        if (input != NULL)
+            free(input);
+        input = NULL;
     }
-
-    if (input != NULL)
-        free(input);
     return env->exit_status;
 }
