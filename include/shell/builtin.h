@@ -98,3 +98,29 @@ int builtin_unsetenv(command_t *command, sh_env_t *env);
  * @return int Exit status.
  */
 int builtin_history(command_t *command, sh_env_t *env);
+
+/**
+ * @brief Load source file.
+ *
+ * @param path Source file path.
+ * @param env Shell environment.
+ * @param is_rc True if file is a rc file, false otherwise.
+ * @return int Exit status.
+ */
+void load_source(char *path, sh_env_t *env, bool is_rc);
+
+/**
+ * @brief Load rc file at startup.
+ *
+ * @param env Shell environment.
+ */
+void rc_loader(sh_env_t *env);
+
+/**
+ * @brief Execute source builtin command.
+ *
+ * @param command Parsed shell command.
+ * @param env Shell environment.
+ * @return int Exit status.
+ */
+int builtin_source(command_t *command, sh_env_t *env);

@@ -6,7 +6,9 @@
 */
 
 #include <unistd.h>
+#include <string.h>
 
+#include "shell/builtin.h"
 #include "shell/macros.h"
 #include "shell/prompt.h"
 #include "shell/env.h"
@@ -19,6 +21,8 @@ int main(int argc, char **argv, char **envp)
     sh_env_t *env = sh_env_init(envp);
     char *no_color = sh_env_get(env, "NO_COLOR");
     int exit_status = SUCCESS_EXIT;
+
+    rc_loader(env);
 
     if (isatty(STDIN)) {
         if (no_color != NULL && no_color[0] != '\0')

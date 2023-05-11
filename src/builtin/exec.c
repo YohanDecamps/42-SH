@@ -22,6 +22,7 @@ const sh_builtin_t BUILTIN_COMMANDS[] = {
     {"set", builtin_local_set},
     {"unset", builtin_local_unset},
     {"history", builtin_history},
+    {"source", builtin_source},
     {"alias", builtin_alias},
 };
 

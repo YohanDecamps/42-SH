@@ -13,6 +13,7 @@ SRC				:=	src/builtin/cd.c \
 					src/builtin/history.c \
 					src/builtin/local.c \
 					src/command/data.c \
+					src/builtin/source.c \
 					src/command/free.c \
 					src/command/parse_command.c \
 					src/command/parse_redirect.c \
